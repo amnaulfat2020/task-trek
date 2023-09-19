@@ -1,10 +1,10 @@
 import React from 'react'
 import './app.css'
+import Components from './components/Components'
 const App = () => {
   return (
     <main className='App'>
-      <h1>Welcome to Task Trek</h1>
-      <p>A <span>Project Management System</span>, Where you can perform <span>CRUD </span>operations  on tasks.</p>
+     <Components />
     </main>
   )
 }
