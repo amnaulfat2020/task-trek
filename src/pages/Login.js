@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import { useState } from "react";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 import bgimg from "../assets/images/Layer 11.png";
 import { LoginSchema } from "./login/LoginSchema";
 
@@ -21,7 +22,7 @@ function MouseOut(event) {
 }
 
 const Login = () => {
-  const [remember, setRemember] = useState(false);
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -58,8 +59,6 @@ const Login = () => {
           </div>
           <Form
             onSubmit={formik.handleSubmit}
-            // onFinish={onFinish}
-            // onFinishFailed={onFinishFailed}
             autoComplete="off"
             className="form-area"
           >
@@ -123,9 +122,9 @@ const Login = () => {
                 level={4}
                 onMouseOver={MouseOver}
                 onMouseOut={MouseOut}
-                // onClick={() => {
-                //   navigate("/reset-password");
-                // }}
+                onClick={() => {
+                  navigate("/reset-password");
+                }}
                 className="forgot-pwd"
               >
                 Forgot Your password?
@@ -140,8 +139,6 @@ const Login = () => {
             <div className="btn-area">
               {/* remember me */}
               <Form.Item name="remember" valuePropName="checked" 
-                onClick={() => setRemember(!remember)}
-                control={<Checkbox checked={remember} />}
               >
                 <Checkbox>Remember me</Checkbox>
               </Form.Item>
@@ -169,9 +166,9 @@ const Login = () => {
               align="center"
               onMouseOver={MouseOver}
               onMouseOut={MouseOut}
-              //   onClick={() => {
-              //     navigate("/register");
-              //   }}
+                onClick={() => {
+                  navigate("/register");
+                }}
             >
               Register Here
             </Typography>

@@ -111,7 +111,7 @@ p{
     height: 50% !important;
     margin-left: 3rem !important;
     padding: 15px !important;
-
+    margin-top: 2rem;
 }
 .btn-area{
     margin: 2rem;
@@ -169,7 +169,8 @@ p{
     }
     .change-btn{
         width: 79% !important;
-        margin-left: 3rem !important;
+        /* margin-left: 3rem !important; */
+
     }
     .footer-area{
         margin-top: 5rem;
@@ -183,6 +184,6 @@ p{
     }
     .change-btn {
         width: 70% !important;
-        margin-left: 3rem !important;
+        /* margin-left: 3rem !important; */
     }
 }
