@@ -1,12 +1,14 @@
 import React from 'react'
-import SuccessRegister from './successRegister/SuccessRegister'
-import SuccessEmail from './successEmail/SuccessEmail'
+import Registration from './registrationPage/Registration'
+//import SuccessRegister from './successRegister/SuccessRegister'
+//import SuccessEmail from './successEmail/SuccessEmail'
 
 const Components = () => {
   return (
     <main>
-      <SuccessRegister />
+      {/* <SuccessRegister /> */}
       {/* <SuccessEmail /> */}
+      <Registration />
     </main>
   )
 }
