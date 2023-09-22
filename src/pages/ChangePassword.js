@@ -45,7 +45,7 @@ const ChangePassword = () => {
       {/* 1st column */}
     <Col xs={24} sm={24} md={10} lg={8} xl={8}>
         <div className="column1">
-          <div className="login-heading">
+          <div className="login-heading change">
             <h1>Change Password</h1>
             <p>
               {" "}

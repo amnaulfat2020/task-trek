@@ -6,7 +6,6 @@ import {
   KeyOutlined,
   QuestionCircleFilled,
 } from "@ant-design/icons";
-import { useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import bgimg from "../assets/images/Layer 11.png";
@@ -22,7 +21,7 @@ function MouseOut(event) {
 }
 
 const Login = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -122,9 +121,9 @@ const Login = () => {
                 level={4}
                 onMouseOver={MouseOver}
                 onMouseOut={MouseOut}
-                onClick={() => {
-                  navigate("/reset-password");
-                }}
+                // onClick={() => {
+                //   navigate("/reset-password");
+                // }}
                 className="forgot-pwd"
               >
                 Forgot Your password?
@@ -166,9 +165,9 @@ const Login = () => {
               align="center"
               onMouseOver={MouseOver}
               onMouseOut={MouseOut}
-                onClick={() => {
-                  navigate("/register");
-                }}
+                // onClick={() => {
+                //   navigate("/register");
+                // }}
             >
               Register Here
             </Typography>

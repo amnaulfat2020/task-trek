@@ -9,8 +9,8 @@ const App = () => {
      <Router>
          <Routes>
         <Route exact path="/" element={<Login /> } />
-        <Route exact path="/reset-password" element={<ForgetPassword /> } />
-        <Route exact path="/register" element={<Registration /> } />
+        {/* <Route exact path="/reset-password" element={<ForgetPassword /> } />
+        <Route exact path="/register" element={<Registration /> } /> */}
         <Route exact path="/change-pwd" element={<ChangePassword /> }/>
         </Routes>
       </Router>
