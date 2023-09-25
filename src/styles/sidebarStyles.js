@@ -32,22 +32,22 @@ const sidebarStyles = {
     
     '@media (max-width: 768px)': {
       drawer: {
-        width: '80%', // Adjust the width for tablet screens
+        width: '80%',
       },
       logoContainer: {
-        padding: '10px 20px', // Adjust padding for tablet screens
+        padding: '10px 20px', 
       },
-      // Adjust any other styles as needed for tablet screens
+      
     },
   
     '@media (max-width: 576px)': {
       drawer: {
-        width: '100%', // Adjust the width for mobile screens
+        width: '100%', 
       },
       logoContainer: {
-        padding: '10px 10px', // Adjust padding for mobile screens
+        padding: '10px 10px', 
       },
-      // Adjust any other styles as needed for mobile screens
+      
     },
   
   };

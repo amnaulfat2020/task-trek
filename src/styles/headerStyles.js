@@ -25,14 +25,14 @@ const headerStyles = {
     pageTitle: {
       fontSize: '20px',
       fontWeight: 'bold',
-      margin: '0', // Remove margin for better mobile view
+      margin: '0', 
     },
     searchInput: {
-      width: '200px', // Decrease width for mobile view
+      width: '200px', 
       marginLeft: '20px',
     },
     icon: {
-      fontSize: '20px', // Decrease icon size for mobile view
+      fontSize: '20px',
       cursor: 'pointer',
       marginLeft: '20px',
     },

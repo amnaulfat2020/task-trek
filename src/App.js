@@ -12,7 +12,7 @@ function App() {
     setMenuOpen(!menuOpen);
   };
 
-  const currentPage = 'Dashboard'; // Replace with the current page name
+  const currentPage = 'Dashboard'; 
   return (
     <Layout>
       <Sidebar menuOpen={menuOpen} toggleMenu={toggleMenu} />

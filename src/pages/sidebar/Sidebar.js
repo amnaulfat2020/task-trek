@@ -10,29 +10,29 @@ import {
   LogoutOutlined,
   MenuOutlined,
 } from '@ant-design/icons';
-import logo from '../../assets/images/side-logo.png'; // Adjust the path accordingly
-import sidebarStyles from '../../styles/sidebarStyles'; // Adjust the path accordingly
+import logo from '../../assets/images/side-logo.png'; 
+import sidebarStyles from '../../styles/sidebarStyles'; 
 
 const Sidebar = ({ menuOpen, toggleMenu }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Check if the screen width is below a certain threshold (e.g., 768px for tablets)
+   
     const handleResize = () => {
       setIsMobile(window.innerWidth < 1025);
     };
 
-    // Initial check and add event listener
+    
     handleResize();
     window.addEventListener('resize', handleResize);
 
-    // Clean up the event listener when the component unmounts
+    
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
 
-  // Don't render the sidebar if it's in mobile view
+  
   if (isMobile) {
     return null;
   }
