@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+
 import React from 'react'
 import './App.css'
 const App = () => {
@@ -5,6 +7,6 @@ const App = () => {
     <main className='App'>
     </main>
   )
-}
 
-export default App
+
+export default App;
