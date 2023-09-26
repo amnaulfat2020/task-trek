@@ -8,18 +8,7 @@
   /* background: var(--secondary-bg-clr); */
   flex-direction: column;
 }
-.boxStyle{
-    background-color: white;
-    width: 100%;
-    height: 100%;
-    margin-left: 2px;
-}
 
-.column1{
-    padding-left: 10px;
-    margin: 57px 27px 0px;
-    background-color: white;
-}
 h1{
     color: var(--primary-font-clr);
     font-size: 54px;
@@ -34,8 +23,6 @@ p{
 }
 /* span{
     color: var(--primary-clr);
-
-} */
 
 .login-heading{
     display: flex;
@@ -54,7 +41,7 @@ p{
 }
 .login-heading p{
     margin-top: 1rem;
-    /* padding: 1rem; */
+
     font-style: normal;
     font-weight: 400;
     line-height: 1.75rem; 
@@ -111,7 +98,7 @@ p{
     height: 50% !important;
     margin-left: 3rem !important;
     padding: 15px !important;
-    margin-top: 2rem;
+
 }
 .btn-area{
     margin: 2rem;
@@ -169,7 +156,6 @@ p{
     }
     .change-btn{
         width: 79% !important;
-        /* margin-left: 3rem !important; */
 
     }
     .footer-area{
@@ -195,3 +181,8 @@ p{
         font-weight: 900;
     }
 }
+        margin-left: 3rem !important;
+    }
+}
+
+
