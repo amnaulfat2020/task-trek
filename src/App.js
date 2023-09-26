@@ -1,14 +1,13 @@
 import React from 'react'
 import './App.css'
-// import Login from './pages/Login';
-import ChangePassword from './pages/ChangePassword';
+import Project from './components/Project.js'
 
 const App = () => {
   return (
     <main className='App'>
-      <ChangePassword />
+        <Project />
     </main>
-  )
+  );
 }
 
 export default App
