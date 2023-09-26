@@ -11,9 +11,8 @@ import {
 
 import headerStyles from '../styles/headerStyles.js';
 
-const { Text } = Typography;
 
-const Header = ({ currentPage }) => {
+const MenuBar = ({ currentPage }) => {
   const menu = (
     <Menu>
       <Menu.Item key="settings" icon={<SettingOutlined />}>
@@ -62,4 +61,4 @@ const Header = ({ currentPage }) => {
   );
 };
 
-export default Header;
+export default MenuBar;

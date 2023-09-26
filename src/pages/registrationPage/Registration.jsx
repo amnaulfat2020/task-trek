@@ -1,10 +1,10 @@
 import React from "react";
 import { useFormik } from "formik";
-import { RegistrationSchema } from "../Schema/RegistrationSchema";
+import { RegistrationSchema } from "../../Schema/RegistrationSchema";
 import HelpIcon from "@mui/icons-material/Help";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./registration.css";
 import { Checkbox } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
@@ -19,7 +19,6 @@ const initialValues = {
   password: "",
   confirmPassword: "",
 };
-
 const Registration = () => {
   const inputs = [
     {
@@ -81,14 +80,16 @@ const Registration = () => {
         action.resetForm();
       },
     });
+  const navigate = useNavigate();
+
   return (
     <>
-      <section className="container">
+      <section className="register-container">
         <div className="form-container">
           <div className="head typography link">
-            <a href="#" className="link">
+            <Link to="/login" className="link">
               Already a member?
-            </a>
+            </Link>
             <PersonIcon />
           </div>
 
@@ -148,6 +149,9 @@ const Registration = () => {
                   variant="contained"
                   className="button"
                   sx={{ mt: 3, mb: 2 }}
+                  onClick={() => {
+                    navigate("/dashboard");
+                  }}
                 >
                   Register
                 </Button>

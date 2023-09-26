@@ -1,6 +1,4 @@
-import { Col, Row } from 'antd';
 import { Card } from 'antd';
-import { MoreOutlined} from '@ant-design/icons';
 import EditSvg from '../assets/images/edit-pencil 1.svg';
 import MoreSvg from '../assets/images/more.svg';
 import dotSvg from '../assets/images/Ellipse 12.svg';
@@ -14,7 +12,6 @@ const Project = () => {
         {title: "Navbar", status:"Active", start_Date: "25-09-2023", members: "Anum", progress: "10%" },
         {title: "Report page", status:"Inactive", start_Date: "27-09-2023", members: "Anum", progress: "0%" },
         {title: "Module Page", status:"Inactive", start_Date: "28-08-2023", members: "Anum", progress: "0%" },
-
     ]
 
 const cardRender =(card, index) => {

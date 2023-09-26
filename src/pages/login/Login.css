@@ -1,0 +1,23 @@
+.login-heading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center !important;
+  align-items: center;
+  margin-top: 10px !important;
+  /* margin-left: 43px; */
+}
+
+.login-heading h1 {
+  margin-top: 2rem;
+  font-size: 3.375rem;
+  font-weight: 700;
+  line-height: 4.25rem;
+}
+.login-heading p {
+  margin-top: 1rem;
+
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.75rem;
+  letter-spacing: 0.01563rem;
+}

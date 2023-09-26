@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./successEmail.css";
 import { Progress, Button, Typography } from "antd";
+import { Link } from "react-router-dom";
 
 const { Title, Text } = Typography;
 const SuccessEmail = () => {
@@ -41,14 +42,12 @@ const SuccessEmail = () => {
             percent={progress}
             size={40}
           />
-          <a
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+          to='/'
             className="link typography"
           >
             Re-send the verification email
-          </a>
+          </Link>
           <Button type="primary" className="btn">
             Close
           </Button>

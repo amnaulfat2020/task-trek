@@ -1,6 +1,6 @@
 import { Col, Row, Typography } from "antd";
 import Line from "../assets/images/Line 7.png";
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import {
   UserOutlined,
   KeyOutlined,
@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import { useFormik } from "formik";
 import bgimg from "../assets/images/Layer 8.png";
-import { LoginSchema } from "./login/LoginSchema";
+import { LoginSchema } from "../Schema/LoginSchema";
 
 
 function MouseOver(event) {
@@ -21,7 +21,7 @@ function MouseOut(event) {
 }
 
 const ChangePassword = () => {
-  const [remember, setRemember] = useState(false);
+  // const [remember, setRemember] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -43,13 +43,12 @@ const ChangePassword = () => {
   return (
     <Row className="boxStyle">
       {/* 1st column */}
-    <Col xs={24} sm={24} md={10} lg={8} xl={8}>
+      <Col xs={24} sm={24} md={10} lg={8} xl={8}>
         <div className="column1">
           <div className="login-heading change">
             <h1>Change Password</h1>
             <p>
-              {" "}
-              Input your new desired password in the input fields below to create a new password. 
+              Input your new desired password in the input fields below to create a new password.
               We strongly advise you to store it safely.
             </p>
           </div>
@@ -64,14 +63,14 @@ const ChangePassword = () => {
             className="form-area"
           >
             <div className="inputs">
-            <div className="account">
-              <label>New Password</label>
-              <QuestionCircleFilled className="mark" />
-            </div>
+              <div className="account">
+                <label>New Password</label>
+                <QuestionCircleFilled className="mark" />
+              </div>
               {/* password input */}
-            <div className="formContainer">
+              <div className="formContainer">
                 <Input
-                htmlfor="password"
+                  htmlfor="password"
                   name="password"
                   type="password"
                   size="large"
@@ -79,8 +78,10 @@ const ChangePassword = () => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   placeholder="New Password"
-                  style={{ width: "100%",
-                    height: "3rem"}}
+                  style={{
+                    width: "100%",
+                    height: "3rem"
+                  }}
                   prefix={<UserOutlined />}
                   className={
                     formik.errors.password && formik.touched.password
@@ -89,27 +90,29 @@ const ChangePassword = () => {
                   }
                 />
                 {formik.errors.password && formik.touched.password && (
-                    <p className="error">{formik.errors.password}</p>
-                  )}
-        </div>
+                  <p className="error">{formik.errors.password}</p>
+                )}
+              </div>
 
-        {/* new password input */}
-        <div className="account">
-              <label>Confirm New Password</label>
-              <QuestionCircleFilled className="mark" />
-            </div>
-        <div className="formContainer">
+              {/* new password input */}
+              <div className="account">
+                <label>Confirm New Password</label>
+                <QuestionCircleFilled className="mark" />
+              </div>
+              <div className="formContainer">
                 <Input
-                htmlfor="confirmPassword"
-                name="confirmPassword"
+                  htmlfor="confirmPassword"
+                  name="confirmPassword"
                   type="password"
                   value={formik.values.confirmPassword}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   size="large"
                   placeholder="Confirm Password"
-                  style={{ width: "100%",
-                  height: "3rem"}}
+                  style={{
+                    width: "100%",
+                    height: "3rem"
+                  }}
                   prefix={<KeyOutlined />}
                   className={
                     formik.errors.confirmPassword && formik.touched.confirmPassword
@@ -117,13 +120,13 @@ const ChangePassword = () => {
                       : ""
                   }
                 />
-                 {formik.errors.confirmPassword && formik.touched.confirmPassword && (
-                    <p className="error">{formik.errors.confirmPassword}</p>
-                  )}
-            </div>
+                {formik.errors.confirmPassword && formik.touched.confirmPassword && (
+                  <p className="error">{formik.errors.confirmPassword}</p>
+                )}
+              </div>
 
-           
-           
+
+
             </div>
             <div className="">
               <img src={Line} alt="line" className="line" />
@@ -131,9 +134,9 @@ const ChangePassword = () => {
 
             {/* singin button */}
             <div className="">
-             <Button block type="submit"  className="btn change-btn">Change Password</Button>
-            
-            
+              <Button block type="submit" className="btn change-btn">Change Password</Button>
+
+
             </div>
           </Form>
 
@@ -154,11 +157,11 @@ const ChangePassword = () => {
               align="center"
               onMouseOver={MouseOver}
               onMouseOut={MouseOut}
-              //   onClick={() => {
-              //     navigate("/register");
-              //   }}
+            //   onClick={() => {
+            //     navigate("/register");
+            //   }}
             >
-             Customer Support
+              Customer Support
             </Typography>
           </div>
         </div>

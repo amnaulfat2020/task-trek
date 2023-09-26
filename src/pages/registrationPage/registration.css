@@ -1,9 +1,10 @@
 @import url(../../index.css);
-.container {
+.register-container {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  height: 100vh;
 }
 .typogrphy {
   line-height: 28px;
@@ -35,11 +36,13 @@
 .button {
   color: #fff;
   background: var(--primary-clr) !important;
+  border-radius: 0px !important;
 }
 .error-message {
   color: red !important;
   font-weight: 400;
   font-size: 12px;
+  text-align: left !important;
 }
 .head {
   display: flex;
@@ -163,8 +166,6 @@
     padding: 10px 0 60px 0;
   }
 }
-
-
 
 @media only screen and (min-width: 1200px) {
   .side {

@@ -1,5 +1,6 @@
 import { Col, Row, Typography } from "antd";
-import Line from "../assets/images/Line 7.png";
+import './Login.css'
+import Line from "../../assets/images/Line 7.png";
 import { Checkbox, Form, Input } from "antd";
 import {
   UserOutlined,
@@ -8,8 +9,8 @@ import {
 } from "@ant-design/icons";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import bgimg from "../assets/images/Layer 11.png";
-import { LoginSchema } from "./login/LoginSchema";
+import bgimg from "../../assets/images/Ellipse 12.svg";
+import { LoginSchema } from "../../Schema/LoginSchema";
 
 
 function MouseOver(event) {
@@ -21,7 +22,7 @@ function MouseOut(event) {
 }
 
 const Login = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -43,12 +44,11 @@ const Login = () => {
   return (
     <Row className="boxStyle">
       {/* 1st column */}
-    <Col xs={24} sm={24} md={10} lg={8} xl={8}>
+      <Col xs={24} sm={24} md={10} lg={8} xl={8}>
         <div className="column1">
           <div className="login-heading">
             <h1>Login</h1>
             <p>
-              {" "}
               Please input your information in the fields below to enter you
               journey platform.
             </p>
@@ -62,14 +62,14 @@ const Login = () => {
             className="form-area"
           >
             <div className="inputs">
-            <div className="account">
-              <label>Account</label>
-              <QuestionCircleFilled className="mark" />
-            </div>
+              <div className="account">
+                <label>Account</label>
+                <QuestionCircleFilled className="mark" />
+              </div>
               {/* Email input */}
-            <div className="formContainer">
+              <div className="formContainer">
                 <Input
-                htmlfor="email"
+                  htmlfor="email"
                   name="email"
                   type="email"
                   size="large"
@@ -77,8 +77,10 @@ const Login = () => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   placeholder="Username"
-                  style={{ width: "100%",
-                    height: "3rem"}}
+                  style={{
+                    width: "100%",
+                    height: "3rem"
+                  }}
                   prefix={<UserOutlined />}
                   className={
                     formik.errors.email && formik.touched.email
@@ -87,21 +89,23 @@ const Login = () => {
                   }
                 />
                 {formik.errors.email && formik.touched.email && (
-                    <p className="error">{formik.errors.email}</p>
-                  )}
-        </div>
-        <div className="formContainer">
+                  <p className="error">{formik.errors.email}</p>
+                )}
+              </div>
+              <div className="formContainer">
                 <Input
-                htmlfor="password"
-                name="password"
+                  htmlfor="password"
+                  name="password"
                   type="password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   size="large"
                   placeholder="input password"
-                  style={{ width: "100%",
-                  height: "3rem"}}
+                  style={{
+                    width: "100%",
+                    height: "3rem"
+                  }}
                   prefix={<KeyOutlined />}
                   className={
                     formik.errors.password && formik.touched.password
@@ -109,26 +113,26 @@ const Login = () => {
                       : ""
                   }
                 />
-                 {formik.errors.password && formik.touched.password && (
-                    <p className="error">{formik.errors.password}</p>
-                  )}
-            </div>
+                {formik.errors.password && formik.touched.password && (
+                  <p className="error">{formik.errors.password}</p>
+                )}
+              </div>
 
-           
-            {/* Forgot password */}
-            <div className="nav-area">
-              <Typography
-                level={4}
-                onMouseOver={MouseOver}
-                onMouseOut={MouseOut}
-                // onClick={() => {
-                //   navigate("/reset-password");
-                // }}
-                className="forgot-pwd"
-              >
-                Forgot Your password?
-              </Typography>
-            </div>
+
+              {/* Forgot password */}
+              <div className="nav-area">
+                <Typography
+                  level={4}
+                  onMouseOver={MouseOver}
+                  onMouseOut={MouseOut}
+                  // onClick={() => {
+                  //   navigate("/reset-password");
+                  // }}
+                  className="forgot-pwd"
+                >
+                  Forgot Your password?
+                </Typography>
+              </div>
             </div>
             <div className="">
               <img src={Line} alt="line" className="line" />
@@ -137,14 +141,15 @@ const Login = () => {
             {/* singin button */}
             <div className="btn-area">
               {/* remember me */}
-              <Form.Item name="remember" valuePropName="checked" 
+              <Form.Item name="remember" valuePropName="checked"
               >
                 <Checkbox>Remember me</Checkbox>
               </Form.Item>
               {/* signin button  */}
-              <button type="submit" 
-              className="btn">Login</button>
-            
+              <button type="submit"
+                onClick={() => navigate('/dashboard')}
+                className="btn">Login</button>
+
             </div>
           </Form>
 
@@ -155,7 +160,7 @@ const Login = () => {
               align="center"
               style={{ marginTop: "10px" }}
             >
-              Don't have an account yet?{" "}
+              Don't have an account yet?
             </Typography>
             <Typography
               style={{
@@ -165,9 +170,9 @@ const Login = () => {
               align="center"
               onMouseOver={MouseOver}
               onMouseOut={MouseOut}
-                // onClick={() => {
-                //   navigate("/register");
-                // }}
+              onClick={() => {
+                navigate("/register");
+              }}
             >
               Register Here
             </Typography>

@@ -1,101 +1,53 @@
-@import 'index.css';
+@import "index.css";
+.card {
+  width: 85%;
+  display: grid;
+  grid-template-columns: repeat(3, 0fr);
+  /* padding: 20px; */
+  grid-gap: 5px;
+}
+.card-render {
+  padding: 20px;
+  width: 30.9375rem;
+  height: 18.75rem;
+  flex-shrink: 0;
+}
 
-.App {
+.card-header {
   display: flex;
-  /* align-items: center;
-  justify-content: center; */
-  /* height: 100vh; */
-  /* background: var(--secondary-bg-clr); */
-  /* flex-direction: column; */
+  flex-direction: row;
+  justify-content: space-between;
 }
-
-h1{
-    color: var(--primary-font-clr);
-    font-size: 54px;
-    font-weight: 900;
-    font-style: normal;
-
+.card-header h1 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: normal;
 }
-p{
-    color: var(--secondary-font-clr);
-    font-weight: 600;
-    font-size: 14px;
+.icon span {
+  margin: 7px;
+  color: #8b8b8b;
 }
-
-.card{
-    width: 85%;
-    display: grid;
-    grid-template-columns: repeat(3, 0fr);
-    /* padding: 20px; */
-    grid-gap: 5px;
-
-.login-heading{
-    display: flex;
-    flex-direction: column;
-    justify-content: center !important; 
-    align-items: center;
-     margin-top: 10px !important;
-     /* margin-left: 43px; */
+.status {
+  display: flex;
+  margin-top: 7px;
+  margin-bottom: 30px;
 }
-
-.login-heading h1{
-    margin-top: 2rem;
-    font-size: 3.375rem;
-    font-weight: 700;
-    line-height: 4.25rem;
+.status img {
+  width: 0.5rem;
+  height: 0.5rem;
 }
-.login-heading p{
-    margin-top: 1rem;
-
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1.75rem; 
-    letter-spacing: 0.01563rem;
+.status p {
+  margin-left: 10px;
+  margin-top: 3px;
+  color: #00db99;
+  font-size: 0.8125rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
-.card-render{
-    padding: 20px;
-    width: 30.9375rem;
-    height: 18.75rem;
-    flex-shrink: 0;
-}
-
-
-.card-header{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-.card-header h1{
-    font-size: 1.125rem;
-    font-weight: 500;
-line-height: normal;
-}
-.icon span{
-    margin: 7px;
-    color: #8B8B8B;
-}
-.status{
-    display: flex;
-    margin-top: 7px;
-    margin-bottom: 30px;
-
-}
-.status img{
-    width: 0.5rem;
-    height: 0.5rem;
-}
-.status p{
-    margin-left: 10px;
-    margin-top: 3px;
-    color: #00DB99;
-    font-size: 0.8125rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-}
-.startDate p{
-    color: #717986;
-    font-size: 0.75rem;
+.startDate p {
+  color: #717986;
+  font-size: 0.75rem;
 }
 
 /* @media (max-width: 1000px) {
@@ -106,18 +58,12 @@ line-height: normal;
 } */
 
 @media (max-width: 830px) {
-    .card{
+  .card {
     grid-template-columns: repeat(2, 1fr);
-
-
-}
-@media (max-width: 630px) {
-    .card{
-    grid-template-columns: repeat(2, 1fr);
-
+  }
+  @media (max-width: 630px) {
+    .card {
+      grid-template-columns: repeat(2, 1fr);
     }
-
-    }
+  }
 }
-
-
