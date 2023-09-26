@@ -1,10 +1,8 @@
 import React from 'react'
-import './app.css'
-import Components from './components/Components'
+import './App.css'
 const App = () => {
   return (
     <main className='App'>
-     <Components />
     </main>
   )
 }
