@@ -1,8 +1,8 @@
 import React from "react";
 import classes from "./ForgetPassword.module.css";
-import lineImage from "../Assets/line.png";
-import backgroundImg from "../Assets/BackgrondImg.png";
-import questionImg from "../Assets/questionMark.png";
+import lineImage from "../../assets/images/Line 7.png";
+import backgroundImg from "../../assets/images/Layer 6.png";
+import questionImg from "../../assets/images/Group 8.png";
 import { useFormik } from "formik";
 import { ForgetPasswordSchema } from '../../../src/Schema/ForgetPasswordScheme'
 
