@@ -11,7 +11,7 @@ const Routers = () => {
         <div>
             <Router>
                 <Routes>
-                    <Route exact path="/dashboard" element={<Project />} />
+                    <Route exact path="/dashboard" element={<Project />} /> 
                     <Route exact path="/change-password" element={<ChangePassword />} />
                     <Route exact path="/login" element={<Login />} />
                     <Route exact path="/register" element={<Registration />} />
