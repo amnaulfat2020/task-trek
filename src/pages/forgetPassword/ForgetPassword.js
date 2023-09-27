@@ -4,7 +4,8 @@ import lineImage from "../Assets/line.png";
 import backgroundImg from "../Assets/BackgrondImg.png";
 import questionImg from "../Assets/questionMark.png";
 import { useFormik } from "formik";
-import { ForgetPasswordSchema } from '../schemas'
+import { ForgetPasswordSchema } from '../../../src/Schema/ForgetPasswordScheme'
+
 const initialValues = {
   email: "",
 };
