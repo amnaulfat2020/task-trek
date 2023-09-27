@@ -13,7 +13,7 @@ const Routers = () => {
                 <Routes>
                     <Route exact path="/dashboard" element={<Project />} />
                     <Route exact path="/change-password" element={<ChangePassword />} />
-                    <Route exact path="/login" element={<Login />} />
+                    <Route exact path="/" element={<Login />} />
                     <Route exact path="/register" element={<Registration />} />
                     <Route exact path="/success-email" element={<SuccessEmail />} />
                     <Route exact path="/success-register" element={<SuccessRegister />} />
