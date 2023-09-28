@@ -125,9 +125,9 @@ const Login = () => {
                   level={4}
                   onMouseOver={MouseOver}
                   onMouseOut={MouseOut}
-                  // onClick={() => {
-                  //   navigate("/reset-password");
-                  // }}
+                  onClick={() => {
+                    navigate("/change-password");
+                  }}
                   className="forgot-pwd"
                 >
                   Forgot Your password?

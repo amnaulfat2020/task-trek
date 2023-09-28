@@ -87,7 +87,7 @@ const Registration = () => {
       <section className="register-container">
         <div className="form-container">
           <div className="head typography link">
-            <Link to="/login" className="link">
+            <Link to="/" className="link">
               Already a member?
             </Link>
             <PersonIcon />
