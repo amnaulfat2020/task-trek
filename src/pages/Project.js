@@ -1,22 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Card } from 'antd';
-
-import dotSvg from '../assets/images/Ellipse 12.svg';
-import {
-  createProject,
-  fetchProjects,
-  updateProject,
-  deleteProject,
-} from '../services/api';
+import { Card, Progress } from 'antd'; 
+import { EditOutlined } from '@ant-design/icons';
+import {createProject, fetchProjects, updateProject, deleteProject,} from '../services/api';
 
 const Project = () => {
   const [projects, setProjects] = useState([]);
   const [newProject, setNewProject] = useState({
     title: '',
-    status: '',
-    start_Date: '',
+    client: '',
+    status: 'In Progress', 
     members: '',
-    progress: '',
+    progress: 0, 
   });
   const [editingProject, setEditingProject] = useState(null);
 
@@ -38,10 +32,10 @@ const Project = () => {
     await createProject(newProject);
     setNewProject({
       title: '',
-      status: '',
-      start_Date: '',
+      client: '',
+      status: 'In Progress', 
       members: '',
-      progress: '',
+      progress: 0, 
     });
     const updatedProjectList = await fetchProjects();
     setProjects(updatedProjectList);
@@ -67,40 +61,99 @@ const Project = () => {
     }
   };
 
-  const cardInfo = [
-    { title: "Dashboard", status: "Active", start_Date: "20-09-2023", members: "Anum, Amna, Moiz", progress: "60%" },
-    { title: "Sidebar", status: "Completed", start_Date: "19-09-2023", members: "Amna", progress: "100%" },
-    { title: "Navbar", status: "Active", start_Date: "25-09-2023", members: "Anum", progress: "10%" },
-    { title: "Report page", status: "Inactive", start_Date: "27-09-2023", members: "Anum", progress: "0%" },
-    { title: "Module Page", status: "Inactive", start_Date: "28-08-2023", members: "Anum", progress: "0%" },
-  ];
+  const cardRender = (project) => {
+    const { title, client, status, members, progress } = editingProject || project;
 
-  const cardRender = (card, index) => {
+    let color = 'red'; 
+    if (progress >= 50) {
+      color = 'light';
+    }
+    if (progress === 100) {
+      color = 'green';
+    }
+
     return (
-      <div className="card-render" key={index}>
+      <div className="card-render" key={project.id}>
         <Card>
           <div className="card-header">
-            <h1>{card.title}</h1>
+            <h1>{title}</h1>
             <div className="icon">
-              {/* Add your icon content here */}
+            <EditOutlined />
             </div>
           </div>
-          <div className="status">
-            <span> <img src={dotSvg} alt="Dot" /> </span>
-            <p>{card.status}</p>
+          <div className="attribute">
+            <p>Client</p>
+            <input
+              type="text"
+              name="client"
+              value={client}
+              onChange={(e) => {
+                if (editingProject) {
+                  setEditingProject({ ...editingProject, client: e.target.value });
+                }
+              }}
+            />
           </div>
-          <div className="startDate">
-            <p>Start Date</p>
-            <span>{card.start_Date}</span>
+          <div className="attribute">
+            <p>Status</p>
+            {editingProject ? (
+              <select
+                name="status"
+                value={status}
+                onChange={(e) => {
+                  setEditingProject({ ...editingProject, status: e.target.value });
+                }}
+              >
+                {/* Options for status */}
+                <option value="In Progress">In Progress</option>
+                <option value="Discussing">Discussing</option>
+                <option value="Completed">Completed</option>
+                <option value="Review">Review</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="On Hold">On Hold</option>
+              </select>
+            ) : (
+              <p>{status}</p>
+            )}
           </div>
-          <div className="avatars">
+          <div className="attribute">
             <p>Members</p>
-            <span>{card.members}</span>
+            <input
+              type="text"
+              name="members"
+              value={members}
+              onChange={(e) => {
+                if (editingProject) {
+                  setEditingProject({ ...editingProject, members: e.target.value });
+                }
+              }}
+            />
           </div>
-          <div className="progress">
+          <div className="attribute">
             <p>Progress</p>
-            <span>{card.progress} </span>
+            {editingProject ? (
+              <input
+                type="number"
+                name="progress"
+                value={progress}
+                onChange={(e) => {
+                  setEditingProject({ ...editingProject, progress: parseInt(e.target.value) });
+                }}
+              />
+            ) : (
+              <div className="progress-bar">
+                <Progress percent={progress} strokeColor={color} />
+              </div>
+            )}
           </div>
+          {editingProject ? (
+            <button onClick={handleUpdate}>Update</button>
+          ) : (
+            <div>
+              <button onClick={() => handleEdit(project.id)}>Edit</button>
+              <button onClick={() => handleDelete(project.id)}>Delete</button>
+            </div>
+          )}
         </Card>
       </div>
     );
@@ -116,97 +169,10 @@ const Project = () => {
           onChange={handleInputChange}
           placeholder="Project Title"
         />
-        <input
-          type="text"
-          name="status"
-          value={newProject.status}
-          onChange={handleInputChange}
-          placeholder="Status"
-        />
-        <input
-          type="text"
-          name="start_Date"
-          value={newProject.start_Date}
-          onChange={handleInputChange}
-          placeholder="Start Date"
-        />
-        <input
-          type="text"
-          name="members"
-          value={newProject.members}
-          onChange={handleInputChange}
-          placeholder="Members"
-        />
-        <input
-          type="text"
-          name="progress"
-          value={newProject.progress}
-          onChange={handleInputChange}
-          placeholder="Progress"
-        />
         <button type="submit">Create Project</button>
       </form>
 
-      {projects.map((project) => (
-        <div key={project.id}>
-          <p>Title: {project.title}</p>
-          <p>Status: {project.status}</p>
-          <p>Start Date: {project.start_Date}</p>
-          <p>Members: {project.members}</p>
-          <p>Progress: {project.progress}</p>
-          <button onClick={() => handleEdit(project.id)}>Edit</button>
-          <button onClick={() => handleDelete(project.id)}>Delete</button>
-        </div>
-      ))}
-
-      {editingProject && (
-        <div>
-          <h2>Edit Project</h2>
-          <input
-            type="text"
-            name="title"
-            value={editingProject.title}
-            onChange={(e) => {
-              setEditingProject({ ...editingProject, title: e.target.value });
-            }}
-          />
-          <input
-            type="text"
-            name="status"
-            value={editingProject.status}
-            onChange={(e) => {
-              setEditingProject({ ...editingProject, status: e.target.value });
-            }}
-          />
-          <input
-            type="text"
-            name="start_Date"
-            value={editingProject.start_Date}
-            onChange={(e) => {
-              setEditingProject({ ...editingProject, start_Date: e.target.value });
-            }}
-          />
-          <input
-            type="text"
-            name="members"
-            value={editingProject.members}
-            onChange={(e) => {
-              setEditingProject({ ...editingProject, members: e.target.value });
-            }}
-          />
-          <input
-            type="text"
-            name="progress"
-            value={editingProject.progress}
-            onChange={(e) => {
-              setEditingProject({ ...editingProject, progress: e.target.value });
-            }}
-          />
-          <button onClick={handleUpdate}>Update</button>
-        </div>
-      )}
-
-      <div className='card'>{cardInfo.map(cardRender)}</div>
+      <div className="card">{projects.map((project) => cardRender(project))}</div>
     </div>
   );
 };
