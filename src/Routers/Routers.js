@@ -6,6 +6,7 @@ import SuccessEmail from '../pages/successEmail/SuccessEmail';
 import SuccessRegister from '../pages/successRegister/SuccessRegister';
 import ChangePassword from '../pages/ChangePassword'
 import Login from '../pages/login/Login';
+
 const Routers = () => {
     return (
         <div>
@@ -17,6 +18,7 @@ const Routers = () => {
                     <Route exact path="/change-password" element={<ChangePassword />} />
                     <Route exact path="/success-email" element={<SuccessEmail />} />
                     <Route exact path="/success-register" element={<SuccessRegister />} />
+                    
                 </Routes>
             </Router>
         </div>

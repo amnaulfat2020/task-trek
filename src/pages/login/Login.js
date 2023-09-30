@@ -9,7 +9,7 @@ import {
 import Button from "@mui/material/Button";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import "./login.css";
+import "./Login.css";
 import Line from "../../assets/images/Line 7.png";
 import { LoginSchema } from "../../Schema/LoginSchema";
 
