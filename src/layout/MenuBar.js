@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Space, Badge, Avatar, Dropdown, Menu, Typography } from 'antd';
+import { Input, Space, Badge, Avatar, Menu } from 'antd';
 import {
   SearchOutlined,
   BellOutlined,
@@ -10,23 +10,11 @@ import {
 } from '@ant-design/icons';
 
 import headerStyles from '../styles/headerStyles.js';
+import { useNavigate } from 'react-router-dom';
 
 
 const MenuBar = ({ currentPage }) => {
-  const menu = (
-    <Menu>
-      <Menu.Item key="settings" icon={<SettingOutlined />}>
-        Settings
-      </Menu.Item>
-      <Menu.Item key="profile" icon={<UserOutlined />}>
-        Profile
-      </Menu.Item>
-      <Menu.Item key="logout" icon={<LogoutOutlined />}>
-        Logout
-      </Menu.Item>
-    </Menu>
-  );
-
+  const navigate = useNavigate()
   return (
     <div style={headerStyles.container}>
       <div style={headerStyles.leftSection}>
@@ -52,9 +40,9 @@ const MenuBar = ({ currentPage }) => {
           </Badge>
 
           <SettingOutlined style={headerStyles.icon} />
-          <Dropdown overlay={menu} trigger={['click']}>
-            <Avatar icon={<UserOutlined />} style={headerStyles.avatar} />
-          </Dropdown>
+            <Avatar icon={<UserOutlined />} style={headerStyles.avatar} onClick={() => {
+              navigate('./user-profile')
+            }} />
         </Space>
       </div>
     </div>
