@@ -32,7 +32,6 @@ const Login = () => {
     validationSchema: LoginSchema,
     onSubmit: async (values, actions) => {
       console.log(values);
-      // console.log(actions);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       actions.resetForm();
     },
@@ -69,7 +68,7 @@ const Login = () => {
               {/* Email input */}
               <div className="formContainer">
                 <Input
-                  htmlfor="email"
+                  htmlFor="email"
                   name="email"
                   type="email"
                   size="large"
@@ -94,7 +93,7 @@ const Login = () => {
               </div>
               <div className="formContainer">
                 <Input
-                  htmlfor="password"
+                  htmlFor="password"
                   name="password"
                   type="password"
                   value={formik.values.password}
