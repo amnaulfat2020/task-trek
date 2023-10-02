@@ -25,7 +25,6 @@ const Login = () => {
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-  // const [isAuthenticated, setIsAuthenticated]= useState(false)
 
   const { values, errors, handleBlur, touched, handleChange, handleSubmit } =
     useFormik({
@@ -40,7 +39,7 @@ const Login = () => {
           return;
         }
         setErrMsg("");
-
+        // login Authentication 
         setSubmitButtonDisabled(true);
         signInWithEmailAndPassword(auth, values.email, values.password)
           .then(async (res) => {
