@@ -117,8 +117,8 @@ const Registration = () => {
     <>
       <section className="register-container">
         <div className="form-container">
-          <div className="head typography link">
-            <Link to="/" className="link">
+          <div className="head reg-typography reg-link">
+            <Link to="/" className="reg-link">
               Already a member?
             </Link>
             <PersonIcon />
@@ -127,10 +127,10 @@ const Registration = () => {
           <form onSubmit={handleSubmit} className="registration-form">
             <div className="heading">
               <h1 className="main-heading">Input your information</h1>
-              <p className="info typography">
+              <p className="reg-info reg-typography">
                 We need you to help us with some basic information for your
                 account creation. Here are our
-                <span className="link"> terms and conditins</span>. Please read
+                <span className="reg-link"> terms and conditins</span>. Please read
                 them carefully. We are GDRP compliant
               </p>
             </div>
@@ -140,7 +140,7 @@ const Registration = () => {
             <div className="field-container">
               {inputs.map((input) => (
                 <div key={input.id}>
-                  <div className="label typography">
+                  <div className="label reg-typography">
                     <label htmlFor={input.htmlFor}>{input.label}</label>
                     <HelpIcon className="icon" />
                   </div>
@@ -159,7 +159,7 @@ const Registration = () => {
                     />
                   </div>
                   {errors[input.name] && touched[input.name] ? (
-                    <p className="error-message typography">
+                    <p className="error-message reg-typography">
                       {errors[input.name]}
                     </p>
                   ) : null}
@@ -174,9 +174,9 @@ const Registration = () => {
             </div>
             <div>
               <div className="flex ">
-                <p className="typography terms">
+                <p className="reg-typography terms">
                   <Checkbox />I agree with
-                  <span className="link"> terms and conditins.</span>
+                  <span className="reg-link"> terms and conditins.</span>
                 </p>
                 <Button
                   type="submit"
