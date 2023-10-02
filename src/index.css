@@ -16,3 +16,6 @@
   --heading-fs: 54px;
   --secondary-bg-clr: #F9FAFF;
 }
+.body{
+  overflow-y: hidden  !important;
+}
