@@ -18,7 +18,7 @@ export const createProject = async (projectData) => {
     });
     return projectList;
   };
-  
+   
   export const updateProject = async (projectId, newData) => {
     const projectRef = doc(db, 'projects', projectId);
     try {

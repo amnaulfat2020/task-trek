@@ -41,7 +41,7 @@ const MenuBar = ({ currentPage }) => {
             style={headerStyles.searchInput}
           />
         </Space>
-      </div>
+      </div> 
 
       <div style={headerStyles.rightSection}>
         <Space size="large">
