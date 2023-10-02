@@ -1,24 +1,22 @@
-import React from 'react';
-import { Input, Space, Badge, Avatar, Menu } from 'antd';
+import React, { useContext } from 'react';
+import { Input, Space, Badge, Avatar, Typography } from 'antd';
 import {
   SearchOutlined,
   BellOutlined,
   MessageOutlined,
   SettingOutlined,
   UserOutlined,
-  LogoutOutlined,
 } from '@ant-design/icons';
-
 import headerStyles from '../styles/headerStyles.js';
 import { useNavigate } from 'react-router-dom';
+const { Text } = Typography;
 
-
-const MenuBar = ({ currentPage }) => {
+const MenuBar = () => {
   const navigate = useNavigate()
   return (
     <div style={headerStyles.container}>
       <div style={headerStyles.leftSection}>
-        <h1 style={headerStyles.pageTitle}>{currentPage}</h1>
+        <h1 style={headerStyles.pageTitle}>Dahsboard</h1>
       </div>
 
       <div style={headerStyles.centerSection}>
@@ -40,10 +38,12 @@ const MenuBar = ({ currentPage }) => {
           </Badge>
 
           <SettingOutlined style={headerStyles.icon} />
-            <Avatar icon={<UserOutlined />} style={headerStyles.avatar} onClick={() => {
-              navigate('./user-profile')
-            }} />
+          <Avatar icon={<UserOutlined />} style={headerStyles.avatar} onClick={() => {
+            navigate('./user-profile')
+          }} />
         </Space>
+        <Text>Moiz</Text>
+        <Text>Email</Text>
       </div>
     </div>
   );

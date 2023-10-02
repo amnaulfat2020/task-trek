@@ -4,9 +4,13 @@ import MoreSvg from '../assets/images/more.svg';
 import dotSvg from '../assets/images/Ellipse 12.svg';
 import MenuBar from '../layout/MenuBar';
 import Sidebar from './sidebar/Sidebar';
+import { UserContext } from './userprofile';
+import { useContext } from 'react';
 
 
 const Project = () => {
+    // const name = useContext(UserContext)
+    // console.log(name)
     const cardInfo = [
         { title: "Dashboard", status: "Active", start_Date: "20-09-2023", members: "Anum, Amna, Moiz", progress: "60%" },
         { title: "Sidebar", status: "Completed", start_Date: "19-09-2023", members: "Amna", progress: "100%" },
@@ -27,7 +31,7 @@ const Project = () => {
                         </div>
                     </div>
                     <div className="status">
-                        <span> <img src={dotSvg} alt='dot svg'/> </span>
+                        <span> <img src={dotSvg} alt='dot svg' /> </span>
                         <p>{card.status}</p>
                     </div>
                     <div className="startDate">
@@ -50,7 +54,7 @@ const Project = () => {
     return (
         <>
         <MenuBar />
-        <Sidebar />
+            <Sidebar />
             <div className='card'>
                 {cardInfo.map(cardRender)}
             </div>

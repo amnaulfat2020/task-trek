@@ -4,10 +4,10 @@ import App from './App';
 import { PageProvider } from './contexts/PageContext';
 
 ReactDOM.render(
-  <PageProvider>
-    <React.StrictMode>
+  <React.StrictMode>
+    <PageProvider>
       <App />
-    </React.StrictMode>,
-  </PageProvider>,
+    </PageProvider>
+  </React.StrictMode>,
   document.getElementById('root')
 );
