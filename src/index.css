@@ -5,6 +5,7 @@
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
   font-family: "Roboto", sans-serif;
+  /* outline: 2px solid black !important; */
 }
 :root {
   --primary-clr: #4743e0;
@@ -14,4 +15,7 @@
   --line-height: 28px;
   --heading-fs: 54px;
   --secondary-bg-clr: #F9FAFF;
+}
+.body{
+  overflow-y: hidden  !important;
 }

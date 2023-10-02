@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
+import {createUserWithEmailAndPassword, updateProfile} from 'firebase/auth';
+import { auth  } from "../../utils/constants/Firebase";
 import { RegistrationSchema } from "../../Schema/RegistrationSchema";
 import HelpIcon from "@mui/icons-material/Help";
 import TextField from "@mui/material/TextField";
@@ -20,6 +22,9 @@ const initialValues = {
   confirmPassword: "",
 };
 const Registration = () => {
+  const navigate = useNavigate();
+  const [errMsg, setErrMsg]= useState("")
+  const [submitButtonDisabled, setSubmitButtonDisabled]= useState(false);
   const inputs = [
     {
       id: 1,
@@ -76,11 +81,37 @@ const Registration = () => {
     useFormik({
       initialValues,
       validationSchema: RegistrationSchema,
-      onSubmit: (action) => {
-        action.resetForm();
+       onSubmit: (action) => {
+       
+
+
+
+        // action.resetForm();
+        if(!values.firstName || !values.email || !values.password){
+          setErrMsg("Fill all Fields");
+          return;
+        }
+        setErrMsg("");
+        setSubmitButtonDisabled(true)
+        createUserWithEmailAndPassword(auth, values.email, values.password)
+        .then(async (res) => {
+          setSubmitButtonDisabled(false);
+          const user= res.user;
+          console.log(user);
+          await updateProfile(user, {
+            displayName: values.firstName,
+          });
+          navigate("/dashboard")
+          console.log(res);
+        })
+        .catch((err) => {
+          setSubmitButtonDisabled(false);
+          setErrMsg(err.message);
+          console.log(err)
+        })
       },
     });
-  const navigate = useNavigate();
+
 
   return (
     <>
@@ -138,6 +169,9 @@ const Registration = () => {
             <div className="dotted-line">
               <img src={Divider} alt="" />
             </div>
+            <div className="flex">
+              <p className="error-message">{errMsg}</p>
+            </div>
             <div>
               <div className="flex ">
                 <p className="reg-typography terms">
@@ -146,12 +180,10 @@ const Registration = () => {
                 </p>
                 <Button
                   type="submit"
+                  disabled={submitButtonDisabled}
                   variant="contained"
                   className="button"
                   sx={{ mt: 3, mb: 2 }}
-                  onClick={() => {
-                    navigate("/dashboard");
-                  }}
                 >
                   Register
                 </Button>
