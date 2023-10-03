@@ -13,8 +13,6 @@ const Routers = () => {
         <div>
             <Router>
                 <Routes>
-
-
                     <Route exact path="/dashboard" element={<Project />} /> 
                     <Route exact path="/forget-password" element={<ForgetPassword />} /> 
                     <Route exact path="/change-password" element={<ChangePassword />} />
@@ -24,7 +22,6 @@ const Routers = () => {
                     <Route exact path="/change-password" element={<ChangePassword />} />
                     <Route exact path="/success-email" element={<SuccessEmail />} />
                     <Route exact path="/success-register" element={<SuccessRegister />} />
-                    
                 </Routes>
             </Router>
         </div>
