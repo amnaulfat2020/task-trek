@@ -23,6 +23,7 @@ export const createProject = async (projectData) => {
     const projectRef = doc(db, 'projects', projectId);
     try {
       await updateDoc(projectRef, newData);
+      console.log (projectRef)
       console.log('Project updated successfully');
     } catch (error) {
       console.error('Error updating project: ', error);

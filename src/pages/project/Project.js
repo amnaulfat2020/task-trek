@@ -1,20 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Progress } from 'antd'; 
-import { DeleteOutlined } from '@ant-design/icons';
-import {createProject, fetchProjects, updateProject, deleteProject,} from '../../services/api';
-import EditSvg from '../../assets/images/edit-pencil 1.svg';
-import redDotSvg from '../../assets/images/Ellipse red.svg';
-import greenDotSvg from '../../assets/images/Ellipse 12.svg';
-import yellowDotSvg from '../../assets/images/Ellipse yellow.svg';
-import Line3 from '../../assets/images/Line 3.png';
-import './project.css';
-
+import { EditOutlined } from '@ant-design/icons';
+import {createProject, fetchProjects, updateProject, deleteProject,} from '../services/api';
 
 const Project = () => {
   const [projects, setProjects] = useState([]);
   const [newProject, setNewProject] = useState({
     title: '',
-    start_Date: '',
+    client: '',
     status: 'In Progress', 
     members: '',
     progress: 0, 
@@ -69,19 +62,7 @@ const Project = () => {
   };
 
   const cardRender = (project) => {
-    const { title, start_Date, status, members, progress } = editingProject || project;
-
-let statusImg= redDotSvg;
-let statusColor = 'red';
-if(status === 'Completed'){
-  statusImg= greenDotSvg;
-  statusColor= 'green';
-}
-else if(status === 'On Hold' || status === 'Review'){
-  statusImg= yellowDotSvg;
-  statusColor = 'yellow';
-}
-
+    const { title, client, status, members, progress } = editingProject || project;
 
     let color = 'red'; 
     if (progress >= 50) {
@@ -94,29 +75,27 @@ else if(status === 'On Hold' || status === 'Review'){
     return (
       <div className="card-render" key={project.id}>
         <Card>
-          {/* heading */}
           <div className="card-header">
             <h1>{title}</h1>
             <div className="icon">
-            {editingProject ? (
-            <button onClick={handleUpdate}>Update</button>
-          ) : (
-            <div>
-            <button onClick={() => handleEdit(project.id)}>
-            <span> <img src={EditSvg} alt="edit icon"  /> </span>
-            </button>
-            <button onClick={() => handleDelete(project.id)}>
-              <span> <DeleteOutlined /> </span>
-            </button>
-             
-            </div>
-          )}
-
+            <EditOutlined />
             </div>
           </div>
-                {/* status */}
-          <div className="status">
-             <span> <img src={statusImg} alt='dot'/> </span>
+          <div className="attribute">
+            <p>Client</p>
+            <input
+              type="text"
+              name="client"
+              value={client}
+              onChange={(e) => {
+                if (editingProject) {
+                  setEditingProject({ ...editingProject, client: e.target.value });
+                }
+              }}
+            />
+          </div>
+          <div className="attribute">
+            <p>Status</p>
             {editingProject ? (
               <select
                 name="status"
@@ -126,52 +105,17 @@ else if(status === 'On Hold' || status === 'Review'){
                 }}
               >
                 {/* Options for status */}
-                <option value="In Progress" >In Progress</option>
+                <option value="In Progress">In Progress</option>
                 <option value="Discussing">Discussing</option>
-                <option  value="Completed">Completed</option>
+                <option value="Completed">Completed</option>
                 <option value="Review">Review</option>
                 <option value="Cancelled">Cancelled</option>
-                <option  value="On Hold">On Hold</option>
+                <option value="On Hold">On Hold</option>
               </select>
             ) : (
-              <p className={statusColor}  >{status}</p>
+              <p>{status}</p>
             )}
           </div>
-          <div className="Task-area">
-          {/* start date */}
-          <div className="startDate">
-            <p>Start Date</p>
-            <input
-              type="date"
-              name="client"
-              value={start_Date}
-              onChange={(e) => {
-                if (editingProject) {
-                  setEditingProject({ ...editingProject, start_Date: e.target.value });
-                }
-              }}
-            />
-          </div>
-              <div className="tasks-box">
-                <div className="tasks">
-                  <p style={{ marginLeft: "8px"}}>{ 14 }</p>
-                  <p>Tasks</p>
-                </div>
-              <div className="line3">
-                  <img src={Line3} alt="line3" />
-              </div>
-
-                <div className="users">
-                  <p style={{ marginLeft: "12px"}}>{4}</p>
-                  <p>Users</p>
-                </div>
-
-              </div>
-
-
-
-          </div>
-         {/* members */}
           <div className="attribute">
             <p>Members</p>
             <input
@@ -185,7 +129,6 @@ else if(status === 'On Hold' || status === 'Review'){
               }}
             />
           </div>
-          {/* progress */}
           <div className="attribute">
             <p>Progress</p>
             {editingProject ? (
@@ -203,7 +146,14 @@ else if(status === 'On Hold' || status === 'Review'){
               </div>
             )}
           </div>
-          
+          {editingProject ? (
+            <button onClick={handleUpdate}>Update</button>
+          ) : (
+            <div>
+              <button onClick={() => handleEdit(project.id)}>Edit</button>
+              <button onClick={() => handleDelete(project.id)}>Delete</button>
+            </div>
+          )}
         </Card>
       </div>
     );

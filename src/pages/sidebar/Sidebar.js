@@ -12,6 +12,7 @@ import {
 } from '@ant-design/icons';
 import logo from '../../assets/images/side-logo.png'; 
 import sidebarStyles from '../../styles/sidebarStyles'; 
+import { useNavigate } from 'react-router';
 
 const Sidebar = ({ menuOpen, toggleMenu }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -31,6 +32,7 @@ const Sidebar = ({ menuOpen, toggleMenu }) => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+  const navigate = useNavigate()
 
   
   if (isMobile) {
@@ -41,7 +43,7 @@ const Sidebar = ({ menuOpen, toggleMenu }) => {
     <Drawer
       width={310}
       placement="left"
-      visible={menuOpen}
+      open={menuOpen}
       style={sidebarStyles.drawer}
     >
       <div style={sidebarStyles.logoContainer}>
@@ -77,7 +79,7 @@ const Sidebar = ({ menuOpen, toggleMenu }) => {
       </Menu>
 
       <div style={sidebarStyles.logoutButtonContainer}>
-        <Button>
+        <Button onclick={ ()=> {navigate('/')}}>
           <LogoutOutlined style={{ marginRight: '20px' }} />
           Logout
         </Button>
