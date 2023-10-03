@@ -64,7 +64,7 @@ const Project = () => {
     setTaskList([]);
     const updatedProjectList = await fetchProjects();
     setProjects(updatedProjectList);
-    setShowInputFields(false);
+    setShowInputFields(true);
     setTaskModalVisible(false);
   };
 
