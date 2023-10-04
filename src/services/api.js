@@ -14,10 +14,10 @@ export const createProject = async (projectData) => {
   try {
     const docRef = await addDoc(collection(db, 'projects'), projectData);
     console.log('Project added with ID: ', docRef.id);
-    return docRef.id; // Return the ID of the newly created project
+    return docRef.id; 
   } catch (error) {
     console.error('Error adding project: ', error);
-    throw error; // Rethrow the error to handle it where the function is called
+    throw error; 
   }
 };
 

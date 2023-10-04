@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { db } from '../../utils/constants/Firebase'; // Make sure to initialize your Firestore instance
+import { db } from '../../utils/constants/Firebase'; 
 import { v4 as uuidv4 } from 'uuid';
 import {
   collection,
@@ -104,10 +104,9 @@ const Registration = () => {
           const userRef = doc(collection(db, 'users'), values.email);
           await setDoc(userRef, {
             firstName: values.firstName,
-            uniqueId: uniqueId, // Store the unique ID in Firestore
+            uniqueId: uniqueId, 
           });
 
-          // Register the user with Firebase Authentication
           const res = await createUserWithEmailAndPassword(
             auth,
             values.email,
@@ -121,7 +120,6 @@ const Registration = () => {
             displayName: values.firstName,
           });
 
-          // Redirect to the dashboard with the unique ID
           navigate(`/dashboard/${uniqueId}`);
         } catch (err) {
           setSubmitButtonDisabled(false);

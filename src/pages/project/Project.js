@@ -56,7 +56,7 @@ const Project = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createProject({ ...newProject, tasks: taskList, userId }); // Pass userId to createProject
+      await createProject({ ...newProject, tasks: taskList, userId }); 
       setNewProject({
         title: '',
         client: '',
