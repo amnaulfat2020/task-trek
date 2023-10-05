@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
+
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { db } from '../../utils/constants/Firebase'; 
 import { v4 as uuidv4 } from 'uuid';
@@ -27,7 +28,7 @@ const initialValues = {
   employees: "",
   phoneNumber: "",
   password: "",
-  confirmPassword: "",
+  confirmPassword: ""
 };
 const Registration = () => {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const Registration = () => {
       name: "firstName",
       type: "text",
       placeholder: "John",
-      label: "First name",
+      label: "First name"
     },
     {
       id: 2,
@@ -50,7 +51,7 @@ const Registration = () => {
       type: "text",
       placeholder: "Smith",
       label: "Last name",
-      required: true,
+      required: true
     },
     {
       id: 3,
@@ -58,7 +59,7 @@ const Registration = () => {
       name: "Company",
       type: "text",
       placeholder: "John Smith",
-      label: "Company name",
+      label: "Company name"
     },
     {
       id: 4,
@@ -67,7 +68,7 @@ const Registration = () => {
       type: "email",
       placeholder: "test@example.com",
       label: "Work Email",
-      required: true,
+      required: true
     },
     {
       id: 5,
@@ -75,7 +76,7 @@ const Registration = () => {
       name: "password",
       type: "password",
       placeholder: "Password",
-      label: "Password",
+      label: "Password"
     },
     {
       id: 6,
@@ -83,8 +84,8 @@ const Registration = () => {
       name: "confirmPassword",
       type: "password",
       placeholder: "Confirm Password",
-      label: "Confirm Password",
-    },
+      label: "Confirm Password"
+    }
   ];
   const { values, errors, handleBlur, touched, handleChange, handleSubmit } =
     useFormik({
@@ -129,7 +130,6 @@ const Registration = () => {
       },
     });
 
-
   return (
     <>
       <section className="register-container">
@@ -147,8 +147,8 @@ const Registration = () => {
               <p className="reg-info reg-typography">
                 We need you to help us with some basic information for your
                 account creation. Here are our
-                <span className="reg-link"> terms and conditins</span>. Please read
-                them carefully. We are GDRP compliant
+                <span className="reg-link"> terms and conditins</span>. Please
+                read them carefully. We are GDRP compliant
               </p>
             </div>
             <div className="dotted-line">

@@ -29,7 +29,7 @@ const UserProfile = (props) => {
         });
       });
     });
-  }, []);
+  }, [imageListRef]);
 
   const uploadImage = () => {
     if (imageUpload == null) return;
@@ -48,15 +48,10 @@ const UserProfile = (props) => {
   };
   return (
     <>
-      {/* <UserContext.Provider value={props.name} >
+      <UserContext.Provider value={props.name} >
         <MenuBar name={props.name} />
-      </UserContext.Provider> */}
+      </UserContext.Provider>
       <section>
-        <nav>
-          <Link className="user-link" to={"/dashboard"}>
-            Dashboard
-          </Link>
-        </nav>
         <div className="user-data">
           <Title className="hero-title typography">{props.title}</Title>
           {imageList ? (

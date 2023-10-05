@@ -8,7 +8,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import headerStyles from '../styles/headerStyles.js';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const { Text } = Typography;
 
 const MenuBar = () => {
@@ -16,7 +16,7 @@ const MenuBar = () => {
   return (
     <div style={headerStyles.container}>
       <div style={headerStyles.leftSection}>
-        <h1 style={headerStyles.pageTitle}>Dahsboard</h1>
+        <Link to='/dashboard' style={headerStyles.userLink} >Dashboard</Link>
       </div>
 
       <div style={headerStyles.centerSection}>
@@ -27,7 +27,7 @@ const MenuBar = () => {
             style={headerStyles.searchInput}
           />
         </Space>
-      </div> 
+      </div>
 
       <div style={headerStyles.rightSection}>
         <Space size="large">

@@ -4,7 +4,7 @@ import Project from '../pages/project/Project';
 import Registration from '../pages/registrationPage/Registration';
 import SuccessEmail from '../pages/successEmail/SuccessEmail';
 import SuccessRegister from '../pages/successRegister/SuccessRegister';
-import ChangePassword from '../pages/ChangePassword';
+import ChangePassword from '../pages/changespassword/ChangePassword'
 import Login from '../pages/login/Login';
 import UserProfile from '../pages/userprofile';
 import TaskPage from '../pages/TaskPage';
@@ -12,6 +12,7 @@ import ForgetPassword from '../pages/forgetPassword/ForgetPassword';
 import NotFound from '../components/NotFound'; 
 
 const Routers = () => {
+  
   return (
     <div>
       <Router>
