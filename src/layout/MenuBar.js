@@ -1,19 +1,18 @@
 import {  updateProfile, signOut } from "firebase/auth";
 import  { auth } from '../utils/constants/Firebase';
-import React from 'react';
-
 import React, { useContext } from 'react';
-import { Input, Space, Badge, Avatar, Typography } from 'antd';
+import { Input, Space, Badge, Avatar, Typography, Menu, Dropdown } from 'antd';
 import {
   SearchOutlined,
   BellOutlined,
   UserOutlined,
   LogoutOutlined,
   PlusOutlined,
+  SettingOutlined
 } from '@ant-design/icons';
 import {  useSearch } from '../contexts/SearchContext'; // Import the useSearch hook
 import headerStyles from '../styles/headerStyles.js';
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const MenuBar = ({ currentPage }) => {
@@ -47,11 +46,8 @@ const handleClick = () =>{
     const query = e.target.value;
     setSearch(query);
   };
-}
-const { Text } = Typography;
 
-const MenuBar = () => {
-  const navigate = useNavigate()
+const { Text } = Typography;
   return (
     <div style={headerStyles.container}>
       <div style={headerStyles.leftSection}>

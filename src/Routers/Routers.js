@@ -8,7 +8,7 @@ import SuccessRegister from '../pages/successRegister/SuccessRegister';
 import ChangePassword from '../pages/changespassword/ChangePassword'
 import Login from '../pages/login/Login';
 import UserProfile from '../pages/userprofile';
-import TaskPage from '../pages/TaskPage';
+import TaskPage from '../pages/taskpage/TaskPage';
 import ForgetPassword from '../pages/forgetPassword/ForgetPassword';
 import NotFound from '../components/NotFound'; 
 
