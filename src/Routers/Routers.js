@@ -5,7 +5,8 @@ import Project from '../pages/project/Project';
 import Registration from '../pages/registrationPage/Registration';
 import SuccessEmail from '../pages/successEmail/SuccessEmail';
 import SuccessRegister from '../pages/successRegister/SuccessRegister';
-import ChangePassword from '../pages/changespassword/ChangePassword'
+import ChangePassword from '../pages/changespassword/ChangePassword';
+
 import Login from '../pages/login/Login';
 import UserProfile from '../pages/userprofile';
 import TaskPage from '../pages/taskpage/TaskPage';
@@ -23,7 +24,6 @@ const Routers = () => {
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Registration />} />
-          {/* <Route path="/dashboard" element={<Project />} /> */}
           <Route path="/success-email" element={<SuccessEmail />} />
           <Route path="/success-register" element={<SuccessRegister />} />
           <Route path="/dashboard/user-profile" element={<UserProfile />} />

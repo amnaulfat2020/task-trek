@@ -10,6 +10,7 @@ import {
   getDoc,
   setDoc,
 } from 'firebase/firestore';
+import { getUserIdByEmail } from '../../utils/constants/Firebase';
 import { auth } from "../../utils/constants/Firebase";
 import { RegistrationSchema } from "../../Schema/RegistrationSchema";
 import HelpIcon from "@mui/icons-material/Help";
@@ -20,6 +21,7 @@ import "./registration.css";
 import { Checkbox } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import Divider from "../../assets/images/Line 4.png";
+
 const initialValues = {
   firstName: "",
   lastName: "",
@@ -30,10 +32,17 @@ const initialValues = {
   password: "",
   confirmPassword: ""
 };
+
 const Registration = () => {
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(false);
+
+  const handleCheckboxChange = (event) => {
+    setAgreeTerms(event.target.checked);
+    setErrMsg(""); 
+  };
 
   const inputs = [
     {
@@ -88,78 +97,88 @@ const Registration = () => {
     }
   ];
   const { values, errors, handleBlur, touched, handleChange, handleSubmit } =
-    useFormik({
-      initialValues,
-      validationSchema: RegistrationSchema,
-      onSubmit: async (action) => {
-        if (!values.firstName || !values.email || !values.password) {
-          setErrMsg('Fill all Fields');
-          return;
+  useFormik({
+    initialValues,
+    validationSchema: RegistrationSchema,
+    onSubmit: async () => {
+      if (!values.firstName || !values.email || !values.password) {
+        setErrMsg('Fill all Fields');
+        return;
+      }
+      
+      if (!agreeTerms) {
+        setErrMsg('Please agree to the terms and conditions.');
+        return;
+      }
+
+      setErrMsg('');
+      setSubmitButtonDisabled(true);
+
+      try {
+        const uniqueId = uuidv4();
+
+        const userRef = doc(collection(db, 'users'), values.email);
+        await setDoc(userRef, {
+          firstName: values.firstName,
+          uniqueId: uniqueId, 
+        });
+
+        const res = await createUserWithEmailAndPassword(
+          auth,
+          values.email,
+          values.password
+        );
+
+        setSubmitButtonDisabled(false);
+
+        const userId = await getUserIdByEmail(values.email);
+
+        if (userId) {
+          navigate(`/dashboard/${userId}`);
+        } else {
+          setErrMsg("User not found.");
         }
-        setErrMsg('');
-        setSubmitButtonDisabled(true);
 
-        try {
-          const uniqueId = uuidv4();
+        console.log(res);
+      } catch (err) {
+        setSubmitButtonDisabled(false);
+        setErrMsg(err.message);
+        console.error(err);
+      }
+    },
+  });
 
-          const userRef = doc(collection(db, 'users'), values.email);
-          await setDoc(userRef, {
-            firstName: values.firstName,
-            uniqueId: uniqueId, 
-          });
+return (
+  <>
+    <section className="register-container">
+      <div className="form-container">
+        <div className="head reg-typography reg-link">
+          <Link to="/" className="reg-link">
+            Already a member?
+          </Link>
+          <PersonIcon />
+        </div>
 
-          const res = await createUserWithEmailAndPassword(
-            auth,
-            values.email,
-            values.password
-          );
-
-          setSubmitButtonDisabled(false);
-          const user = res.user;
-          console.log(user);
-          await updateProfile(user, {
-            displayName: values.firstName,
-          });
-
-          navigate(`/dashboard/${uniqueId}`);
-        } catch (err) {
-          setSubmitButtonDisabled(false);
-          setErrMsg(err.message);
-          console.error(err);
-        }
-      },
-    });
-
-  return (
-    <>
-      <section className="register-container">
-        <div className="form-container">
-          <div className="head reg-typography reg-link">
-            <Link to="/" className="reg-link">
-              Already a member?
-            </Link>
-            <PersonIcon />
+        <form onSubmit={handleSubmit} className="registration-form">
+          <div className="heading">
+            <h1 className="main-heading">Input your information</h1>
+            <p className="reg-info reg-typography">
+              We need you to help us with some basic information for your
+              account creation. Here are our
+              <span className="reg-link"> terms and conditions</span>. Please read
+              them carefully. We are GDPR compliant
+            </p>
           </div>
-
-          <form onSubmit={handleSubmit} className="registration-form">
-            <div className="heading">
-              <h1 className="main-heading">Input your information</h1>
-              <p className="reg-info reg-typography">
-                We need you to help us with some basic information for your
-                account creation. Here are our
-                <span className="reg-link"> terms and conditins</span>. Please
-                read them carefully. We are GDRP compliant
-              </p>
-            </div>
-            <div className="dotted-line">
-              <img src={Divider} alt="" />
-            </div>
-            <div className="field-container">
-              {inputs.map((input) => (
-                <div key={input.id}>
-                  <div className="label reg-typography">
-                    <label htmlFor={input.htmlFor}>{input.label}</label>
-                    <HelpIcon className="icon" />
+          <div className="dotted-line">
+            <img src={Divider} alt="" />
+          </div>
+          <div className="field-container">
+            {inputs.map((input) => (
+              <div key={input.id}>
+                <div className="label reg-typography">
+                  <label htmlFor={input.htmlFor}>{input.label}</label>
+                  <HelpIcon className="icon" />
+  
                   </div>
                   <div>
                     <TextField
@@ -180,38 +199,43 @@ const Registration = () => {
                       {errors[input.name]}
                     </p>
                   ) : null}
-                </div>
-              ))}
-            </div>
-            <div className="dotted-line">
-              <img src={Divider} alt="" />
-            </div>
-            <div className="flex">
-              <p className="error-message">{errMsg}</p>
-            </div>
-            <div>
-              <div className="flex ">
-                <p className="reg-typography terms">
-                  <Checkbox />I agree with
-                  <span className="reg-link"> terms and conditins.</span>
-                </p>
-                <Button
-                  type="submit"
-                  disabled={submitButtonDisabled}
-                  variant="contained"
-                  className="button"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Register
-                </Button>
+                
               </div>
+            ))}
+          </div>
+          <div className="dotted-line">
+            <img src={Divider} alt="" />
+          </div>
+          <div className="flex">
+            <p className="error-message">{errMsg}</p>
+          </div>
+          <div>
+            <div className="flex">
+              <p className="reg-typography terms">
+                <Checkbox
+                  checked={agreeTerms}
+                  onChange={handleCheckboxChange}
+                />
+                I agree with
+                <span className="reg-link"> terms and conditions.</span>
+              </p>
+              <Button
+                type="submit"
+                disabled={submitButtonDisabled || !agreeTerms}
+                variant="contained"
+                className="button"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Register
+              </Button>
             </div>
-          </form>
-        </div>
-        <div className="side"></div>
-      </section>
-    </>
-  );
+          </div>
+        </form>
+      </div>
+      <div className="side"></div>
+    </section>
+  </>
+);
 };
 
 export default Registration;
