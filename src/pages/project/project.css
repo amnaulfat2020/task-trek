@@ -34,6 +34,14 @@
   width: 5.9375rem !important;
     height: 2.25rem !important;
 }
+.updatebtn{
+  background-color: #00DB99 !important;
+  color: #fff !important;
+  margin: 2px;
+}
+.updatebtn span{
+  margin: 3px !important;
+}
 .new-project{
   margin: 6px 7px 0px 36px;
 }

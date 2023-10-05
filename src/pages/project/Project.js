@@ -15,17 +15,15 @@ import {
   deleteProject,
 } from "../../services/api";
 import { Link } from "react-router-dom";
-import AdditionalMenu from '../../layout/MenuBar';
 import AppHeader from "../../layout/MenuBar";
 import { useSearch, useMenuContext } from "../../contexts/SearchContext";
-import { useButton } from "../../contexts/NewContext";
 
 
 const Project = () => {
   const [projects, setProjects] = useState([]);
   const [newProject, setNewProject] = useState({
     title: "",
-    client: "",
+    StartDate: "",
     status: "In Progress",
     members: "",
     progress: 0,
@@ -37,6 +35,7 @@ const Project = () => {
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editingStartDate, setEditingStartDate] = useState(null);
   const [editingMembers, setEditingMembers] = useState(null);
+  const [editingTitle, setEditingTitle]= useState('');
 
   useEffect(() => {
     async function fetchProjectData() {
@@ -73,7 +72,7 @@ const Project = () => {
     await createProject({ ...newProject, tasks: taskList });
     setNewProject({
       title: "",
-      client: "",
+      StartDate: "",
       status: "In Progress",
       members: "",
       progress: 0,
@@ -102,6 +101,8 @@ const Project = () => {
       );
       const updatedProject = {
         ...currentProject,
+        title:
+          editingTitle !== null ? editingTitle : currentProject.title,
         StartDate:
           editingStartDate !== null
             ? editingStartDate
@@ -150,12 +151,13 @@ const Project = () => {
             <p>Project Title</p>
             <Input
               name="title"
+              required
               value={newProject.title}
               onChange={handleInputChange}
               placeholder="Project Title"
             />
           </div>
-          <Button className="newbtn" type="primary" htmlType="submit">
+          <Button className="newbtn createbtn" type="primary" htmlType="submit">
             Create
           </Button>
         </form>
@@ -196,10 +198,17 @@ const Project = () => {
         <div className="card-render" key={project.id}>
           <Card>
             <div className="card-header">
-              <h1>{title}</h1>
+            {editingProjectId === project.id ? (
+               <Input
+               type="text"
+               name="title"
+               value={editingTitle !== null ? editingTitle : ""}
+               onChange={(e) => setEditingTitle(e.target.value)}
+             />
+            ): ( <h1>{title}</h1> )}  
               <div className="icon">
                 {editingProjectId === project.id ? (
-                  <Button type="primary" onClick={handleUpdate}>
+                  <Button onClick={handleUpdate} className="updatebtn" >
                     Update
                   </Button>
                 ) : (
