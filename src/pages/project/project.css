@@ -3,15 +3,55 @@
     display: grid;
     grid-template-columns: repeat(3, 0fr);
     /* padding: 20px; */
-    grid-gap: 5px;
+    row-gap: 42px;
+   
   }
   .card-render {
-    padding: 20px;
-    width: 30.9375rem;
-    height: 18.75rem;
+    padding: 9px;
+    width: 26.9375rem;
+     height: 18.75rem;
     flex-shrink: 0;
   }
-  
+ 
+/* Navbar */
+.navbar{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 10px;
+
+}
+.newbtn{
+  border-radius: 1.625rem;
+  background: #00DB99 !important;
+  width: 7.9375rem;
+  height: 3.25rem;
+  flex-shrink: 0;
+  color: #FFF;
+
+}
+.createbtn{
+  width: 5.9375rem !important;
+    height: 2.25rem !important;
+}
+.updatebtn{
+  background-color: #00DB99 !important;
+  color: #fff !important;
+  margin: 2px;
+}
+.updatebtn span{
+  margin: 3px !important;
+}
+.new-project{
+  margin: 6px 7px 0px 36px;
+}
+
+.filterMenu{
+  width: 80%;
+  border: 1px solid #F1F2F7;
+  margin-top: 10px;
+  margin-left: auto;
+}
   .card-header {
     display: flex;
     flex-direction: row;
@@ -19,6 +59,7 @@
   }
   .card-header h1 {
     color: #3C557A !important;
+    text-transform: capitalize;
     font-size: 1.125rem;
     font-weight: 500;
     line-height: normal;
@@ -28,6 +69,9 @@
     color: #8b8b8b;
     border: none !important;
     background-color: none!important;
+  }
+  .padding{
+    padding: 0 !important;
   }
   .status {
     display: flex;

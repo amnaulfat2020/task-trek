@@ -30,7 +30,7 @@ const headerStyles = {
   pageTitle: {
     fontSize: '20px',
     fontWeight: 'bold',
-    margin: '0',
+    margin: '0', 
   },
   searchInput: {
     width: '200px',
@@ -44,6 +44,22 @@ const headerStyles = {
   avatar: {
     cursor: 'pointer',
   },
+  AdditonalMenuStyle: {
+    display: 'flex',
+  },
+  AdditonalMenuStyleMain:{
+    width:'80%', 
+    border: '1px solid #F1F2F7',
+    marginTop: '10px'
+  },
+
+  ButtonStyle: {
+    backgroundColor: '#00DB99',
+    padding: '10px 40px 35px 20px',
+    borderRadius: '26px',
+    marginTop: '10px',
+  }
+
 };
 
 export default headerStyles;

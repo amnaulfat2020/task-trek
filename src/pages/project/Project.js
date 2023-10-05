@@ -1,9 +1,22 @@
-import React, { useState, useEffect } from 'react';
-
-import { Card, Progress, Button, Input, Modal, List } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import { createProject, fetchProjects, updateProject, deleteProject } from '../../services/api';
-import { Link } from 'react-router-dom';
+import "./project.css";
+import headerStyles from '../../styles/headerStyles';
+import React, { useState, useEffect } from "react";
+import { Card, Progress, Button, Input, Modal, List, Menu, Popover } from "antd";
+import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import EditSvg from "../../assets/images/edit-pencil 1.svg";
+import redDotSvg from "../../assets/images/Ellipse red.svg";
+import greenDotSvg from "../../assets/images/Ellipse 12.svg";
+import yellowDotSvg from "../../assets/images/Ellipse yellow.svg";
+import Line3 from "../../assets/images/Line 3.png";
+import {
+  createProject,
+  fetchProjects,
+  updateProject,
+  deleteProject,
+} from "../../services/api";
+import { Link } from "react-router-dom";
+import AppHeader from "../../layout/MenuBar";
+import { useSearch, useMenuContext } from "../../contexts/SearchContext";
 import { useParams } from 'react-router-dom';
 
 const Project = () => {
@@ -19,10 +32,11 @@ const Project = () => {
   const [showInputFields, setShowInputFields] = useState(false);
   const [taskModalVisible, setTaskModalVisible] = useState(false);
   const [taskList, setTaskList] = useState([]);
-  const [taskText, setTaskText] = useState('');
-  const [editingProjectId, setEditingProjectId] = useState(null); 
-  const [editingStartDate, setEditingStartDate] = useState(null); 
-  const [editingMembers, setEditingMembers] = useState(null); 
+  const [taskText, setTaskText] = useState("");
+  const [editingProjectId, setEditingProjectId] = useState(null);
+  const [editingStartDate, setEditingStartDate] = useState(null);
+  const [editingMembers, setEditingMembers] = useState(null);
+  const [editingTitle, setEditingTitle]= useState(''); 
 
   useEffect(() => {
     async function fetchProjectData() {
@@ -31,6 +45,7 @@ const Project = () => {
     }
     fetchProjectData();
   }, [userId]);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -42,9 +57,9 @@ const Project = () => {
   };
 
   const handleTaskAdd = () => {
-    if (taskText.trim() !== '') {
+    if (taskText.trim() !== "") {
       setTaskList([...taskList, taskText]);
-      setTaskText('');
+      setTaskText("");
     }
   };
 
@@ -56,6 +71,19 @@ const Project = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    await createProject({ ...newProject, tasks: taskList });
+    setNewProject({
+      title: "",
+      StartDate: "",
+      status: "In Progress",
+      members: "",
+      progress: 0,
+    });
+    setTaskList([]);
+    const updatedProjectList = await fetchProjects();
+    setProjects(updatedProjectList);
+    setShowInputFields(true);
+    setTaskModalVisible(false);
     try {
       await createProject({ ...newProject, tasks: taskList, userId }); 
       setNewProject({
@@ -88,16 +116,24 @@ const Project = () => {
 
   const handleUpdate = async () => {
     if (editingProjectId !== null) {
-      const currentProject = projects.find((project) => project.id === editingProjectId);
+      const currentProject = projects.find(
+        (project) => project.id === editingProjectId
+      );
       const updatedProject = {
         ...currentProject,
-        StartDate: editingStartDate !== null ? editingStartDate : currentProject.StartDate,
-        members: editingMembers !== null ? editingMembers : currentProject.members,
+        title:
+          editingTitle !== null ? editingTitle : currentProject.title,
+        StartDate:
+          editingStartDate !== null
+            ? editingStartDate
+            : currentProject.StartDate,
+        members:
+          editingMembers !== null ? editingMembers : currentProject.members,
         status: newProject.status,
         progress: newProject.progress,
       };
       await updateProject(editingProjectId, updatedProject);
-      setEditingProjectId(null); 
+      setEditingProjectId(null);
       const updatedProjectList = await fetchProjects();
       setProjects(updatedProjectList);
     }
@@ -116,173 +152,269 @@ const Project = () => {
     );
     setProjects(updatedProjects);
   };
-  const cardRender = (project) => {
-    const { title, client, status, members, progress } = project;
 
-    let color = 'red';
-    if (progress >= 50) {
-      color = 'yellow';
-    }
-    if (progress === 100) {
-      color = 'green';
-    }
-
-    return (
-      <div className="card-render" key={project.id}>
-        <Card>
-          <div className="card-header">
-            <h1>
-              <Link to={`/tasks/`}>{title}</Link>
-            </h1>
-            <div className="icon">
-              <Button type="text" onClick={() => handleEdit(project.id)}>
-                Edit
-              </Button>
-              <Button type="text" onClick={() => handleDelete(project.id)}>
-                Delete
-              </Button>
-            </div>
-          </div>
-          <div className="attribute">
-  <p>Start Date</p>
-  {editingProjectId === project.id ? (
-    <Input
-      name="StartDate"
-      value={editingStartDate !== null ? editingStartDate : ''}
-      onChange={(e) => setEditingStartDate(e.target.value)}
-    />
-  ) : (
-    <p>{localStorage.getItem(`startDate_${project.id}`) || project.StartDate}</p>
-  )}
-</div>
-          <div className="attribute">
-            <p>Status</p>
-            {editingProjectId === project.id ? (
-              <select
-                name="status"
-                value={newProject.status}
-                onChange={(e) => {
-                  setNewProject({ ...newProject, status: e.target.value });
-                }}
-              >
-                <option value="In Progress">In Progress</option>
-                <option value="Discussing">Discussing</option>
-                <option value="Completed">Completed</option>
-                <option value="Review">Review</option>
-                <option value="Cancelled">Cancelled</option>
-                <option value="On Hold">On Hold</option>
-              </select>
-            ) : (
-              <p>{status}</p>
-            )}
-          </div>
-          <div className="attribute">
-            <p>Members</p>
-            {editingProjectId === project.id ? (
-              <Input
-                name="members"
-                value={editingMembers !== null ? editingMembers : members}
-                onChange={(e) => setEditingMembers(e.target.value)}
-              />
-            ) : (
-              <p>{members}</p>
-            )}
-          </div>
-          <div className="attribute">
-            <p>Progress</p>
-            {editingProjectId === project.id ? (
-              <Input
-                type="number"
-                name="progress"
-                value={newProject.progress}
-                onChange={(e) => {
-                  setNewProject({
-                    ...newProject,
-                    progress: parseInt(e.target.value),
-                  });
-                }}
-              />
-            ) : (
-              <div className="progress-bar">
-                <Progress percent={progress} strokeColor={color} />
-              </div>
-            )}
-          </div>
-          {editingProjectId === project.id ? (
-            <Button type="primary" onClick={handleUpdate}>
-              Update
-            </Button>
-          ) : null}
-
-          {project.tasks && project.tasks.length > 0 && (
-            <div className="task-list">
-              <h3>Tasks:</h3>
-              <List
-                dataSource={project.tasks}
-                renderItem={(task, index) => (
-                  <List.Item key={index}>
-                    {task}
-                    <Button type="text" onClick={() => handleTaskDelete(index)}>
-                      Delete
-                    </Button>
-                  </List.Item>
-                )}
-              />
-            </div>
-          )}
-          <div className="task-input">
-            <Link to="/tasks">
-              <Button type="primary">Task</Button>
-            </Link>
-            <Modal
-              title="Add Task"
-              visible={taskModalVisible}
-              onOk={handleTaskAdd}
-              onCancel={toggleTaskModal}
-            >
-              <Input
-                placeholder="Task Name"
-                value={taskText}
-                onChange={handleTaskInputChange}
-              />
-            </Modal>
-          </div>
-        </Card>
-      </div>
-    );
+  const handleStatusFilterChange = ({ key }) => {
+    // console.log("Selected Status:", selectedStatus);
+    setMenuFilter(key);
   };
 
-  return (
-    <div>
-      <div className="project-title">
-        <h1>Projects</h1>
-        <Button type="primary" icon={<PlusOutlined />} onClick={toggleInputFields}>
-          New Project
-        </Button>
-      </div>
+  const { searchQuery } = useSearch(); // Access the searchQuery from the context
+  const { menuFilter, setMenuFilter } = useMenuContext();
 
-      {showInputFields && (
+
+    const content= (
+      <div>
+   
         <form onSubmit={handleSubmit}>
-          <div className="attribute">
+          <div >
             <p>Project Title</p>
             <Input
               name="title"
+              required
               value={newProject.title}
               onChange={handleInputChange}
               placeholder="Project Title"
             />
           </div>
-          <Button type="primary" htmlType="submit">
-            Create Project
+          <Button className="newbtn createbtn" type="primary" htmlType="submit">
+            Create
           </Button>
         </form>
-      )}
 
+
+      </div>
+
+    )
+
+  const cardRender = (project) => {
+    const { title, startDate, status, members, progress } = project;
+
+    let statusImg = redDotSvg;
+    let statusColor = "red";
+    if (status === "Completed") {
+      statusImg = greenDotSvg;
+      statusColor = "green";
+    } else if (status === "On Hold" || status === "Review") {
+      statusImg = yellowDotSvg;
+      statusColor = "yellow";
+    }
+
+    let color = "red";
+    if (progress >= 50) {
+      color = "yellow";
+    }
+    if (progress === 100) {
+      color = "green";
+    }
+   
+    const filteredBySearch =
+      !searchQuery ||
+      project.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const filteredByMenu =
+      menuFilter === "All" || project.status === menuFilter;
+    if (filteredBySearch && filteredByMenu)
+      return (
+        <div className="card-render" key={project.id}>
+          <Card>
+            <div className="card-header">
+            {editingProjectId === project.id ? (
+               <Input
+               type="text"
+               name="title"
+               value={editingTitle !== null ? editingTitle : ""}
+               onChange={(e) => setEditingTitle(e.target.value)}
+             />
+            ): ( <h1>{title}</h1> )}  
+              <div className="icon">
+                {editingProjectId === project.id ? (
+                  <Button onClick={handleUpdate} className="updatebtn" >
+                    Update
+                  </Button>
+                ) : (
+                  <div className="padding">
+                    <Button
+                      className="padding"
+                      type="text"
+                      onClick={() => handleEdit(project.id)}
+                    >
+                      <span>
+                        {" "}
+                        <img src={EditSvg} alt="edit icon" />{" "}
+                      </span>
+                    </Button>
+                    <Button
+                      className="padding"
+                      type="text"
+                      onClick={() => handleDelete(project.id)}
+                    >
+                      <span>
+                        {" "}
+                        <DeleteOutlined />{" "}
+                      </span>
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="status">
+              <span>
+                {" "}
+                <img src={statusImg} alt="dot" />{" "}
+              </span>
+              {editingProjectId === project.id ? (
+                <select
+                  name="status"
+                  value={newProject.status}
+                  onChange={(e) => {
+                    setNewProject({ ...newProject, status: e.target.value });
+                  }}
+                >
+                  <option value="In Progress">In Progress</option>
+                  <option value="Discussing">Discussing</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Review">Review</option>
+                  <option value="Cancelled">Cancelled</option>
+                  <option value="On Hold">On Hold</option>
+                </select>
+              ) : (
+                <p className={statusColor}>{status}</p>
+              )}
+            </div>
+            <div className="Task-area">
+              {/* start date */}
+              <div className="startDate">
+                <p>Start Date</p>
+                {editingProjectId === project.id ? (
+                  <Input
+                    type="date"
+                    name="StartDate"
+                    value={editingStartDate !== null ? editingStartDate : ""}
+                    onChange={(e) => setEditingStartDate(e.target.value)}
+                  />
+                ) : (
+                  <p>
+                    {localStorage.getItem(`startDate_${project.id}`) ||
+                      project.StartDate}
+                  </p>
+                )}
+              </div>
+              {/* tasks box */}
+              <div className="tasks-box">
+                <div className="tasks">
+                  <p style={{ marginLeft: "8px" }}>{14}</p>
+                  {project.tasks && project.tasks.length > 0 && (
+                    <div className="task-list">
+                      <List
+                        dataSource={project.tasks}
+                        renderItem={(task, index) => (
+                          <List.Item key={index}>
+                            {task}
+                            <Button
+                              type="text"
+                              onClick={() => handleTaskDelete(index)}
+                            >
+                              Delete
+                            </Button>
+                          </List.Item>
+                        )}
+                      />
+                    </div>
+                  )}
+                  <div className="task-input">
+                    <Link to="/tasks">
+                      <p>Tasks</p>
+                    </Link>
+                    <Modal
+                      title="Add Task"
+                      visible={taskModalVisible}
+                      onOk={handleTaskAdd}
+                      onCancel={toggleTaskModal}
+                    >
+                      <Input
+                        placeholder="Task Name"
+                        value={taskText}
+                        onChange={handleTaskInputChange}
+                      />
+                    </Modal>
+                  </div>
+                </div>
+                <div className="line3">
+                  <img src={Line3} alt="line3" />
+                </div>
+
+                <div className="users">
+                  <p style={{ marginLeft: "12px" }}>{4}</p>
+                  <p>Users</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="attribute">
+              <p>Members</p>
+              {editingProjectId === project.id ? (
+                <Input
+                  name="members"
+                  value={editingMembers !== null ? editingMembers : members}
+                  onChange={(e) => setEditingMembers(e.target.value)}
+                />
+              ) : (
+                <p>{members}</p>
+              )}
+            </div>
+            <div className="attribute">
+              <p>Progress</p>
+              {editingProjectId === project.id ? (
+                <Input
+                  type="number"
+                  name="progress"
+                  value={newProject.progress}
+                  onChange={(e) => {
+                    setNewProject({
+                      ...newProject,
+                      progress: parseInt(e.target.value),
+                    });
+                  }}
+                />
+              ) : (
+                <div className="progress-bar">
+                  <Progress percent={progress} strokeColor={color} />
+                </div>
+              )}
+            </div>
+          </Card>
+        </div>
+      );
+  };
+
+  return (
+    <div>
+      <AppHeader />
+      <div className="navbar">
+        {/* new project button */}
+      <div className="new-project">
+      <Popover placement= "bottom" content={content}>
+        <Button className="newbtn">
+          <PlusOutlined />
+          New</Button>
+      </Popover>
+      </div>
+
+      {/* filterMenu */}
+      <div className="filterMenu">
+        <Menu style={headerStyles.AdditonalMenuStyle} value={menuFilter} onClick={handleStatusFilterChange}>
+          <Menu.Item key="All">All</Menu.Item>
+          <Menu.Item key="In Progress">In Progress</Menu.Item>
+          <Menu.Item key="On Hold">On Hold</Menu.Item>
+          <Menu.Item key="Completed">Completed</Menu.Item>
+          {/* Add more menu items as needed */}
+        </Menu>
+
+      </div>
+
+      </div>
       <div className="card">
         {projects.map((project) => (
-          <div key={project.id}>
-            {cardRender(project)}
-          </div>
+          <div key={project.id}>{cardRender(project)}</div>
         ))}
       </div>
     </div>
@@ -290,3 +422,4 @@ const Project = () => {
 };
 
 export default Project;
+
