@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import {createUserWithEmailAndPassword, updateProfile} from 'firebase/auth';
-import { auth  } from "../../utils/constants/Firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../../utils/constants/Firebase";
 import { RegistrationSchema } from "../../Schema/RegistrationSchema";
 import HelpIcon from "@mui/icons-material/Help";
 import TextField from "@mui/material/TextField";
@@ -19,12 +19,12 @@ const initialValues = {
   employees: "",
   phoneNumber: "",
   password: "",
-  confirmPassword: "",
+  confirmPassword: ""
 };
 const Registration = () => {
   const navigate = useNavigate();
-  const [errMsg, setErrMsg]= useState("")
-  const [submitButtonDisabled, setSubmitButtonDisabled]= useState(false);
+  const [errMsg, setErrMsg] = useState("");
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
   const inputs = [
     {
       id: 1,
@@ -32,7 +32,7 @@ const Registration = () => {
       name: "firstName",
       type: "text",
       placeholder: "John",
-      label: "First name",
+      label: "First name"
     },
     {
       id: 2,
@@ -41,7 +41,7 @@ const Registration = () => {
       type: "text",
       placeholder: "Smith",
       label: "Last name",
-      required: true,
+      required: true
     },
     {
       id: 3,
@@ -49,7 +49,7 @@ const Registration = () => {
       name: "Company",
       type: "text",
       placeholder: "John Smith",
-      label: "Company name",
+      label: "Company name"
     },
     {
       id: 4,
@@ -58,7 +58,7 @@ const Registration = () => {
       type: "email",
       placeholder: "test@example.com",
       label: "Work Email",
-      required: true,
+      required: true
     },
     {
       id: 5,
@@ -66,7 +66,7 @@ const Registration = () => {
       name: "password",
       type: "password",
       placeholder: "Password",
-      label: "Password",
+      label: "Password"
     },
     {
       id: 6,
@@ -74,44 +74,39 @@ const Registration = () => {
       name: "confirmPassword",
       type: "password",
       placeholder: "Confirm Password",
-      label: "Confirm Password",
-    },
+      label: "Confirm Password"
+    }
   ];
   const { values, errors, handleBlur, touched, handleChange, handleSubmit } =
     useFormik({
       initialValues,
       validationSchema: RegistrationSchema,
-       onSubmit: (action) => {
-       
-
-
-
-        // action.resetForm();
-        if(!values.firstName || !values.email || !values.password){
+      onSubmit: (action) => {
+        //action.resetForm();
+        if (!values.firstName || !values.email || !values.password) {
           setErrMsg("Fill all Fields");
           return;
         }
         setErrMsg("");
-        setSubmitButtonDisabled(true)
+        setSubmitButtonDisabled(true);
         createUserWithEmailAndPassword(auth, values.email, values.password)
-        .then(async (res) => {
-          setSubmitButtonDisabled(false);
-          const user= res.user;
-          console.log(user);
-          await updateProfile(user, {
-            displayName: values.firstName,
+          .then(async (res) => {
+            setSubmitButtonDisabled(false);
+            const user = res.user;
+            console.log(user);
+            await updateProfile(user, {
+              displayName: values.firstName
+            });
+            navigate("/dashboard");
+            console.log(res);
+          })
+          .catch((err) => {
+            setSubmitButtonDisabled(false);
+            setErrMsg(err.message);
+            console.log(err);
           });
-          navigate("/dashboard")
-          console.log(res);
-        })
-        .catch((err) => {
-          setSubmitButtonDisabled(false);
-          setErrMsg(err.message);
-          console.log(err)
-        })
-      },
+      }
     });
-
 
   return (
     <>
@@ -130,8 +125,8 @@ const Registration = () => {
               <p className="reg-info reg-typography">
                 We need you to help us with some basic information for your
                 account creation. Here are our
-                <span className="reg-link"> terms and conditins</span>. Please read
-                them carefully. We are GDRP compliant
+                <span className="reg-link"> terms and conditins</span>. Please
+                read them carefully. We are GDRP compliant
               </p>
             </div>
             <div className="dotted-line">

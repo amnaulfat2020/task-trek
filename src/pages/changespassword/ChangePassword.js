@@ -1,5 +1,5 @@
 import { Col, Row, Typography } from "antd";
-import Line from "../assets/images/Line 7.png";
+import Line from "../../assets/images/Line 7.png";
 import { Button, Form, Input } from "antd";
 import {
   UserOutlined,
@@ -7,10 +7,9 @@ import {
   QuestionCircleFilled,
 } from "@ant-design/icons";
 import { useFormik } from "formik";
-import bgimg from "../assets/images/Layer 8.png";
-import { LoginSchema } from "../Schema/LoginSchema";
+import { LoginSchema } from "../../Schema/LoginSchema";
 import { useNavigate } from "react-router-dom";
-
+import './changePassword.css'
 
 function MouseOver(event) {
   event.target.style.color = "black";
@@ -21,8 +20,6 @@ function MouseOut(event) {
 }
 
 const ChangePassword = () => {
-  // const [remember, setRemember] = useState(false);
-
   const formik = useFormik({
     initialValues: {
       password: "",
@@ -31,7 +28,6 @@ const ChangePassword = () => {
     validationSchema: LoginSchema,
     onSubmit: async (values, actions) => {
       console.log(values);
-      // console.log(actions);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       actions.resetForm();
     },
@@ -41,8 +37,7 @@ const ChangePassword = () => {
 
 const navigate = useNavigate()
   return (
-    <Row className="boxStyle">
-      {/* 1st column */}
+    <Row className="change-password-container">
       <Col xs={24} sm={24} md={10} lg={8} xl={8}>
         <div className="column1">
           <div className="login-heading change">
@@ -133,10 +128,8 @@ const navigate = useNavigate()
             </div>
 
             {/* singin button */}
-            <div className="">
+            <div>
               <Button block type="submit" className="btn change-btn">Change Password</Button>
-
-
             </div>
           </Form>
 
@@ -167,8 +160,7 @@ const navigate = useNavigate()
         </div>
       </Col>
       {/* column2 */}
-      <Col md={14} lg={16} xl={16} className="column2">
-        <img src={bgimg} alt="column2 img" className="vactor-img" />
+      <Col md={14} lg={16} xl={16} className="changepassword-column2">
       </Col>
     </Row>
   );

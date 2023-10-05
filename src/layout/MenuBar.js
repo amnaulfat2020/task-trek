@@ -1,36 +1,22 @@
-import React from 'react';
-import { Input, Space, Badge, Avatar, Dropdown, Menu, Typography } from 'antd';
+import React, { useContext } from 'react';
+import { Input, Space, Badge, Avatar, Typography } from 'antd';
 import {
   SearchOutlined,
   BellOutlined,
   MessageOutlined,
   SettingOutlined,
   UserOutlined,
-  LogoutOutlined,
 } from '@ant-design/icons';
-
 import headerStyles from '../styles/headerStyles.js';
+import { Link, useNavigate } from 'react-router-dom';
+const { Text } = Typography;
 
-
-const MenuBar = ({ currentPage }) => {
-  const menu = (
-    <Menu>
-      <Menu.Item key="settings" icon={<SettingOutlined />}>
-        Settings
-      </Menu.Item>
-      <Menu.Item key="profile" icon={<UserOutlined />}>
-        Profile
-      </Menu.Item>
-      <Menu.Item key="logout" icon={<LogoutOutlined />}>
-        Logout
-      </Menu.Item>
-    </Menu>
-  );
-
+const MenuBar = () => {
+  const navigate = useNavigate()
   return (
     <div style={headerStyles.container}>
       <div style={headerStyles.leftSection}>
-        <h1 style={headerStyles.pageTitle}>{currentPage}</h1>
+        <Link to='/dashboard' style={headerStyles.userLink} >Dashboard</Link>
       </div>
 
       <div style={headerStyles.centerSection}>
@@ -52,10 +38,12 @@ const MenuBar = ({ currentPage }) => {
           </Badge>
 
           <SettingOutlined style={headerStyles.icon} />
-          <Dropdown overlay={menu} trigger={['click']}>
-            <Avatar icon={<UserOutlined />} style={headerStyles.avatar} />
-          </Dropdown>
+          <Avatar icon={<UserOutlined />} style={headerStyles.avatar} onClick={() => {
+            navigate('./user-profile')
+          }} />
         </Space>
+        <Text>Moiz</Text>
+        <Text>Email</Text>
       </div>
     </div>
   );
