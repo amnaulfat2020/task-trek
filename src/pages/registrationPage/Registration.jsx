@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import {createUserWithEmailAndPassword, updateProfile} from 'firebase/auth';
-import { auth  } from "../../utils/constants/Firebase";
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { db } from '../../utils/constants/Firebase'; 
+import { v4 as uuidv4 } from 'uuid';
+import {
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+} from 'firebase/firestore';
+import { auth } from "../../utils/constants/Firebase";
 import { RegistrationSchema } from "../../Schema/RegistrationSchema";
 import HelpIcon from "@mui/icons-material/Help";
 import TextField from "@mui/material/TextField";
@@ -23,8 +31,9 @@ const initialValues = {
 };
 const Registration = () => {
   const navigate = useNavigate();
-  const [errMsg, setErrMsg]= useState("")
-  const [submitButtonDisabled, setSubmitButtonDisabled]= useState(false);
+  const [errMsg, setErrMsg] = useState("");
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+
   const inputs = [
     {
       id: 1,
@@ -81,34 +90,42 @@ const Registration = () => {
     useFormik({
       initialValues,
       validationSchema: RegistrationSchema,
-       onSubmit: (action) => {
-       
-
-
-
-        // action.resetForm();
-        if(!values.firstName || !values.email || !values.password){
-          setErrMsg("Fill all Fields");
+      onSubmit: async (action) => {
+        if (!values.firstName || !values.email || !values.password) {
+          setErrMsg('Fill all Fields');
           return;
         }
-        setErrMsg("");
-        setSubmitButtonDisabled(true)
-        createUserWithEmailAndPassword(auth, values.email, values.password)
-        .then(async (res) => {
+        setErrMsg('');
+        setSubmitButtonDisabled(true);
+
+        try {
+          const uniqueId = uuidv4();
+
+          const userRef = doc(collection(db, 'users'), values.email);
+          await setDoc(userRef, {
+            firstName: values.firstName,
+            uniqueId: uniqueId, 
+          });
+
+          const res = await createUserWithEmailAndPassword(
+            auth,
+            values.email,
+            values.password
+          );
+
           setSubmitButtonDisabled(false);
-          const user= res.user;
+          const user = res.user;
           console.log(user);
           await updateProfile(user, {
             displayName: values.firstName,
           });
-          navigate("/dashboard")
-          console.log(res);
-        })
-        .catch((err) => {
+
+          navigate(`/dashboard/${uniqueId}`);
+        } catch (err) {
           setSubmitButtonDisabled(false);
           setErrMsg(err.message);
-          console.log(err)
-        })
+          console.error(err);
+        }
       },
     });
 

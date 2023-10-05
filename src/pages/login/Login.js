@@ -42,12 +42,12 @@ const Login = () => {
         // login Authentication 
         setSubmitButtonDisabled(true);
         signInWithEmailAndPassword(auth, values.email, values.password)
-          .then(async (res) => {
-             setSubmitButtonDisabled(false);
-
-             navigate("/dashboard");
-             console.log(res);
-          })
+        .then(async (res) => {
+          setSubmitButtonDisabled(false);
+          console.log("Redirecting to dashboard with user ID:", res.user.uid);
+          navigate(`/dashboard/${res.user.uid}`);
+          console.log(res);
+        })
           .catch((err) => {
             console.error("Firebase authentication error:", err);
             setSubmitButtonDisabled(false);
@@ -55,9 +55,6 @@ const Login = () => {
           });
       },
     });
-
-  //  console.log(handleSubmit);
-
   return (
     <Row className="boxStyle">
       {/* 1st column */}

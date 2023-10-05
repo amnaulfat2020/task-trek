@@ -1,44 +1,78 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Progress } from 'antd'; 
-import { EditOutlined } from '@ant-design/icons';
-import {createProject, fetchProjects, updateProject, deleteProject,} from '../services/api';
+import { Card, Progress, Button, Input, Modal, List } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { createProject, fetchProjects, updateProject, deleteProject } from '../../services/api';
+import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const Project = () => {
+  const { userId } = useParams();
   const [projects, setProjects] = useState([]);
   const [newProject, setNewProject] = useState({
     title: '',
     client: '',
-    status: 'In Progress', 
+    status: 'In Progress',
     members: '',
-    progress: 0, 
+    progress: 0,
   });
-  const [editingProject, setEditingProject] = useState(null);
+  const [showInputFields, setShowInputFields] = useState(false);
+  const [taskModalVisible, setTaskModalVisible] = useState(false);
+  const [taskList, setTaskList] = useState([]);
+  const [taskText, setTaskText] = useState('');
+  const [editingProjectId, setEditingProjectId] = useState(null); 
+  const [editingStartDate, setEditingStartDate] = useState(null); 
+  const [editingMembers, setEditingMembers] = useState(null); 
 
   useEffect(() => {
     async function fetchProjectData() {
-      const projectList = await fetchProjects();
+      const projectList = await fetchProjects(userId);
       setProjects(projectList);
     }
     fetchProjectData();
-  }, []);
+  }, [userId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewProject({ ...newProject, [name]: value });
   };
 
+  const handleTaskInputChange = (e) => {
+    setTaskText(e.target.value);
+  };
+
+  const handleTaskAdd = () => {
+    if (taskText.trim() !== '') {
+      setTaskList([...taskList, taskText]);
+      setTaskText('');
+    }
+  };
+
+  const handleTaskDelete = (index) => {
+    const updatedTaskList = [...taskList];
+    updatedTaskList.splice(index, 1);
+    setTaskList(updatedTaskList);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createProject(newProject);
-    setNewProject({
-      title: '',
-      client: '',
-      status: 'In Progress', 
-      members: '',
-      progress: 0, 
-    });
-    const updatedProjectList = await fetchProjects();
-    setProjects(updatedProjectList);
+    try {
+      await createProject({ ...newProject, tasks: taskList, userId }); 
+      setNewProject({
+        title: '',
+        client: '',
+        status: 'In Progress',
+        members: '',
+        progress: 0,
+      });
+      setTaskList([]);
+      const updatedProjectList = await fetchProjects(userId);
+      setProjects(updatedProjectList);
+      setShowInputFields(false);
+      setTaskModalVisible(false);
+    } catch (error) {
+      console.error('Error creating project: ', error);
+      // Handle error here
+    }
   };
 
   const handleDelete = async (projectId) => {
@@ -48,25 +82,45 @@ const Project = () => {
   };
 
   const handleEdit = (projectId) => {
-    const projectToEdit = projects.find((project) => project.id === projectId);
-    setEditingProject(projectToEdit);
+    setEditingProjectId(projectId); 
   };
 
   const handleUpdate = async () => {
-    if (editingProject) {
-      await updateProject(editingProject.id, editingProject);
-      setEditingProject(null);
+    if (editingProjectId !== null) {
+      const currentProject = projects.find((project) => project.id === editingProjectId);
+      const updatedProject = {
+        ...currentProject,
+        StartDate: editingStartDate !== null ? editingStartDate : currentProject.StartDate,
+        members: editingMembers !== null ? editingMembers : currentProject.members,
+        status: newProject.status,
+        progress: newProject.progress,
+      };
+      await updateProject(editingProjectId, updatedProject);
+      setEditingProjectId(null); 
       const updatedProjectList = await fetchProjects();
       setProjects(updatedProjectList);
     }
   };
 
-  const cardRender = (project) => {
-    const { title, client, status, members, progress } = editingProject || project;
+  const toggleInputFields = () => {
+    setShowInputFields(!showInputFields);
+  };
 
-    let color = 'red'; 
+  const toggleTaskModal = () => {
+    setTaskModalVisible(!taskModalVisible);
+  };
+  const updateProjectInState = (projectId, updatedProject) => {
+    const updatedProjects = projects.map((project) =>
+      project.id === projectId ? updatedProject : project
+    );
+    setProjects(updatedProjects);
+  };
+  const cardRender = (project) => {
+    const { title, client, status, members, progress } = project;
+
+    let color = 'red';
     if (progress >= 50) {
-      color = 'light';
+      color = 'yellow';
     }
     if (progress === 100) {
       color = 'green';
@@ -76,35 +130,40 @@ const Project = () => {
       <div className="card-render" key={project.id}>
         <Card>
           <div className="card-header">
-            <h1>{title}</h1>
+            <h1>
+              <Link to={`/tasks/`}>{title}</Link>
+            </h1>
             <div className="icon">
-            <EditOutlined />
+              <Button type="text" onClick={() => handleEdit(project.id)}>
+                Edit
+              </Button>
+              <Button type="text" onClick={() => handleDelete(project.id)}>
+                Delete
+              </Button>
             </div>
           </div>
           <div className="attribute">
-            <p>Client</p>
-            <input
-              type="text"
-              name="client"
-              value={client}
-              onChange={(e) => {
-                if (editingProject) {
-                  setEditingProject({ ...editingProject, client: e.target.value });
-                }
-              }}
-            />
-          </div>
+  <p>Start Date</p>
+  {editingProjectId === project.id ? (
+    <Input
+      name="StartDate"
+      value={editingStartDate !== null ? editingStartDate : ''}
+      onChange={(e) => setEditingStartDate(e.target.value)}
+    />
+  ) : (
+    <p>{localStorage.getItem(`startDate_${project.id}`) || project.StartDate}</p>
+  )}
+</div>
           <div className="attribute">
             <p>Status</p>
-            {editingProject ? (
+            {editingProjectId === project.id ? (
               <select
                 name="status"
-                value={status}
+                value={newProject.status}
                 onChange={(e) => {
-                  setEditingProject({ ...editingProject, status: e.target.value });
+                  setNewProject({ ...newProject, status: e.target.value });
                 }}
               >
-                {/* Options for status */}
                 <option value="In Progress">In Progress</option>
                 <option value="Discussing">Discussing</option>
                 <option value="Completed">Completed</option>
@@ -118,26 +177,28 @@ const Project = () => {
           </div>
           <div className="attribute">
             <p>Members</p>
-            <input
-              type="text"
-              name="members"
-              value={members}
-              onChange={(e) => {
-                if (editingProject) {
-                  setEditingProject({ ...editingProject, members: e.target.value });
-                }
-              }}
-            />
+            {editingProjectId === project.id ? (
+              <Input
+                name="members"
+                value={editingMembers !== null ? editingMembers : members}
+                onChange={(e) => setEditingMembers(e.target.value)}
+              />
+            ) : (
+              <p>{members}</p>
+            )}
           </div>
           <div className="attribute">
             <p>Progress</p>
-            {editingProject ? (
-              <input
+            {editingProjectId === project.id ? (
+              <Input
                 type="number"
                 name="progress"
-                value={progress}
+                value={newProject.progress}
                 onChange={(e) => {
-                  setEditingProject({ ...editingProject, progress: parseInt(e.target.value) });
+                  setNewProject({
+                    ...newProject,
+                    progress: parseInt(e.target.value),
+                  });
                 }}
               />
             ) : (
@@ -146,14 +207,45 @@ const Project = () => {
               </div>
             )}
           </div>
-          {editingProject ? (
-            <button onClick={handleUpdate}>Update</button>
-          ) : (
-            <div>
-              <button onClick={() => handleEdit(project.id)}>Edit</button>
-              <button onClick={() => handleDelete(project.id)}>Delete</button>
+          {editingProjectId === project.id ? (
+            <Button type="primary" onClick={handleUpdate}>
+              Update
+            </Button>
+          ) : null}
+
+          {project.tasks && project.tasks.length > 0 && (
+            <div className="task-list">
+              <h3>Tasks:</h3>
+              <List
+                dataSource={project.tasks}
+                renderItem={(task, index) => (
+                  <List.Item key={index}>
+                    {task}
+                    <Button type="text" onClick={() => handleTaskDelete(index)}>
+                      Delete
+                    </Button>
+                  </List.Item>
+                )}
+              />
             </div>
           )}
+          <div className="task-input">
+            <Link to="/tasks">
+              <Button type="primary">Task</Button>
+            </Link>
+            <Modal
+              title="Add Task"
+              visible={taskModalVisible}
+              onOk={handleTaskAdd}
+              onCancel={toggleTaskModal}
+            >
+              <Input
+                placeholder="Task Name"
+                value={taskText}
+                onChange={handleTaskInputChange}
+              />
+            </Modal>
+          </div>
         </Card>
       </div>
     );
@@ -161,18 +253,37 @@ const Project = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="title"
-          value={newProject.title}
-          onChange={handleInputChange}
-          placeholder="Project Title"
-        />
-        <button type="submit">Create Project</button>
-      </form>
+      <div className="project-title">
+        <h1>Projects</h1>
+        <Button type="primary" icon={<PlusOutlined />} onClick={toggleInputFields}>
+          New Project
+        </Button>
+      </div>
 
-      <div className="card">{projects.map((project) => cardRender(project))}</div>
+      {showInputFields && (
+        <form onSubmit={handleSubmit}>
+          <div className="attribute">
+            <p>Project Title</p>
+            <Input
+              name="title"
+              value={newProject.title}
+              onChange={handleInputChange}
+              placeholder="Project Title"
+            />
+          </div>
+          <Button type="primary" htmlType="submit">
+            Create Project
+          </Button>
+        </form>
+      )}
+
+      <div className="card">
+        {projects.map((project) => (
+          <div key={project.id}>
+            {cardRender(project)}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
