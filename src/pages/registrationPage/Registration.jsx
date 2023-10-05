@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
+
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { db } from '../../utils/constants/Firebase'; 
 import { v4 as uuidv4 } from 'uuid';
@@ -29,7 +30,7 @@ const initialValues = {
   employees: "",
   phoneNumber: "",
   password: "",
-  confirmPassword: "",
+  confirmPassword: ""
 };
 
 const Registration = () => {
@@ -50,7 +51,7 @@ const Registration = () => {
       name: "firstName",
       type: "text",
       placeholder: "John",
-      label: "First name",
+      label: "First name"
     },
     {
       id: 2,
@@ -59,7 +60,7 @@ const Registration = () => {
       type: "text",
       placeholder: "Smith",
       label: "Last name",
-      required: true,
+      required: true
     },
     {
       id: 3,
@@ -67,7 +68,7 @@ const Registration = () => {
       name: "Company",
       type: "text",
       placeholder: "John Smith",
-      label: "Company name",
+      label: "Company name"
     },
     {
       id: 4,
@@ -76,7 +77,7 @@ const Registration = () => {
       type: "email",
       placeholder: "test@example.com",
       label: "Work Email",
-      required: true,
+      required: true
     },
     {
       id: 5,
@@ -84,7 +85,7 @@ const Registration = () => {
       name: "password",
       type: "password",
       placeholder: "Password",
-      label: "Password",
+      label: "Password"
     },
     {
       id: 6,
@@ -92,8 +93,8 @@ const Registration = () => {
       name: "confirmPassword",
       type: "password",
       placeholder: "Confirm Password",
-      label: "Confirm Password",
-    },
+      label: "Confirm Password"
+    }
   ];
   const { values, errors, handleBlur, touched, handleChange, handleSubmit } =
   useFormik({
@@ -177,26 +178,28 @@ return (
                 <div className="label reg-typography">
                   <label htmlFor={input.htmlFor}>{input.label}</label>
                   <HelpIcon className="icon" />
-                </div>
-                <div>
-                  <TextField
-                    className="field"
-                    sx={{ width: "35ch" }}
-                    type={input.type}
-                    autoComplete="off"
-                    name={input.name}
-                    id={input.htmlFor}
-                    placeholder={input.placeholder}
-                    value={values[input.name]}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </div>
-                {errors[input.name] && touched[input.name] ? (
-                  <p className="error-message reg-typography">
-                    {errors[input.name]}
-                  </p>
-                ) : null}
+  
+                  </div>
+                  <div>
+                    <TextField
+                      className="field"
+                      sx={{ width: "35ch" }}
+                      type={input.type}
+                      autoComplete="off"
+                      name={input.name}
+                      id={input.htmlFor}
+                      placeholder={input.placeholder}
+                      value={values[input.name]}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </div>
+                  {errors[input.name] && touched[input.name] ? (
+                    <p className="error-message reg-typography">
+                      {errors[input.name]}
+                    </p>
+                  ) : null}
+                
               </div>
             ))}
           </div>

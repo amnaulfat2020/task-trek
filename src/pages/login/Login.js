@@ -24,7 +24,6 @@ const Login = () => {
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-
   const { values, errors, handleBlur, touched, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
@@ -33,9 +32,10 @@ const Login = () => {
       },
       validationSchema: LoginSchema,
       onSubmit: async (values) => {
+
         if (!values.email || !values.password) {
           setErrMsg("Fill all fields");
-          return;
+          // console.log(action.resetForm())
         }
 
         setErrMsg("");
@@ -61,6 +61,7 @@ const Login = () => {
         }
       },
     });
+
 
 
   return (
