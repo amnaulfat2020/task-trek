@@ -12,7 +12,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./Login.css";
 import Line from "../../assets/images/Line 7.png";
 import { LoginSchema } from "../../Schema/LoginSchema";
-
+import { getUserIdByEmail } from '../../utils/constants/Firebase'; 
 function MouseOver(event) {
   event.target.style.color = "black";
 }
@@ -21,10 +21,10 @@ function MouseOut(event) {
   event.target.style.color = "#4743E0";
 }
 const Login = () => {
-  const { userId } = useParams();
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+
   const { values, errors, handleBlur, touched, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
@@ -33,26 +33,32 @@ const Login = () => {
       },
       validationSchema: LoginSchema,
       onSubmit: async (values) => {
-
         if (!values.email || !values.password) {
           setErrMsg("Fill all fields");
-          // console.log(action.resetForm())
+          return;
         }
-        setErrMsg("");
-        // login Authentication 
-        setSubmitButtonDisabled(true);
-        await signInWithEmailAndPassword(auth, values.email, values.password)
-          .then((res) => {
-            setSubmitButtonDisabled(false);
 
-            navigate("/dashboard");
-            console.log(res);
-          })
-          .catch((err) => {
-            console.error("Firebase authentication error:", err);
-            setSubmitButtonDisabled(false);
-            setErrMsg(err.message);
-          });
+        setErrMsg("");
+        setSubmitButtonDisabled(true);
+
+        try {
+          const res = await signInWithEmailAndPassword(auth, values.email, values.password);
+          setSubmitButtonDisabled(false);
+
+          const userId = await getUserIdByEmail(values.email);
+
+          if (userId) {
+            navigate(`/dashboard/${userId}`);
+          } else {
+            setErrMsg("User not found.");
+          }
+          
+          console.log(res);
+        } catch (err) {
+          console.error("Firebase authentication error:", err);
+          setSubmitButtonDisabled(false);
+          setErrMsg(err.message);
+        }
       },
     });
 
