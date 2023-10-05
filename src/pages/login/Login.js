@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import Button from "@mui/material/Button";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./Login.css";
 import Line from "../../assets/images/Line 7.png";
 import { LoginSchema } from "../../Schema/LoginSchema";
@@ -21,6 +21,7 @@ function MouseOut(event) {
   event.target.style.color = "#4743E0";
 }
 const Login = () => {
+  const { userId } = useParams();
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
