@@ -1,20 +1,17 @@
 import React from 'react'
 import './App.css'
 import Routers from './Routers/Routers';
-// import { useState, useEffect } from 'react';
-// import { auth } from './utils/constants/Firebase';
+import { SearchProvider } from './contexts/SearchContext';
 
 const App = () => {
 
-// useEffect(() =>{
-   
-//     });
-// }, [])
 
   return (
+    <SearchProvider>
     <main className='App'>
       <Routers />
     </main>
+    </SearchProvider>
   );
 }
 
