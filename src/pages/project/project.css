@@ -9,10 +9,10 @@
   .card-render {
     padding: 9px;
     width: 26.9375rem;
-    height: 18.75rem;
+     height: 18.75rem;
     flex-shrink: 0;
   }
-  
+ 
 /* Navbar */
 .navbar{
   display: flex;
@@ -52,7 +52,6 @@
   margin-top: 10px;
   margin-left: auto;
 }
-
   .card-header {
     display: flex;
     flex-direction: row;

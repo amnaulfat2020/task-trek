@@ -20,33 +20,32 @@ function MouseOver(event) {
 function MouseOut(event) {
   event.target.style.color = "#4743E0";
 }
-
 const Login = () => {
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-
   const { values, errors, handleBlur, touched, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
-        email: "",
+        email: '',
         password: "",
       },
       validationSchema: LoginSchema,
-      onSubmit: (action) => {
+      onSubmit: async (values) => {
+
         if (!values.email || !values.password) {
           setErrMsg("Fill all fields");
-          return;
+          // console.log(action.resetForm())
         }
         setErrMsg("");
         // login Authentication 
         setSubmitButtonDisabled(true);
-        signInWithEmailAndPassword(auth, values.email, values.password)
-          .then(async (res) => {
-             setSubmitButtonDisabled(false);
+        await signInWithEmailAndPassword(auth, values.email, values.password)
+          .then((res) => {
+            setSubmitButtonDisabled(false);
 
-             navigate("/dashboard");
-             console.log(res);
+            navigate("/dashboard");
+            console.log(res);
           })
           .catch((err) => {
             console.error("Firebase authentication error:", err);
@@ -56,10 +55,8 @@ const Login = () => {
       },
     });
 
-  //  console.log(handleSubmit);
-
   return (
-    <Row className="boxStyle">
+    <Row className="login-boxStyle">
       {/* 1st column */}
       <Col xs={24} sm={24} md={10} lg={8} xl={8}>
         <div className="column1">
@@ -104,7 +101,7 @@ const Login = () => {
                   id="password"
                   value={values.password}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                   onBlur={handleBlur}
                   placeholder="input password"
                   className={
                     errors.password && touched.password ? "input-error" : ""
@@ -147,7 +144,7 @@ const Login = () => {
                 disabled={submitButtonDisabled}
                 variant="contained"
                 className="btn"
-                sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2 }}
               >
                 Login
               </Button>

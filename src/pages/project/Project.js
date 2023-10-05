@@ -17,15 +17,16 @@ import {
 import { Link } from "react-router-dom";
 import AppHeader from "../../layout/MenuBar";
 import { useSearch, useMenuContext } from "../../contexts/SearchContext";
-
+import { useParams } from 'react-router-dom';
 
 const Project = () => {
+  const { userId } = useParams();
   const [projects, setProjects] = useState([]);
   const [newProject, setNewProject] = useState({
-    title: "",
-    StartDate: "",
-    status: "In Progress",
-    members: "",
+    title: '',
+    client: '',
+    status: 'In Progress',
+    members: '',
     progress: 0,
   });
   const [showInputFields, setShowInputFields] = useState(false);
@@ -35,15 +36,16 @@ const Project = () => {
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editingStartDate, setEditingStartDate] = useState(null);
   const [editingMembers, setEditingMembers] = useState(null);
-  const [editingTitle, setEditingTitle]= useState('');
+  const [editingTitle, setEditingTitle]= useState(''); 
 
   useEffect(() => {
     async function fetchProjectData() {
-      const projectList = await fetchProjects();
+      const projectList = await fetchProjects(userId);
       setProjects(projectList);
     }
     fetchProjectData();
-  }, []);
+  }, [userId]);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -82,6 +84,24 @@ const Project = () => {
     setProjects(updatedProjectList);
     setShowInputFields(true);
     setTaskModalVisible(false);
+    try {
+      await createProject({ ...newProject, tasks: taskList, userId }); 
+      setNewProject({
+        title: '',
+        client: '',
+        status: 'In Progress',
+        members: '',
+        progress: 0,
+      });
+      setTaskList([]);
+      const updatedProjectList = await fetchProjects(userId);
+      setProjects(updatedProjectList);
+      setShowInputFields(false);
+      setTaskModalVisible(false);
+    } catch (error) {
+      console.error('Error creating project: ', error);
+      // Handle error here
+    }
   };
 
   const handleDelete = async (projectId) => {
@@ -91,7 +111,7 @@ const Project = () => {
   };
 
   const handleEdit = (projectId) => {
-    setEditingProjectId(projectId);
+    setEditingProjectId(projectId); 
   };
 
   const handleUpdate = async () => {
@@ -133,7 +153,6 @@ const Project = () => {
     setProjects(updatedProjects);
   };
 
-
   const handleStatusFilterChange = ({ key }) => {
     // console.log("Selected Status:", selectedStatus);
     setMenuFilter(key);
@@ -168,7 +187,7 @@ const Project = () => {
     )
 
   const cardRender = (project) => {
-    const { title, client, status, members, progress } = project;
+    const { title, startDate, status, members, progress } = project;
 
     let statusImg = redDotSvg;
     let statusColor = "red";
@@ -380,7 +399,6 @@ const Project = () => {
       </Popover>
       </div>
 
-    
       {/* filterMenu */}
       <div className="filterMenu">
         <Menu style={headerStyles.AdditonalMenuStyle} value={menuFilter} onClick={handleStatusFilterChange}>
@@ -394,9 +412,6 @@ const Project = () => {
       </div>
 
       </div>
-
- 
-
       <div className="card">
         {projects.map((project) => (
           <div key={project.id}>{cardRender(project)}</div>
@@ -407,3 +422,4 @@ const Project = () => {
 };
 
 export default Project;
+
