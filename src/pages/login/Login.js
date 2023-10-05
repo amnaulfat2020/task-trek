@@ -55,7 +55,6 @@ const Login = () => {
       },
     });
 
-
   return (
     <Row className="login-boxStyle">
       {/* 1st column */}
