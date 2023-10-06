@@ -1,5 +1,5 @@
-import {  updateProfile, signOut } from "firebase/auth";
-import  { auth } from '../utils/constants/Firebase';
+import { updateProfile, signOut } from "firebase/auth";
+import { auth } from '../utils/constants/Firebase';
 import React, { useContext } from 'react';
 import { Input, Space, Badge, Avatar, Typography, Menu, Dropdown } from 'antd';
 import {
@@ -10,24 +10,24 @@ import {
   PlusOutlined,
   SettingOutlined
 } from '@ant-design/icons';
-import {  useSearch } from '../contexts/SearchContext'; // Import the useSearch hook
+import { useSearch } from '../contexts/SearchContext'; // Import the useSearch hook
 import headerStyles from '../styles/headerStyles.js';
 import { Link, useNavigate } from "react-router-dom";
 
 
 const MenuBar = ({ currentPage }) => {
   const { searchQuery, setSearch } = useSearch(); // Access the searchQuery and setSearch from the context
-  const navigate= useNavigate();
-const handleClick = () =>{
-  signOut(auth)
-  .then(() =>{
-    navigate('/');
-    console.log("user signedout successfully")
-  })
-  .catch((err)=>{
-    console.log(err);
-  });
-}
+  const navigate = useNavigate();
+  const handleClick = () => {
+    signOut(auth)
+      .then(() => {
+        navigate('/')
+        console.log("user signedout successfully")
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
 
   const menu = (
@@ -35,9 +35,9 @@ const handleClick = () =>{
       <Menu.Item key="profile" icon={<UserOutlined />}>
         Profile
       </Menu.Item>
-      <Menu.Item key="logout" 
-      onClick={handleClick}
-      icon={<LogoutOutlined />}>
+      <Menu.Item key="logout"
+        onClick={handleClick}
+        icon={<LogoutOutlined />}>
         Logout
       </Menu.Item>
     </Menu>
@@ -47,7 +47,7 @@ const handleClick = () =>{
     setSearch(query);
   };
 
-const { Text } = Typography;
+  const { Text } = Typography;
   return (
     <div style={headerStyles.container}>
       <div style={headerStyles.leftSection}>
@@ -72,13 +72,8 @@ const { Text } = Typography;
           <Dropdown overlay={menu} trigger={['click']}>
             <Avatar icon={<UserOutlined />} style={headerStyles.avatar} />
           </Dropdown>
-          <SettingOutlined style={headerStyles.icon} />
-          <Avatar icon={<UserOutlined />} style={headerStyles.avatar} onClick={() => {
-            navigate('./user-profile')
-          }} />
         </Space>
-        <Text>Moiz</Text>
-        <Text>Email</Text>
+
       </div>
     </div>
   );

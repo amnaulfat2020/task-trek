@@ -1,0 +1,21 @@
+.layout-container {
+  height: 100vh;
+}
+.logo {
+  width: 100px;
+  height: 100px;
+}
+.sider-shapatar {
+  background: #fff !important;
+}
+
+.sidebar-btn {
+  width: 60% !important;
+}
+.flex-control {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}

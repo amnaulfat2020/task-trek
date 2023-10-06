@@ -2,18 +2,7 @@ import React, { useState } from 'react';
 import { Card, Input, Button, Modal } from 'antd';
 
 const TaskPage = () => {
-  const [tasks, setTasks] = useState([
-    {
-      title: 'Front-End',
-      assigned: 'Amna, Anum',
-      status: 'In Progress',
-    },
-    {
-      title: 'Back-End',
-      assigned: 'Moiz, Fida',
-      status: 'In Progress',
-    },
-  ]);
+  const [tasks, setTasks] = useState([]);
 
   const [newTask, setNewTask] = useState({
     title: '',
@@ -80,12 +69,12 @@ const TaskPage = () => {
           onChange={(e) => setNewTask({ ...newTask, status: e.target.value })}
         >
           <option value="In Progress">In Progress</option>
-                <option value="Discussing">Discussing</option>
-                <option value="Completed">Completed</option>
-                <option value="Review">Review</option>
-                <option value="Cancelled">Cancelled</option>
-                <option value="On Hold">On Hold</option>
-              </select>
+          <option value="Discussing">Discussing</option>
+          <option value="Completed">Completed</option>
+          <option value="Review">Review</option>
+          <option value="Cancelled">Cancelled</option>
+          <option value="On Hold">On Hold</option>
+        </select>
         <Button onClick={handleAddTask}>Add Task</Button>
       </div>
       <div>
