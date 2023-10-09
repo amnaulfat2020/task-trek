@@ -6,12 +6,12 @@ import Registration from '../pages/registrationPage/Registration';
 import SuccessEmail from '../pages/successEmail/SuccessEmail';
 import SuccessRegister from '../pages/successRegister/SuccessRegister';
 import ChangePassword from '../pages/changespassword/ChangePassword';
-
 import Login from '../pages/login/Login';
 import UserProfile from '../pages/userprofile';
 import TaskPage from '../pages/taskpage/TaskPage';
 import ForgetPassword from '../pages/forgetPassword/ForgetPassword';
 import NotFound from '../components/NotFound'; 
+import Sidebar from '../pages/sidebar/Sidebar';
 
 const Routers = () => {
   
@@ -19,7 +19,7 @@ const Routers = () => {
     <div>
       <Router>
         <Routes>
-          <Route path="/dashboard/:userId" element={<Project />} />
+          <Route path="/dashboard/:userId" element={<Sidebar />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/" element={<Login />} />

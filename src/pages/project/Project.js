@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import AppHeader from "../../layout/MenuBar";
 import { useSearch, useMenuContext } from "../../contexts/SearchContext";
 import { useParams } from 'react-router-dom';
+import Sidebar from "../sidebar/Sidebar";
 
 const Project = () => {
   const { userId } = useParams();
@@ -36,7 +37,7 @@ const Project = () => {
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editingStartDate, setEditingStartDate] = useState(null);
   const [editingMembers, setEditingMembers] = useState(null);
-  const [editingTitle, setEditingTitle]= useState(''); 
+  const [editingTitle, setEditingTitle] = useState('');
 
   useEffect(() => {
     async function fetchProjectData() {
@@ -85,7 +86,7 @@ const Project = () => {
     setShowInputFields(true);
     setTaskModalVisible(false);
     try {
-      await createProject({ ...newProject, tasks: taskList, userId }); 
+      await createProject({ ...newProject, tasks: taskList, userId });
       setNewProject({
         title: '',
         client: '',
@@ -111,7 +112,7 @@ const Project = () => {
   };
 
   const handleEdit = (projectId) => {
-    setEditingProjectId(projectId); 
+    setEditingProjectId(projectId);
   };
 
   const handleUpdate = async () => {
@@ -162,32 +163,32 @@ const Project = () => {
   const { menuFilter, setMenuFilter } = useMenuContext();
 
 
-    const content= (
-      <div>
-   
-        <form onSubmit={handleSubmit}>
-          <div >
-            <p>Project Title</p>
-            <Input
-              name="title"
-              required
-              value={newProject.title}
-              onChange={handleInputChange}
-              placeholder="Project Title"
-            />
-          </div>
-          <Button className="newbtn createbtn" type="primary" htmlType="submit">
-            Create
-          </Button>
-        </form>
+  const content = (
+    <div>
+
+      <form onSubmit={handleSubmit}>
+        <div >
+          <p>Project Title</p>
+          <Input
+            name="title"
+            required
+            value={newProject.title}
+            onChange={handleInputChange}
+            placeholder="Project Title"
+          />
+        </div>
+        <Button className="newbtn createbtn" type="primary" htmlType="submit">
+          Create
+        </Button>
+      </form>
 
 
-      </div>
+    </div>
 
-    )
+  )
 
   const cardRender = (project) => {
-    const { title, startDate, status, members, progress } = project;
+    const { title, status, members, progress } = project;
 
     let statusImg = redDotSvg;
     let statusColor = "red";
@@ -206,7 +207,7 @@ const Project = () => {
     if (progress === 100) {
       color = "green";
     }
-   
+
     const filteredBySearch =
       !searchQuery ||
       project.title.toLowerCase().includes(searchQuery.toLowerCase());
@@ -217,14 +218,14 @@ const Project = () => {
         <div className="card-render" key={project.id}>
           <Card>
             <div className="card-header">
-            {editingProjectId === project.id ? (
-               <Input
-               type="text"
-               name="title"
-               value={editingTitle !== null ? editingTitle : ""}
-               onChange={(e) => setEditingTitle(e.target.value)}
-             />
-            ): ( <h1>{title}</h1> )}  
+              {editingProjectId === project.id ? (
+                <Input
+                  type="text"
+                  name="title"
+                  value={editingTitle !== null ? editingTitle : ""}
+                  onChange={(e) => setEditingTitle(e.target.value)}
+                />
+              ) : (<h1>{title}</h1>)}
               <div className="icon">
                 {editingProjectId === project.id ? (
                   <Button onClick={handleUpdate} className="updatebtn" >
@@ -238,7 +239,6 @@ const Project = () => {
                       onClick={() => handleEdit(project.id)}
                     >
                       <span>
-                        {" "}
                         <img src={EditSvg} alt="edit icon" />{" "}
                       </span>
                     </Button>
@@ -248,8 +248,7 @@ const Project = () => {
                       onClick={() => handleDelete(project.id)}
                     >
                       <span>
-                        {" "}
-                        <DeleteOutlined />{" "}
+                        <DeleteOutlined />
                       </span>
                     </Button>
                   </div>
@@ -258,7 +257,6 @@ const Project = () => {
             </div>
             <div className="status">
               <span>
-                {" "}
                 <img src={statusImg} alt="dot" />{" "}
               </span>
               {editingProjectId === project.id ? (
@@ -301,7 +299,7 @@ const Project = () => {
               {/* tasks box */}
               <div className="tasks-box">
                 <div className="tasks">
-                  <p style={{ marginLeft: "8px" }}>{14}</p>
+                  <p style={{ marginLeft: "8px" }}>{project.tasks.length}</p>
                   {project.tasks && project.tasks.length > 0 && (
                     <div className="task-list">
                       <List
@@ -326,7 +324,7 @@ const Project = () => {
                     </Link>
                     <Modal
                       title="Add Task"
-                      visible={taskModalVisible}
+                      open={taskModalVisible}
                       onOk={handleTaskAdd}
                       onCancel={toggleTaskModal}
                     >
@@ -388,28 +386,26 @@ const Project = () => {
 
   return (
     <div>
-      <AppHeader />
+
+
       <div className="navbar">
-        {/* new project button */}
-      <div className="new-project">
-      <Popover placement= "bottom" content={content}>
-        <Button className="newbtn">
-          <PlusOutlined />
-          New</Button>
-      </Popover>
-      </div>
+        <div className="new-project">
+          <Popover placement="bottom" content={content}>
+            <Button className="newbtn">
+              <PlusOutlined />
+              New</Button>
+          </Popover>
+        </div>
 
-      {/* filterMenu */}
-      <div className="filterMenu">
-        <Menu style={headerStyles.AdditonalMenuStyle} value={menuFilter} onClick={handleStatusFilterChange}>
-          <Menu.Item key="All">All</Menu.Item>
-          <Menu.Item key="In Progress">In Progress</Menu.Item>
-          <Menu.Item key="On Hold">On Hold</Menu.Item>
-          <Menu.Item key="Completed">Completed</Menu.Item>
-          {/* Add more menu items as needed */}
-        </Menu>
+        <div className="filterMenu">
+          <Menu style={headerStyles.AdditonalMenuStyle} value={menuFilter} onClick={handleStatusFilterChange}>
+            <Menu.Item key="All">All</Menu.Item>
+            <Menu.Item key="In Progress">In Progress</Menu.Item>
+            <Menu.Item key="On Hold">On Hold</Menu.Item>
+            <Menu.Item key="Completed">Completed</Menu.Item>
+          </Menu>
 
-      </div>
+        </div>
 
       </div>
       <div className="card">

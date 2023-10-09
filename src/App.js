@@ -7,9 +7,9 @@ import { SearchProvider } from './contexts/SearchContext';
 const App = () => {
   return (
     <SearchProvider>
-    <main className='App'>
+      <main className='App'>
         <Routers />
-    </main>
+      </main>
     </SearchProvider>
   );
 }
