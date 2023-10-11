@@ -13,11 +13,15 @@ import ForgetPassword from '../pages/forgetPassword/ForgetPassword';
 import NotFound from '../components/NotFound'; 
 import Sidebar from '../pages/sidebar/Sidebar';
 
+
+
 const Routers = () => {
-  
+ 
   return (
     <div>
-      <Router>
+      
+      <Router> 
+      
         <Routes>
           <Route path="/dashboard/:userId" element={<Sidebar />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
@@ -26,13 +30,17 @@ const Routers = () => {
           <Route path="/register" element={<Registration />} />
           <Route path="/success-email" element={<SuccessEmail />} />
           <Route path="/success-register" element={<SuccessRegister />} />
-          <Route path="/dashboard/user-profile" element={<UserProfile />} />
+          <Route path="/dashboard/user-profile" element={<UserProfile />} /> 
           <Route path="/tasks" element={<TaskPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+      
       </Router>
     </div>
   );
 };
 
 export default Routers;
+
+
+
