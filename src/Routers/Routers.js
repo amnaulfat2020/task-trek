@@ -12,6 +12,7 @@ import TaskPage from '../pages/taskpage/TaskPage';
 import ForgetPassword from '../pages/forgetPassword/ForgetPassword';
 import NotFound from '../components/NotFound'; 
 import Sidebar from '../pages/sidebar/Sidebar';
+import Member from '../pages/member/Member';
 
 const Routers = () => {
   
@@ -29,6 +30,8 @@ const Routers = () => {
           <Route path="/dashboard/user-profile" element={<UserProfile />} />
           <Route path="/tasks" element={<TaskPage />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/members" element={<Member />} />
+
         </Routes>
       </Router>
     </div>
