@@ -7,15 +7,13 @@ import {
   BellOutlined,
   UserOutlined,
   LogoutOutlined,
-  PlusOutlined,
-  SettingOutlined
 } from '@ant-design/icons';
 import { useSearch } from '../contexts/SearchContext'; // Import the useSearch hook
 import headerStyles from '../styles/headerStyles.js';
 import { Link, useNavigate } from "react-router-dom";
 
 
-const MenuBar = ({ currentPage }) => {
+const MenuBar = () => {
   const { searchQuery, setSearch } = useSearch(); // Access the searchQuery and setSearch from the context
   const navigate = useNavigate();
   const handleClick = () => {
@@ -47,11 +45,10 @@ const MenuBar = ({ currentPage }) => {
     setSearch(query);
   };
 
-  const { Text } = Typography;
   return (
     <div style={headerStyles.container}>
       <div style={headerStyles.leftSection}>
-        <Link to='/dashboard' style={headerStyles.userLink} >Dashboard</Link>
+        <Link to='/project' style={headerStyles.userLink} >Project</Link>
       </div>
       <div style={headerStyles.centerSection}>
         <Space>
@@ -69,7 +66,7 @@ const MenuBar = ({ currentPage }) => {
           <Badge dot>
             <BellOutlined style={headerStyles.icon} />
           </Badge>
-          <Dropdown overlay={menu} trigger={['click']}>
+          <Dropdown menu={menu} trigger={['click']}>
             <Avatar icon={<UserOutlined />} style={headerStyles.avatar} />
           </Dropdown>
         </Space>

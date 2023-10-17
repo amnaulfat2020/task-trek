@@ -8,11 +8,11 @@ import {
 } from "@ant-design/icons";
 import Button from "@mui/material/Button";
 import { useFormik } from "formik";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Line from "../../assets/images/Line 7.png";
 import { LoginSchema } from "../../Schema/LoginSchema";
-import { getUserIdByEmail } from '../../utils/constants/Firebase'; 
+import { getUserIdByEmail } from '../../utils/constants/Firebase';
 function MouseOver(event) {
   event.target.style.color = "black";
 }
@@ -35,7 +35,6 @@ const Login = () => {
 
         if (!values.email || !values.password) {
           setErrMsg("Fill all fields");
-          // console.log(action.resetForm())
         }
 
         setErrMsg("");
@@ -48,11 +47,11 @@ const Login = () => {
           const userId = await getUserIdByEmail(values.email);
 
           if (userId) {
-            navigate(`/dashboard/${userId}`);
+            navigate(`/dashboard/project/:${userId}`);
           } else {
             setErrMsg("User not found.");
           }
-          
+
           console.log(res);
         } catch (err) {
           console.error("Firebase authentication error:", err);
@@ -110,7 +109,7 @@ const Login = () => {
                   id="password"
                   value={values.password}
                   onChange={handleChange}
-                   onBlur={handleBlur}
+                  onBlur={handleBlur}
                   placeholder="input password"
                   className={
                     errors.password && touched.password ? "input-error" : ""
@@ -153,7 +152,7 @@ const Login = () => {
                 disabled={submitButtonDisabled}
                 variant="contained"
                 className="btn"
-              sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2 }}
               >
                 Login
               </Button>
