@@ -63,7 +63,7 @@ const TaskPage = () => {
 
 
 
-  const q = query(collection(db, "users"));
+  const q = query(collection(db, "projects"));
   const [docs, loading, error] = useCollectionData(q);
 
   async function handleAddTask() {
@@ -73,7 +73,7 @@ const TaskPage = () => {
       // const docRef = doc(db, "projects", docId.current.value);
       // await setDoc(docRef, { docId: docId.current.value });
 
-//creating subcollection
+//---------------creating subcollection-----------
       {docs?.map((doc) =>(
          setDoc(db, `projects/${doc.id}/new-Task`, newTask.title), {
                   title: newTask.title,
@@ -116,7 +116,6 @@ const TaskPage = () => {
 
   
   const content = (
-   
     <div>
       <h1>Tasks</h1>
       <Input
