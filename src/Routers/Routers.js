@@ -12,6 +12,7 @@ import TaskPage from '../pages/taskpage/TaskPage';
 import ForgetPassword from '../pages/forgetPassword/ForgetPassword';
 import NotFound from '../components/NotFound'; 
 import Sidebar from '../pages/sidebar/Sidebar';
+import TermAndCondition from '../pages/TermsAndConditons';
 
 
 
@@ -32,7 +33,9 @@ const Routers = () => {
           <Route path="/success-register" element={<SuccessRegister />} />
           <Route path="/dashboard/user-profile" element={<UserProfile />} /> 
           <Route path="/tasks" element={<TaskPage />} />
+          <Route path="/term-condition" element={<TermAndCondition />}/>
           <Route path="*" element={<NotFound />} />
+          
         </Routes>
       
       </Router>
