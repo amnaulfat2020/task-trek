@@ -58,7 +58,7 @@ const headerStyles = {
     padding: '10px 40px 35px 20px',
     borderRadius: '26px',
     marginTop: '10px',
-  }
+  },
 
 };
 
