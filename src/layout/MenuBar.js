@@ -4,6 +4,8 @@ import { signOut } from 'firebase/auth';
 import { auth, db } from '../utils/constants/Firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom'; 
+
+
 import { Input, Space, Badge, Avatar, Typography, Menu, Dropdown } from 'antd';
 import {
   SearchOutlined,
@@ -12,6 +14,7 @@ import {
   LogoutOutlined,
 } from '@ant-design/icons';
 import { useSearch } from '../contexts/SearchContext';
+
 import headerStyles from '../styles/headerStyles'; 
 
 const MenuBar = ({ currentPage }) => {
@@ -45,10 +48,10 @@ const MenuBar = ({ currentPage }) => {
       .then(() => {
         navigate('/');
         console.log('User signed out successfully');
-      })
-      .catch((err) => {
-        console.log(err);
+
+
       });
+
   };
 
   const menu = (
@@ -57,9 +60,8 @@ const MenuBar = ({ currentPage }) => {
         Profile
       </Menu.Item>
       <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={handleClick}>
-        Logout
-      </Menu.Item>
-    </Menu>
+
+  
   );
 
   const handleSearchChange = (e) => {
@@ -103,3 +105,4 @@ const MenuBar = ({ currentPage }) => {
 };
 
 export default MenuBar;
+

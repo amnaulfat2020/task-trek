@@ -1,16 +1,16 @@
 import React from 'react'
 import './App.css'
 import Routers from './Routers/Routers';
-import { SearchProvider } from './contexts/SearchContext';
+// import { SearchProvider } from './contexts/SearchContext';
 
 
 const App = () => {
   return (
-    <SearchProvider>
+    // <SearchProvider>
       <main className='App'>
         <Routers />
       </main>
-    </SearchProvider>
+    // </SearchProvider>
   );
 }
 

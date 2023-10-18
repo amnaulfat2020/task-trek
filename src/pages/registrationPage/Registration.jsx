@@ -160,6 +160,7 @@ const Registration = () => {
     },
   });
 
+
   return (
     <>
       <section className="register-container">
@@ -169,18 +170,23 @@ const Registration = () => {
               Already a member?
             </Link>
             <PersonIcon />
+
+
+        </div>
+
+        <form onSubmit={handleSubmit} className="registration-form">
+          <div className="heading">
+            <h1 className="main-heading">Input your information</h1>
+            <p className="reg-info reg-typography">
+              We need you to help us with some basic information for your
+              account creation. Here are our
+              <span className="reg-link"> <Link to="/term-condition">terms and conditions</Link></span>. Please read
+              them carefully. We are GDPR compliant
+            </p>
+
           </div>
 
-          <form onSubmit={handleSubmit} className="registration-form">
-            <div className="heading">
-              <h1 className="main-heading">Input your information</h1>
-              <p className="reg-info reg-typography">
-                We need you to help us with some basic information for your
-                account creation. Here are our
-                <span className="reg-link"> terms and conditions</span>. Please read
-                them carefully. We are GDPR compliant
-              </p>
-            </div>
+ 
             <div className="dotted-line">
               <img src={Divider} alt="" />
             </div>
@@ -230,26 +236,24 @@ const Registration = () => {
             </div>
             <div className="flex">
               <p className="error-message">{errMsg}</p>
-            </div>
-            <div>
-              <div className="flex">
-                <p className="reg-typography terms">
-                  <Checkbox
-                    checked={agreeTerms}
-                    onChange={handleCheckboxChange}
-                  />
-                  I agree with
-                  <span className="reg-link"> terms and conditions.</span>
-                </p>
-                <Button
-                  type="submit"
-                  disabled={submitButtonDisabled || !agreeTerms}
-                  variant="contained"
-                  className="button"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Register
-                </Button>
+              <p className="reg-typography terms">
+                <Checkbox
+                  checked={agreeTerms}
+                  onChange={handleCheckboxChange}
+                />
+                I agree with
+                <span className="reg-link"> <Link to="/term-condition">terms and conditions</Link> </span>
+              </p>
+              <Button
+                type="submit"
+                disabled={submitButtonDisabled || !agreeTerms}
+                variant="contained"
+                className="button"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Register
+              </Button>
+            
               </div>
             </div>
           </form>

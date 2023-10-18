@@ -22,3 +22,4 @@ const UserProfilePopup = ({ userData, onClose }) => {
 };
 
 export default UserProfilePopup;
+
