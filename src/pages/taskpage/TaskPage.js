@@ -15,12 +15,12 @@ import {
   getDoc,
   getDocs,
   query, where
-} from 'firebase/firestore'; 
+} from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import { db } from '../../utils/constants/Firebase';
 
 const TaskPage = () => {
-  const { userId } = useParams();
+  // const { userId } = useParams();
   const [tasks, setTasks] = useState([]);
   const docId = useRef();
 
@@ -49,17 +49,17 @@ const TaskPage = () => {
     return tasksList;
   };
 
- 
+
 
 
   useEffect(() => {
-    async function fetchTasksData() {
+    async function fetchTasksData(userId) {
       const taskList = await fetchTasks(userId);
       setTasks(taskList);
     }
     fetchTasksData();
     console.log("task fetched");
-  }, [userId]);
+  }, []);
 
 
 
@@ -70,17 +70,19 @@ const TaskPage = () => {
     if (newTask.title.trim() !== '') {
 
       //document reference
-      // const docRef = doc(db, "projects", docId.current.value);
-      // await setDoc(docRef, { docId: docId.current.value });
+      const docRef = doc(db, "projects", docId.current.value);
+      await setDoc(docRef, { docId: docId.current.value });
 
-//---------------creating subcollection-----------
-      {docs?.map((doc) =>(
-         setDoc(db, `projects/${doc.id}/new-Task`, newTask.title), {
-                  title: newTask.title,
-                  assigned: newTask.assigned,
-                  status: newTask.status,
-              }
-      ))}
+      //---------------creating subcollection-----------
+      {
+        docs?.map((doc) => (
+          setDoc(db, `projects/${doc.id}/new-Task`, newTask.title), {
+            title: newTask.title,
+            assigned: newTask.assigned,
+            status: newTask.status,
+          }
+        ))
+      }
 
       setTasks([...tasks, newTask]);
       setNewTask({
@@ -95,6 +97,7 @@ const TaskPage = () => {
     const updatedTasks = [...tasks];
     updatedTasks.splice(index, 1);
     setTasks(updatedTasks);
+    console.table(updatedTasks)
   };
 
   const openEditModal = (task, index) => {
@@ -114,12 +117,12 @@ const TaskPage = () => {
     }
   };
 
-  
+
   const content = (
     <div>
       <h1>Tasks</h1>
       <Input
-      ref={docId}
+        ref={docId}
         type="text"
         placeholder="Task Title"
         value={newTask.title}
@@ -147,15 +150,15 @@ const TaskPage = () => {
 
   )
 
-  // let statusImg = redDotSvg;
-  //   let statusColor = "red";
-  //   if (newTask.status === "Completed") {
-  //     statusImg = greenDotSvg;
-  //     statusColor = "green";
-  //   } else if (newTask.status === "On Hold" || newTask.status === "Review") {
-  //     statusImg = yellowDotSvg;
-  //     statusColor = "yellow";
-  //   }
+  let statusImg = redDotSvg;
+  let statusColor = "red";
+  if (newTask.status === "Completed") {
+    statusImg = greenDotSvg;
+    statusColor = "green";
+  } else if (newTask.status === "On Hold" || newTask.status === "Review") {
+    statusImg = yellowDotSvg;
+    statusColor = "yellow";
+  }
 
   const handleStatusFilterChange = ({ key }) => {
     // console.log("Selected Status:", selectedStatus);
@@ -168,86 +171,86 @@ const TaskPage = () => {
   // const filteredBySearch =
   // !searchQuery ||
   // newTask.title.toLowerCase().includes(searchQuery.toLowerCase());
-const filteredByMenu =
-  menuFilter === "All" || newTask.status === menuFilter;
-if (filteredByMenu)
-  return (
-    <div>
-      <div className="navbar">
-        <div className="new-project">
-          <Popover placement="bottom" 
-          content={content}
-          >
-            <Button className="newbtn">
-              <PlusOutlined />
-              New</Button>
-          </Popover>
-        </div>
-
-        <div className="filterMenu">
-          <Menu style={headerStyles.AdditonalMenuStyle} value={menuFilter} onClick={handleStatusFilterChange}>
-            <Menu.Item key="All">All</Menu.Item>
-            <Menu.Item key="In Progress">In Progress</Menu.Item>
-            <Menu.Item key="On Hold">On Hold</Menu.Item>
-            <Menu.Item key="Completed">Completed</Menu.Item>
-          </Menu>
-
-        </div>
-
-      </div>
-
-{/* Tasks rendering  */}
-
+  const filteredByMenu =
+    menuFilter === "All" || newTask.status === menuFilter;
+  if (filteredByMenu)
+    return (
       <div>
-        
-        {tasks.map((task, index) => (
-          <Card key={index}>
-            <h2>{task.title}</h2>
-            <p>Assigned: {task.assigned}</p>
-            <div className='status'>
-            {/* <span>
+        <div className="navbar">
+          <div className="new-project">
+            <Popover placement="bottom"
+              content={content}
+            >
+              <Button className="newbtn">
+                <PlusOutlined />
+                New</Button>
+            </Popover>
+          </div>
+
+          <div className="filterMenu">
+            <Menu style={headerStyles.AdditonalMenuStyle} value={menuFilter} onClick={handleStatusFilterChange}>
+              <Menu.Item key="All">All</Menu.Item>
+              <Menu.Item key="In Progress">In Progress</Menu.Item>
+              <Menu.Item key="On Hold">On Hold</Menu.Item>
+              <Menu.Item key="Completed">Completed</Menu.Item>
+            </Menu>
+
+          </div>
+
+        </div>
+
+        {/* Tasks rendering  */}
+
+        <div>
+
+          {tasks.map((task, index) => (
+            <Card key={index}>
+              <h2>{task.title}</h2>
+              <p>Assigned: {task.assigned}</p>
+              <div className='status'>
+                {/* <span>
                 <img src={statusImg} alt="dot" />{" "}
               </span> */}
-            <p >{task.status}</p>
-            </div>
+                <p >{task.status}</p>
+              </div>
 
-            <Button onClick={() => openEditModal(task, index)}>Edit</Button>
-            <Button onClick={() => handleDeleteTask(index)}>Delete</Button>
-          </Card>
-        ))}
-      </div>
-      <Modal
-        title="Edit Task"
-        open={editModalVisible}
-        onOk={handleUpdateTask}
-        onCancel={() => {
-          setEditModalVisible(false);
-          setEditedTask({});
-          setEditedTaskIndex(null);
-        }}
-      >
-        <Input
-          type="text"
-          placeholder="Task Title"
-          value={editedTask.title}
-          onChange={(e) => setEditedTask({ ...editedTask, title: e.target.value })}
-        />
-        <Input
-          type="text"
-          placeholder="Assigned"
-          value={editedTask.assigned}
-          onChange={(e) => setEditedTask({ ...editedTask, assigned: e.target.value })}
-        />
-        <select
-          value={editedTask.status}
-          onChange={(e) => setEditedTask({ ...editedTask, status: e.target.value })}
+              <Button onClick={() => openEditModal(task, index)}>Edit</Button>
+              <Button onClick={() => handleDeleteTask(index)}>Delete</Button>
+            </Card>
+          ))}
+        </div>
+        <Modal
+          title="Edit Task"
+          open={editModalVisible}
+          onOk={handleUpdateTask}
+          onCancel={() => {
+            setEditModalVisible(false);
+            setEditedTask({});
+            setEditedTaskIndex(null);
+          }}
         >
-          <option value="In Progress">In Progress</option>
-          <option value="Completed">Completed</option>
-        </select>
-      </Modal>
-    </div>
-  );
+          <Input
+            type="text"
+            placeholder="Task Title"
+            value={editedTask.title}
+            onChange={(e) => setEditedTask({ ...editedTask, title: e.target.value })}
+          />
+          <Input
+            type="text"
+            placeholder="Assigned"
+            value={editedTask.assigned}
+            onChange={(e) => setEditedTask({ ...editedTask, assigned: e.target.value })}
+          />
+          <select
+            value={editedTask.status}
+            onChange={(e) => setEditedTask({ ...editedTask, status: e.target.value })}
+          >
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </Modal>
+      </div>
+    );
 };
 
 export default TaskPage;
