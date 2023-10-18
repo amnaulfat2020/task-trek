@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { db } from '../../utils/constants/Firebase'; 
 import { v4 as uuidv4 } from 'uuid';
@@ -21,6 +20,8 @@ import "./registration.css";
 import { Checkbox } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import Divider from "../../assets/images/Line 4.png";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const initialValues = {
   firstName: "",
@@ -38,6 +39,7 @@ const Registration = () => {
   const [errMsg, setErrMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); 
 
   const isStrongPassword = (password) => {
     return (
@@ -89,15 +91,15 @@ const Registration = () => {
       id: 5,
       htmlFor: "password",
       name: "password",
-      type: "password",
+      type: showPassword ? "text" : "password", 
       placeholder: "Password",
       label: "Password"
     },
     {
       id: 6,
-      htmlFor: "confirm_Password",
+      htmlFor: "confirmPassword",
       name: "confirmPassword",
-      type: "password",
+      type: showPassword ? "text" : "password",
       placeholder: "Confirm Password",
       label: "Confirm Password"
     }
@@ -158,15 +160,18 @@ const Registration = () => {
     },
   });
 
-return (
-  <>
-    <section className="register-container">
-      <div className="form-container">
-        <div className="head reg-typography reg-link">
-          <Link to="/" className="reg-link">
-            Already a member?
-          </Link>
-          <PersonIcon />
+
+  return (
+    <>
+      <section className="register-container">
+        <div className="form-container">
+          <div className="head reg-typography reg-link">
+            <Link to="/" className="reg-link">
+              Already a member?
+            </Link>
+            <PersonIcon />
+
+
         </div>
 
         <form onSubmit={handleSubmit} className="registration-form">
@@ -178,17 +183,19 @@ return (
               <span className="reg-link"> <Link to="/term-condition">terms and conditions</Link></span>. Please read
               them carefully. We are GDPR compliant
             </p>
+
           </div>
-          <div className="dotted-line">
-            <img src={Divider} alt="" />
-          </div>
-          <div className="field-container">
-            {inputs.map((input) => (
-              <div key={input.id}>
-                <div className="label reg-typography">
-                  <label htmlFor={input.htmlFor}>{input.label}</label>
-                  <HelpIcon className="icon" />
-  
+
+ 
+            <div className="dotted-line">
+              <img src={Divider} alt="" />
+            </div>
+            <div className="field-container">
+              {inputs.map((input) => (
+                <div key={input.id}>
+                  <div className="label reg-typography">
+                    <label htmlFor={input.htmlFor}>{input.label}</label>
+                    <HelpIcon className="icon" />
                   </div>
                   <div>
                     <TextField
@@ -203,27 +210,32 @@ return (
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
+                    {input.name === 'password' || input.name === 'confirmPassword' && (
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="toggle-password-button"
+                      >
+                        {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                      </button>
+                    )}
                   </div>
                   {input.name === 'password' && isStrongPassword(values.password) && (
-            <p className="strength-message reg-typography">Password is strong!</p>
-          )}
-          {errors[input.name] && touched[input.name] ? (
-            <p className="error-message reg-typography">
-              {errors[input.name]}
-            </p>
-          ) : null}
-                
-              </div>
-            ))}
-          </div>
-          <div className="dotted-line">
-            <img src={Divider} alt="" />
-          </div>
-          <div className="flex">
-            <p className="error-message">{errMsg}</p>
-          </div>
-          <div>
+                    <p className="strength-message reg-typography">Password is strong!</p>
+                  )}
+                  {errors[input.name] && touched[input.name] ? (
+                    <p className="error-message reg-typography">
+                      {errors[input.name]}
+                    </p>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+            <div className="dotted-line">
+              <img src={Divider} alt="" />
+            </div>
             <div className="flex">
+              <p className="error-message">{errMsg}</p>
               <p className="reg-typography terms">
                 <Checkbox
                   checked={agreeTerms}
@@ -241,14 +253,15 @@ return (
               >
                 Register
               </Button>
+            
+              </div>
             </div>
-          </div>
-        </form>
-      </div>
-      <div className="side"></div>
-    </section>
-  </>
-);
+          </form>
+        </div>
+        <div className="side"></div>
+      </section>
+    </>
+  );
 };
 
 export default Registration;
