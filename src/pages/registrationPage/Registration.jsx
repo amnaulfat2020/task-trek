@@ -39,6 +39,12 @@ const Registration = () => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
 
+  const isStrongPassword = (password) => {
+    return (
+      password.length >= 8 && /[!@#$%^&*]/.test(password) && /\d/.test(password)
+    );
+  };
+
   const handleCheckboxChange = (event) => {
     setAgreeTerms(event.target.checked);
     setErrMsg(""); 
@@ -103,6 +109,10 @@ const Registration = () => {
     onSubmit: async () => {
       if (!values.firstName || !values.email || !values.password) {
         setErrMsg('Fill all Fields');
+        return;
+      }
+      if (!isStrongPassword(values.password)) {
+        setErrMsg('Password is not strong enough. It must contain at least 8 characters, special characters, and numbers.');
         return;
       }
       
@@ -194,11 +204,14 @@ return (
                       onBlur={handleBlur}
                     />
                   </div>
-                  {errors[input.name] && touched[input.name] ? (
-                    <p className="error-message reg-typography">
-                      {errors[input.name]}
-                    </p>
-                  ) : null}
+                  {input.name === 'password' && isStrongPassword(values.password) && (
+            <p className="strength-message reg-typography">Password is strong!</p>
+          )}
+          {errors[input.name] && touched[input.name] ? (
+            <p className="error-message reg-typography">
+              {errors[input.name]}
+            </p>
+          ) : null}
                 
               </div>
             ))}

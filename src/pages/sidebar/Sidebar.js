@@ -137,9 +137,10 @@ const Sidebar = () => {
               },
               {
                 key: '3',
-                icon: <TeamOutlined />,
-                label: 'Members',
-              },
+          icon: <TeamOutlined />,
+          label: 'Members',
+          onClick: () => navigate('/members'), 
+        },
             ]}
           />
           <Button
