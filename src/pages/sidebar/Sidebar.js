@@ -69,9 +69,7 @@ const Sidebar = () => {
       </Button>
 
     </div>
-    {/* <div className='dashboard-main-section'>
-      <Outlet />
-    </div> */}
+
   </>
   );
 };

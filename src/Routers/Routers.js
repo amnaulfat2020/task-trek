@@ -14,11 +14,16 @@ import NotFound from '../components/NotFound';
 import Dashboard from '../pages/dashboard';
 import Project from '../pages/project/Project';
 import LayoutSideBar from '../layout/LayoutSideBar';
+import TermAndCondition from '../pages/TermsAndConditons';
+import Member from '../pages/member/Member';
 
 const Routers = () => {
+ 
   return (
     <div>
-      <Router>
+      
+      <Router> 
+      
         <Routes>
           <Route path="/tasks/:userId" element={<LayoutSideBar><TaskPage /></LayoutSideBar>} />
           <Route path="/dashboard/:userId" element={<LayoutSideBar><Dashboard /></LayoutSideBar>} />
@@ -30,11 +35,17 @@ const Routers = () => {
           <Route path="/register" element={<Registration />} />
           <Route path="/success-email" element={<SuccessEmail />} />
           <Route path="/success-register" element={<SuccessRegister />} />
+          <Route path="/members" element={<Member />} />
+          <Route path="/term-condition" element={<TermAndCondition />}/>
           <Route path="*" element={<NotFound />} />
         </Routes>
+      
       </Router>
     </div>
   );
 };
 
 export default Routers;
+
+
+
