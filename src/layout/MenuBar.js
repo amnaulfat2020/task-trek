@@ -1,57 +1,76 @@
-import { updateProfile, signOut } from "firebase/auth";
-import { auth } from '../utils/constants/Firebase';
-import React, { useContext } from 'react';
+import React, { useState, useEffect } from 'react';
+import UserProfilePopup from '../pages/userprofile/index'; 
+import { signOut } from 'firebase/auth';
+import { auth, db } from '../utils/constants/Firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { Link, useNavigate } from 'react-router-dom'; 
 import { Input, Space, Badge, Avatar, Typography, Menu, Dropdown } from 'antd';
 import {
   SearchOutlined,
   BellOutlined,
   UserOutlined,
   LogoutOutlined,
-  PlusOutlined,
-  SettingOutlined
 } from '@ant-design/icons';
-import { useSearch } from '../contexts/SearchContext'; // Import the useSearch hook
-import headerStyles from '../styles/headerStyles.js';
-import { Link, useNavigate } from "react-router-dom";
-
+import { useSearch } from '../contexts/SearchContext';
+import headerStyles from '../styles/headerStyles'; 
 
 const MenuBar = ({ currentPage }) => {
-  const { searchQuery, setSearch } = useSearch(); // Access the searchQuery and setSearch from the context
+  const { searchQuery, setSearch } = useSearch();
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
+  const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchUserData() {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const userRef = doc(db, 'users', user.email);
+          const userDoc = await getDoc(userRef);
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUserData({ ...userData, email: user.email });
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    }
+
+    fetchUserData();
+  }, []);
+
   const handleClick = () => {
     signOut(auth)
       .then(() => {
-        navigate('/')
-        console.log("user signedout successfully")
+        navigate('/');
+        console.log('User signed out successfully');
       })
       .catch((err) => {
         console.log(err);
       });
-  }
-
+  };
 
   const menu = (
     <Menu>
-      <Menu.Item key="profile" icon={<UserOutlined />}>
+      <Menu.Item key="profile" icon={<UserOutlined />} onClick={() => setShowProfilePopup(true)}>
         Profile
       </Menu.Item>
-      <Menu.Item key="logout"
-        onClick={handleClick}
-        icon={<LogoutOutlined />}>
+      <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={handleClick}>
         Logout
       </Menu.Item>
     </Menu>
   );
+
   const handleSearchChange = (e) => {
     const query = e.target.value;
     setSearch(query);
   };
 
-  const { Text } = Typography;
   return (
     <div style={headerStyles.container}>
       <div style={headerStyles.leftSection}>
-        <Link to='/dashboard' style={headerStyles.userLink} >Dashboard</Link>
+        <Link to='/project' style={headerStyles.userLink} >Project</Link>
       </div>
       <div style={headerStyles.centerSection}>
         <Space>
@@ -69,16 +88,16 @@ const MenuBar = ({ currentPage }) => {
           <Badge dot>
             <BellOutlined style={headerStyles.icon} />
           </Badge>
-          <Dropdown overlay={menu} trigger={['click']}>
+          <Dropdown menu={menu} trigger={['click']}>
             <Avatar icon={<UserOutlined />} style={headerStyles.avatar} />
           </Dropdown>
         </Space>
-
       </div>
+      {showProfilePopup && userData && (
+        <UserProfilePopup userData={userData} onClose={() => setShowProfilePopup(false)} />
+      )}
     </div>
   );
 };
-
-
 
 export default MenuBar;

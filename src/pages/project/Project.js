@@ -15,14 +15,8 @@ import {
   deleteProject,
   fetchTasksForProject,
 } from "../../services/api";
-import { doc,setDoc } from 'firebase/firestore'; 
-import { Link } from "react-router-dom";
-import AppHeader from "../../layout/MenuBar";
-import { db } from '../../utils/constants/Firebase';
-
+import { Link, useParams } from "react-router-dom";
 import { useSearch, useMenuContext } from "../../contexts/SearchContext";
-import { useParams } from 'react-router-dom';
-import Sidebar from "../sidebar/Sidebar";
 
 const Project = ({projectId}) => {
   const { userId } = useParams();

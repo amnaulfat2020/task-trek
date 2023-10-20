@@ -1,0 +1,35 @@
+@import url(../../index.css);
+.dashboard-container {
+  display: flex;
+  height: 80vh;
+  width: 80%;
+  margin: auto;
+}
+.left-section {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.section-header{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.line-up-btn{
+  width: 100%;
+  border: 1px dashed gray;
+  height: 50px;
+  background: #f2f2f2;
+}
+.line-up-btn:hover{
+  cursor: pointer;
+  color: var(--primary-clr) !important;
+  border: 1px dashed var(--primary-clr) !important;
+}
+.right-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+}

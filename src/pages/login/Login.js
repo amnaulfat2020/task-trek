@@ -1,6 +1,8 @@
+
+
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../utils/constants/Firebase";
+import { auth, getUserIdByEmail } from "../../utils/constants/Firebase";
 import { Col, Row, Typography } from "antd";
 import { Checkbox } from "antd";
 import {
@@ -8,11 +10,11 @@ import {
 } from "@ant-design/icons";
 import Button from "@mui/material/Button";
 import { useFormik } from "formik";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Line from "../../assets/images/Line 7.png";
 import { LoginSchema } from "../../Schema/LoginSchema";
-import { getUserIdByEmail } from '../../utils/constants/Firebase'; 
+import { useUserContext } from '../../contexts/SearchContext';
 function MouseOver(event) {
   event.target.style.color = "black";
 }
@@ -20,10 +22,15 @@ function MouseOver(event) {
 function MouseOut(event) {
   event.target.style.color = "#4743E0";
 }
+
 const Login = () => {
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+
+  // Use the useUserContext hook to access the updateUser function
+  const { updateUser } = useUserContext();
+
   const { values, errors, handleBlur, touched, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
@@ -35,7 +42,6 @@ const Login = () => {
 
         if (!values.email || !values.password) {
           setErrMsg("Fill all fields");
-          // console.log(action.resetForm())
         }
 
         setErrMsg("");
@@ -48,11 +54,19 @@ const Login = () => {
           const userId = await getUserIdByEmail(values.email);
 
           if (userId) {
-            navigate(`/dashboard/${userId}`);
+            navigate(`/dashboard/project/:${userId}`);
+            // Update the user data in the context
+            updateUser({
+              displayName: res.user.displayName,
+              email: res.user.email,
+              photoURL: res.user.photoURL,
+              // Add any other user-related data you need
+            });
+
           } else {
             setErrMsg("User not found.");
           }
-          
+
           console.log(res);
         } catch (err) {
           console.error("Firebase authentication error:", err);
@@ -62,8 +76,6 @@ const Login = () => {
       },
     });
 
-
-
   return (
     <Row className="login-boxStyle">
       {/* 1st column */}
@@ -72,8 +84,7 @@ const Login = () => {
           <div className="login-heading">
             <h1>Login</h1>
             <p>
-              Please input your information in the fields below to enter you
-              journey platform.
+              Please input your information in the fields below to enter your journey platform.
             </p>
           </div>
           <div className="">
@@ -92,7 +103,7 @@ const Login = () => {
                   type="email"
                   name="email"
                   value={values.email}
-                  id="emai"
+                  id="email"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="Username"
@@ -110,7 +121,7 @@ const Login = () => {
                   id="password"
                   value={values.password}
                   onChange={handleChange}
-                   onBlur={handleBlur}
+                  onBlur={handleBlur}
                   placeholder="input password"
                   className={
                     errors.password && touched.password ? "input-error" : ""
@@ -143,7 +154,7 @@ const Login = () => {
             <div className="flex">
               <p className="error">{errMsg}</p>
             </div>
-            {/* singin button */}
+            {/* signin button */}
             <div className="btn-area">
               {/* remember me */}
               <Checkbox>Remember me</Checkbox>
@@ -153,7 +164,7 @@ const Login = () => {
                 disabled={submitButtonDisabled}
                 variant="contained"
                 className="btn"
-              sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2 }}
               >
                 Login
               </Button>
@@ -192,4 +203,6 @@ const Login = () => {
     </Row>
   );
 };
+
 export default Login;
+
