@@ -146,7 +146,7 @@ const Registration = () => {
         const userId = await getUserIdByEmail(values.email);
 
         if (userId) {
-          navigate(`/dashboard/${userId}`);
+          navigate(`/dashboard/project/:${userId}`);
         } else {
           setErrMsg("User not found.");
         }

@@ -70,9 +70,7 @@ const MenuBar = ({ currentPage }) => {
   return (
     <div style={headerStyles.container}>
       <div style={headerStyles.leftSection}>
-        <Link to="/dashboard" style={headerStyles.userLink}>
-          Dashboard
-        </Link>
+        <Link to='/project' style={headerStyles.userLink} >Project</Link>
       </div>
       <div style={headerStyles.centerSection}>
         <Space>
@@ -90,7 +88,7 @@ const MenuBar = ({ currentPage }) => {
           <Badge dot>
             <BellOutlined style={headerStyles.icon} />
           </Badge>
-          <Dropdown overlay={menu} trigger={['click']}>
+          <Dropdown menu={menu} trigger={['click']}>
             <Avatar icon={<UserOutlined />} style={headerStyles.avatar} />
           </Dropdown>
         </Space>

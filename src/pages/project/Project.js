@@ -14,11 +14,8 @@ import {
   updateProject,
   deleteProject,
 } from "../../services/api";
-import { Link } from "react-router-dom";
-import AppHeader from "../../layout/MenuBar";
+import { Link, useParams } from "react-router-dom";
 import { useSearch, useMenuContext } from "../../contexts/SearchContext";
-import { useParams } from 'react-router-dom';
-import Sidebar from "../sidebar/Sidebar";
 
 const Project = () => {
   const { userId } = useParams();
