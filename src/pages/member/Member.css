@@ -1,18 +1,41 @@
 .custom-avatar {
-    background-color: #125bc1;
-    vertical-align: middle;
-    margin-right: 10px; 
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .list-item {
-    padding: 16px;
-    transition: background-color 0.3s;
-  }
-  
-  .list-item:hover {
-    background-color: #e6e6e6; 
-  }
-  
-  
+  background-color: #125bc1;
+  vertical-align: middle;
+  margin-right: 10px; 
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.member-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  transition: background-color 0.3s;
+}
+
+.list-item:hover {
+  background-color: #e6e6e6;
+}
+
+.user-details {
+  margin-left: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

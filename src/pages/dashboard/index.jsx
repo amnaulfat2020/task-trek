@@ -53,6 +53,7 @@ const Cascader = () => {
 const Dashboard = () => {
 
   return (
+    
     <section className="dashboard-container">
       <div className="left-section">
         <div className="lineup-section">
