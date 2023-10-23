@@ -1,6 +1,6 @@
 .column1 {
   /* padding-left: 10px; */
-  margin: 32px 27px 0px;
+  margin: 29px 0px 0px;
   background-color: white;
   height: 93vh;
 }
@@ -9,12 +9,11 @@
   flex-direction: column;
   justify-content: center !important;
   align-items: center;
-  margin-top: 10px !important;
   /* margin-left: 43px; */
 }
-.login-boxStyle {
+/* .login-boxStyle {
   height: 100vh;
-}
+} */
 .login-heading h1 {
   /* margin-top: 2rem; */
   font-size: 3.375rem;
@@ -22,8 +21,7 @@
   line-height: 4.25rem;
 }
 .login-heading p {
-  margin-top: 7px;
-
+  margin: 7px 26px 0;
   font-style: normal;
   font-weight: 400;
   line-height: 1.75rem;
@@ -64,8 +62,9 @@
   margin: 22px 26px 0;
 }
 .formContainer {
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   border-radius: none !important;
+  width: 100%;
   /* margin-left: 2em;
   margin-right: 2em; */
   /* margin-top: 3em; */
@@ -83,12 +82,19 @@
   padding: 15px !important;
 }
 .btn-area {
-  margin: 2rem;
+  margin: 0 26px 0px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-.btn {
+.checked{
+  margin-top: 30px;
+}
+.button-log{
+  margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+.log-btn {
   background-color: #4743e0 !important;
   color: white !important;
   margin: 12px;
@@ -118,17 +124,9 @@
   display: flex;
   flex-direction: column;
   margin-top: 7rem;
-  margin-bottom: 1rem;
 }
 
 @media (max-width: 991px) {
-  .column2 {
-    display: none !important;
-  }
-
-  .line {
-    display: none;
-  }
 
   .form-area {
     margin: 0rem 3rem;
@@ -141,7 +139,23 @@
   }
 }
 
+@media(max-width: 768px) {
+
+  .line {
+    display: none;
+  }
+
+
+}
+
 @media (max-width: 600px) {
+  .column2 {
+    display: none !important;
+  }
+  .line {
+    display: none;
+  }
+
   .form-area {
     margin: 0;
   }
