@@ -14,12 +14,8 @@ const Member = () => {
     const fetchUsers = async () => {
       try {
         const usersCollection = collection(db, 'users');
-
         const querySnapshot = await getDocs(usersCollection);
-        const userData = [];
-        querySnapshot.forEach((doc) => {
-          userData.push(doc.data());
-        });
+        const userData = querySnapshot.docs.map((doc) => doc.data());
         setUsers(userData);
       } catch (error) {
         console.error('Error fetching users: ', error);
@@ -32,7 +28,7 @@ const Member = () => {
   useEffect(() => {
     setFilteredUsers(
       users.filter((user) =>
-        user.firstName.toLowerCase().includes(searchQuery.toLowerCase())
+        user.firstName && user.firstName.toLowerCase().includes(searchQuery.toLowerCase())
       )
     );
   }, [searchQuery, users]);
@@ -41,43 +37,33 @@ const Member = () => {
     setSearchQuery(query);
   };
 
-  const CustomAvatar = ({ user }) => {
-    const initials = user.firstName.charAt(0).toUpperCase();
-
-    return (
-      <Avatar
-        src={user.profileImage}
-        alt={user.firstName}
-        className="custom-avatar" 
-      >
-        {initials}
-      </Avatar>
-    );
-  };
-
   return (
     <div>
       <h1>Members</h1>
       <Search
         placeholder="Search members..."
         onSearch={handleSearch}
-        style={{ width: 200 }}
+        style={{ width: 400 }}
       />
       <List
         itemLayout="horizontal"
         dataSource={filteredUsers}
         renderItem={(user) => (
-          <List.Item className="list-item"> {
-            
-          }
-            <CustomAvatar user={user} />
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <List.Item.Meta
-                title={user.firstName}
-                description={user.email}
-              />
+          <Card style={{ marginBottom: 16 }}>
+            <Avatar
+              size={50}
+              style={{
+                backgroundColor: '#125bc1', 
+                color: 'white', 
+              }}
+            >
+              {user.firstName.charAt(0).toUpperCase()}
+            </Avatar>
+            <div className="user-details">
+              <Typography.Title level={4}>{user.firstName}</Typography.Title>
+              <Typography.Text>{user.email}</Typography.Text>
             </div>
-          </List.Item>
+          </Card>
         )}
       />
     </div>

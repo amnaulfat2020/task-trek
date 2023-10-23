@@ -70,14 +70,14 @@ const MenuBar = ({ currentPage }) => {
   return (
     <div style={headerStyles.container}>
       <div style={headerStyles.leftSection}>
-        <Link to='/project' style={headerStyles.userLink} >Project</Link>
-      </div>
+          Task Trek
+     </div>
       <div style={headerStyles.centerSection}>
-        <Space>
+      <Space>
           <Input
             prefix={<SearchOutlined />}
             placeholder="Search..."
-            style={headerStyles.searchInput}
+            style={{ ...headerStyles.searchInput, width: '700px',height:'40px' }} 
             value={searchQuery}
             onChange={handleSearchChange}
           />
@@ -88,7 +88,7 @@ const MenuBar = ({ currentPage }) => {
           <Badge dot>
             <BellOutlined style={headerStyles.icon} />
           </Badge>
-          <Dropdown menu={menu} trigger={['click']}>
+          <Dropdown overlay={menu} trigger={['click']}>
             <Avatar icon={<UserOutlined />} style={headerStyles.avatar} />
           </Dropdown>
         </Space>
