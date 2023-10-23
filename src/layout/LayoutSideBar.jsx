@@ -6,6 +6,7 @@ const LayoutSideBar = ({ children, currentPage }) => {
   return (
     <div className="app-container">
       <Sidebar />
+
       <div className="content">
         <AppHeader currentPage={currentPage} />
         {children}

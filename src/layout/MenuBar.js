@@ -72,13 +72,12 @@ const MenuBar = ({ currentPage }) => {
       <div style={headerStyles.leftSection}>
         <Title style={headerStyles.userLink}>{currentPage}</Title>
       </div>
-     </div>
       <div style={headerStyles.centerSection}>
-      <Space>
+        <Space>
           <Input
             prefix={<SearchOutlined />}
             placeholder="Search..."
-            style={{ ...headerStyles.searchInput, width: '700px',height:'40px' }} 
+            style={{ ...headerStyles.searchInput, width: '700px', height: '40px' }}
             value={searchQuery}
             onChange={handleSearchChange}
           />
