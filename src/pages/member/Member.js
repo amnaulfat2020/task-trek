@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { collection, query, getDocs } from 'firebase/firestore';
 import { db } from '../../utils/constants/Firebase';
-import { Card, Input, List, Avatar, Typography } from 'antd';
+import { List, Avatar, Input, Card, Typography, Pagination } from 'antd';
 import './Member.css'; 
+import { UserOutlined } from '@ant-design/icons';
+
+
+
 const { Search } = Input;
 
 const Member = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortBy, setSortBy] = useState('firstName');
+  const [filterRole, setFilterRole] = useState('');
+  const membersPerPage = 10;
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -37,6 +45,30 @@ const Member = () => {
     setSearchQuery(query);
   };
 
+  const start = (currentPage - 1) * membersPerPage;
+  const end = start + membersPerPage;
+  const paginatedUsers = filteredUsers.slice(start, end);
+
+  const sortedUsers = [...paginatedUsers].sort((a, b) => {
+    return a[sortBy].localeCompare(b[sortBy]);
+  });
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleSort = (key) => {
+    setSortBy(key);
+  };
+
+  const handleRoleFilter = (role) => {
+    setFilterRole(role);
+  };
+
+  const filteredByRoleUsers = sortedUsers.filter((user) =>
+    filterRole ? user.role === filterRole : true
+  );
+
   return (
     <div>
       <h1>Members</h1>
@@ -45,26 +77,50 @@ const Member = () => {
         onSearch={handleSearch}
         style={{ width: 400 }}
       />
+      {/* <div className="filter-buttons">
+        <button onClick={() => handleRoleFilter('admin')}>Admin</button>
+        <button onClick={() => handleRoleFilter('member')}>Member</button>
+        <button onClick={() => handleRoleFilter('guest')}>Guest</button>
+        <button onClick={() => handleRoleFilter('')}>Clear Filter</button>
+      </div>
+      <div className="sort-buttons">
+        <button onClick={() => handleSort('firstName')}>Sort by Name</button>
+        <button onClick={() => handleSort('email')}>Sort by Email</button>
+      </div> */}
       <List
-        itemLayout="horizontal"
-        dataSource={filteredUsers}
+        itemLayout="vertical"
+        dataSource={filteredByRoleUsers}
         renderItem={(user) => (
-          <Card style={{ marginBottom: 16 }}>
-            <Avatar
-              size={50}
-              style={{
-                backgroundColor: '#125bc1', 
-                color: 'white', 
-              }}
-            >
-              {user.firstName.charAt(0).toUpperCase()}
-            </Avatar>
-            <div className="user-details">
-              <Typography.Title level={4}>{user.firstName}</Typography.Title>
-              <Typography.Text>{user.email}</Typography.Text>
-            </div>
-          </Card>
+          <List.Item>
+            <Card>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Avatar
+                  size={50}
+                  style={{
+                    backgroundColor: '#125bc1',
+                    color: 'white',
+                    marginRight: 16,
+                  }}
+                >
+                  
+                  <UserOutlined />
+
+                </Avatar>
+                <div className="user-details">
+                  <Typography.Title level={4}>{user.firstName}</Typography.Title>
+                  {/* <Typography.Text>{user.email}</Typography.Text>
+                  <Typography.Text>{user.role}</Typography.Text> */}
+                </div>
+              </div>
+            </Card>
+          </List.Item>
         )}
+      />
+      <Pagination
+        current={currentPage}
+        onChange={handlePageChange}
+        total={filteredByRoleUsers.length}
+        pageSize={membersPerPage}
       />
     </div>
   );
