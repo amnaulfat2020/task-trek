@@ -18,16 +18,16 @@ import TermAndCondition from '../pages/TermsAndConditons';
 import Member from '../pages/member/Member';
 
 const Routers = () => {
- 
+
   return (
     <div>
-      
-      <Router> 
-      
+
+      <Router>
+
         <Routes>
-          <Route path="/tasks/:userId" element={<LayoutSideBar><TaskPage /></LayoutSideBar>} />
-          <Route path="/dashboard/:userId" element={<LayoutSideBar><Dashboard /></LayoutSideBar>} />
-          <Route path="/dashboard/project/:userId" element={<LayoutSideBar><Project /></LayoutSideBar>} />
+          <Route path="/tasks/:userId" element={<LayoutSideBar currentPage="TaskPage"><TaskPage /></LayoutSideBar>} />
+          <Route path="/dashboard/:userId" element={<LayoutSideBar currentPage="Dashboard"><Dashboard /></LayoutSideBar>} />
+          <Route path="/dashboard/project/:userId" element={<LayoutSideBar currentPage="Project"><Project /></LayoutSideBar>} />
           <Route path="/project/user-profile" element={<UserProfile />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/change-password" element={<ChangePassword />} />
@@ -39,7 +39,7 @@ const Routers = () => {
           <Route path="/term-condition" element={<TermAndCondition />}/>
           <Route path="*" element={<NotFound />} />
         </Routes>
-      
+
       </Router>
     </div>
   );

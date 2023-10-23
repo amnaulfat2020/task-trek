@@ -10,7 +10,7 @@ const headerStyles = {
   },
   userLink: {
     textDecoration: 'none',
-    color: 'var(--primary - clr)',
+    color: 'var(--primary-clr)',
     fontSize: '22px',
   },
   leftSection: {
