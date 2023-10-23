@@ -35,8 +35,8 @@ const Routers = () => {
           <Route path="/register" element={<Registration />} />
           <Route path="/success-email" element={<SuccessEmail />} />
           <Route path="/success-register" element={<SuccessRegister />} />
-          <Route path="/members" element={<Member />} />
-          <Route path="/term-condition" element={<TermAndCondition />} />
+          <Route path="/members" element={<LayoutSideBar><Member /></LayoutSideBar>} />
+          <Route path="/term-condition" element={<TermAndCondition />}/>
           <Route path="*" element={<NotFound />} />
         </Routes>
 
