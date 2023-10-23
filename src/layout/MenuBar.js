@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import UserProfilePopup from '../pages/userprofile/index'; 
+import UserProfilePopup from '../pages/userprofile/index';
 import { signOut } from 'firebase/auth';
 import { auth, db } from '../utils/constants/Firebase';
 import { doc, getDoc } from 'firebase/firestore';
-import { Link, useNavigate } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom';
 import { Input, Space, Badge, Avatar, Typography, Menu, Dropdown } from 'antd';
 import {
   SearchOutlined,
@@ -12,8 +12,8 @@ import {
   LogoutOutlined,
 } from '@ant-design/icons';
 import { useSearch } from '../contexts/SearchContext';
-import headerStyles from '../styles/headerStyles'; 
-
+import headerStyles from '../styles/headerStyles';
+const Title = Typography;
 const MenuBar = ({ currentPage }) => {
   const { searchQuery, setSearch } = useSearch();
   const [showProfilePopup, setShowProfilePopup] = useState(false);
@@ -70,7 +70,9 @@ const MenuBar = ({ currentPage }) => {
   return (
     <div style={headerStyles.container}>
       <div style={headerStyles.leftSection}>
-        <Link to='/project' style={headerStyles.userLink} >Project</Link>
+        {/* <Link to='/project' style={headerStyles.userLink} >Project</Link> 
+        */}
+        <Title style={headerStyles.userLink}>{currentPage}</Title>
       </div>
       <div style={headerStyles.centerSection}>
         <Space>
@@ -88,9 +90,7 @@ const MenuBar = ({ currentPage }) => {
           <Badge dot>
             <BellOutlined style={headerStyles.icon} />
           </Badge>
-          <Dropdown menu={menu} trigger={['click']}>
-            <Avatar icon={<UserOutlined />} style={headerStyles.avatar} />
-          </Dropdown>
+          <Avatar icon={<UserOutlined />} style={headerStyles.avatar} />
         </Space>
       </div>
       {showProfilePopup && userData && (
