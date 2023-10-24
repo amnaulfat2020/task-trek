@@ -5,14 +5,27 @@ import { auth, db } from '../utils/constants/Firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom'; 
 import { Input, Space, Badge, Avatar, Typography, Menu, Dropdown, Modal } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import { Input, Space, Badge, Avatar, Typography, Menu, Dropdown } from 'antd';
+import { signOut } from "firebase/auth";
+import { auth } from '../utils/constants/Firebase';
+import { Input, Space, Badge, Avatar, Menu, Dropdown } from 'antd';
 import {
   SearchOutlined,
   BellOutlined,
   UserOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
+import { useSearch } from '../contexts/SearchContext'; // Import the useSearch hook
+import headerStyles from '../styles/headerStyles.js';
+import { Link, useNavigate } from "react-router-dom";
 import { useSearch } from '../contexts/SearchContext';
 import headerStyles from '../styles/headerStyles'; 
+import headerStyles from '../styles/headerStyles';
+const Title = Typography;
+
+
+
 
 const MenuBar = ({ currentPage }) => {
   const { searchQuery, setSearch } = useSearch();
