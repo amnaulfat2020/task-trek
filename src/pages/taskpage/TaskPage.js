@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, Input, Button, Modal, Menu, Popover } from 'antd';
+import { Card, Input, Button, Modal, Menu, Popover, Alert } from 'antd';
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useSearch, useMenuContext } from "../../contexts/SearchContext";
 import headerStyles from '../../styles/headerStyles';
@@ -104,7 +104,6 @@ const TaskPage = () => {
     const updatedTasks = [...tasks];
     updatedTasks.splice(index, 1);
     setTasks(updatedTasks);
-    console.table(updatedTasks)
   };
 
   const openEditModal = (task, index) => {
@@ -136,7 +135,6 @@ const TaskPage = () => {
         value={newTask.title}
         onChange={(e) => {
           setNewTask({ ...newTask, title: e.target.value })
-          console.table([...newTask])
         }}
       />
       <Input
@@ -146,7 +144,6 @@ const TaskPage = () => {
         value={newTask.assigned}
         onChange={(e) => {
           setNewTask({ ...newTask, assigned: e.target.value })
-          console.table([...newTask])
         }
         }
       />
@@ -155,7 +152,6 @@ const TaskPage = () => {
         ref={docId}
         onChange={(e) => {
           setNewTask({ ...newTask, status: e.target.value })
-          console.table([...newTask])
         }
         }
       >
@@ -186,7 +182,6 @@ const TaskPage = () => {
     setMenuFilter(key);
   };
 
-  const { searchQuery } = useSearch(); // Access the searchQuery from the context
   const { menuFilter, setMenuFilter } = useMenuContext();
 
   // const filteredBySearch =
@@ -271,9 +266,7 @@ const TaskPage = () => {
             <option value="Completed">Completed</option>
           </select>
         </Modal>
-        {loading && <Title> Loading....</Title>}
-        {error && <Title> {error}....</Title>}
-
+        {loading && <Alert message=" Loading..." type="success" />}
       </div>
     );
 };
