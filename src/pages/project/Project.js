@@ -22,6 +22,8 @@ import { db } from '../../utils/constants/Firebase';
 import { useSearch, useMenuContext } from "../../contexts/SearchContext";
 import { useParams } from 'react-router-dom';
 import TaskPage from "../taskpage/TaskPage";
+import { Link, useParams } from "react-router-dom";
+import { useSearch, useMenuContext } from "../../contexts/SearchContext";
 
 const Project = () => {
   const { userId } = useParams();
@@ -53,33 +55,6 @@ const Project = () => {
     }
     fetchProjectData();
   }, [userId]);
-
-
-
-  // for fetching tasks of projects
-  // useEffect(() => {
-
-  //   async function fetchTasksData(projectId) {
-  //     const tasksList = [];
-  //     try {
-  //       const querySnapshot = await getDocs(
-  //         query(collection(db, `projects/${projectId}/new-Task`),)
-  //       );
-  //       querySnapshot.forEach((project) => {
-  //         tasksList.push({ id: projectId, ...doc.data() });
-  //         // console.log(project.id)
-
-  //       });
-  //     } catch (error) {
-  //       console.error('Error fetching projects: ', error);
-
-  //     }
-  //     console.log(projectId)
-  //     return tasksList;
-  //     // Call the fetchTasksForProject function to get tasks associated with the project
-  //   }
-  //   fetchTasksData();
-  // }, []);
 
 
 

@@ -1,0 +1,23 @@
+.mainDiv{
+    width: 100%;
+
+    text-align: center;
+    
+    background-color: #f7f3f3;
+    border-radius: 10px;
+    box-shadow: 1px 2px 6px hsla(98,4%,61%,.2);
+    height: 100%;
+    margin: 15px auto;
+    max-width: 900px;
+    overflow: hidden;
+    padding: 10px;
+    width: 100%;
+    line-height: 30px;
+    padding: 20px 0px;
+}
+.HeaderCls{
+    padding: 40px 0px 20px 0px;
+}
+.HeaderCls2{
+    padding: 0px 0px 20px 0px;
+}
