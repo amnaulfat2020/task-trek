@@ -19,11 +19,12 @@ export const createProject = async (projectData, userId) => {
     const projectId = docRef.id;
    
     // creating subcollect called "tasks"
-    const tasksCollectionRef = collection(db, "projects", projectId , "tasks");
+    const tasksCollectionRef = collection(db, "projects",docRef.id,"tasks");
     
     // adding tasks to subcollection
     for (const task of projectData.tasks) {
-      await addDoc(tasksCollectionRef, { taskName: task });
+      task['projectId'] = projectId;
+      await addDoc(tasksCollectionRef, task);
     }
 
 
@@ -37,12 +38,10 @@ export const createProject = async (projectData, userId) => {
 export const fetchTasksForProject = async (projectId) => {
   const tasksCollectionRef = collection(db, "projects", projectId, "tasks");
   const taskSnapshot = await getDocs(tasksCollectionRef);
-
   const tasks = [];
   taskSnapshot.forEach((doc) => {
     tasks.push(doc.data());
   });
-
   return tasks;
 };
 

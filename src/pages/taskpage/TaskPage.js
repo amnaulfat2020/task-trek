@@ -14,12 +14,15 @@ import {
   setDoc,
   getDoc,
   getDocs,
-  query, where
+  query, where, addDoc
 } from 'firebase/firestore';
 import { db } from '../../utils/constants/Firebase';
+import Title from 'antd/es/typography/Title';
+import dbNames from '../../utils/constants/db';
 
 const TaskPage = () => {
-  const [tasks, setTasks] = useState([]);
+  const { projectId } = useParams()
+
   const docId = useRef();
 
   const [newTask, setNewTask] = useState({
@@ -32,61 +35,66 @@ const TaskPage = () => {
   const [editedTask, setEditedTask] = useState({});
   const [editedTaskIndex, setEditedTaskIndex] = useState(null);
 
-  const fetchTasks = async (userId) => {
+  const fetchTasks = async () => {
     const tasksList = [];
     try {
       const querySnapshot = await getDocs(
-        query(collection(db, `projects/${doc.id}/new-Task`),)
+        query(collection(db, dbNames.getTaskCollection(projectId)),)
       );
       querySnapshot.forEach((doc) => {
         tasksList.push({ id: doc.id, ...doc.data() });
+
       });
     } catch (error) {
       console.error('Error fetching projects: ', error);
+
     }
+
     return tasksList;
   };
 
-
-
-
   useEffect(() => {
-    async function fetchTasksData(userId) {
-      const taskList = await fetchTasks(userId);
+    async function fetchTasksData(projectId) {
+      const taskList = await fetchTasks(projectId);
       setTasks(taskList);
     }
     fetchTasksData();
-    console.log("task fetched");
+    // console.log("task fetched");
   }, []);
-
-
-
-  const q = query(collection(db, "projects"));
+  const q = collection(db, dbNames.projectCollection)
   const [docs, loading, error] = useCollectionData(q);
 
-  async function handleAddTask() {
+  async function handleAddTask(projectId) {
     if (newTask.title.trim() !== '') {
+      // Document reference
+      const collectionName = dbNames.getTaskCollection(projectId);
+      const docRef = null;
+      // Create a new task in the subcollection
+      const taskRef = collection(db, collectionName);
+      const newTaskData = {
+        title: newTask.title,
+        projectId: projectId,
+        assigned: newTask.assigned,
+        status: newTask.status,
+      };
 
-      //document reference
-      const docRef = doc(db, "projects", docId.current.value);
-      await setDoc(docRef, { docId: docId.current.value });
+      if (docId && docId.current && docId.current.value) {
+        docRef = doc(db, collectionName, docId.current.value);
 
-      //---------------creating subcollection-----------
-      {
-        docs?.map((doc) => (
-          setDoc(db, `projects/${doc.id}/new-Task`, newTask.title), {
-            title: newTask.title,
-            assigned: newTask.assigned,
-            status: newTask.status,
-          }
-        ))
+        await setDoc(docRef, newTaskData);
+      }
+      else {
+        await addDoc(taskRef, newTaskData);
       }
 
+      // Update the local state
       setTasks([...tasks, newTask]);
+
+      // Reset the new task input fields
       setNewTask({
         title: '',
         assigned: '',
-        status: 'In Progress',
+        status: 'To do',
       });
     }
   }
@@ -112,6 +120,7 @@ const TaskPage = () => {
       setEditModalVisible(false);
       setEditedTask({});
       setEditedTaskIndex(null);
+      console.log(...tasks)
     }
   };
 
@@ -124,17 +133,30 @@ const TaskPage = () => {
         type="text"
         placeholder="Task Title"
         value={newTask.title}
-        onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
+        onChange={(e) => {
+          setNewTask({ ...newTask, title: e.target.value })
+          console.table([...newTask])
+        }}
       />
       <Input
+        ref={docId}
         type="text"
         placeholder="Assigned"
         value={newTask.assigned}
-        onChange={(e) => setNewTask({ ...newTask, assigned: e.target.value })}
+        onChange={(e) => {
+          setNewTask({ ...newTask, assigned: e.target.value })
+          console.table([...newTask])
+        }
+        }
       />
       <select
         value={newTask.status}
-        onChange={(e) => setNewTask({ ...newTask, status: e.target.value })}
+        ref={docId}
+        onChange={(e) => {
+          setNewTask({ ...newTask, status: e.target.value })
+          console.table([...newTask])
+        }
+        }
       >
         <option value="In Progress">In Progress</option>
         <option value="Discussing">Discussing</option>
@@ -143,7 +165,7 @@ const TaskPage = () => {
         <option value="Cancelled">Cancelled</option>
         <option value="On Hold">On Hold</option>
       </select>
-      <Button onClick={handleAddTask}>Add Task</Button>
+      <Button onClick={() => handleAddTask(projectId)}>Add Task</Button>
     </div>
 
   )
@@ -201,6 +223,7 @@ const TaskPage = () => {
         <div>
 
           {tasks.map((task, index) => (
+
             <Card key={index}>
               <h2>{task.title}</h2>
               <p>Assigned: {task.assigned}</p>
@@ -246,6 +269,9 @@ const TaskPage = () => {
             <option value="Completed">Completed</option>
           </select>
         </Modal>
+        {loading && <Title> Loading....</Title>}
+        {error && <Title> {error}....</Title>}
+
       </div>
     );
 };

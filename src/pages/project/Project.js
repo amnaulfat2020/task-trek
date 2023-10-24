@@ -15,12 +15,19 @@ import {
   deleteProject,
   fetchTasksForProject,
 } from "../../services/api";
+import { doc, setDoc } from 'firebase/firestore';
+import { Link, useNavigate } from "react-router-dom";
+import { db } from '../../utils/constants/Firebase';
+
+import { useSearch, useMenuContext } from "../../contexts/SearchContext";
+import { useParams } from 'react-router-dom';
+import TaskPage from "../taskpage/TaskPage";
 import { Link, useParams } from "react-router-dom";
 import { useSearch, useMenuContext } from "../../contexts/SearchContext";
 
-const Project = ({projectId}) => {
+const Project = () => {
   const { userId } = useParams();
-  const docId = useRef();
+  const navigate = useNavigate()
   const [projects, setProjects] = useState([]);
   const [newProject, setNewProject] = useState({
     title: '',
@@ -39,7 +46,7 @@ const Project = ({projectId}) => {
   const [editingMembers, setEditingMembers] = useState(null);
   const [editingTitle, setEditingTitle] = useState('');
 
-  
+
   // for fetching project
   useEffect(() => {
     async function fetchProjectData() {
@@ -48,18 +55,6 @@ const Project = ({projectId}) => {
     }
     fetchProjectData();
   }, [userId]);
-
-
-
-  // for fetching tasks of projects
-  // useEffect(() => {
-  //   async function fetchTasksData() {
-  //     // Call the fetchTasksForProject function to get tasks associated with the project
-  //     const taskList = await fetchTasksForProject(projectId);
-  //     setTasks(taskList);
-  //   }
-  //   fetchTasksData();
-  // }, [projectId]);
 
 
 
@@ -87,16 +82,6 @@ const Project = ({projectId}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createProject({ ...newProject, tasks: taskList });
-    setNewProject({
-      title: "",
-      StartDate: "",
-      status: "In Progress",
-      members: "",
-      progress: 0,
-    });
-    setTaskList([]);
-
     // useRef
     // const docRef = doc(db, "projects", docId.current.value);
     // await setDoc(docRef, { docId: docId.current.value });
@@ -126,6 +111,7 @@ const Project = ({projectId}) => {
   };
 
   const handleDelete = async (projectId) => {
+    // console.log(projectId)
     await deleteProject(projectId);
     const updatedProjectList = await fetchProjects();
     setProjects(updatedProjectList);
@@ -182,7 +168,7 @@ const Project = ({projectId}) => {
   const { searchQuery } = useSearch(); // Access the searchQuery from the context
   const { menuFilter, setMenuFilter } = useMenuContext();
 
-// create project input content
+  // create project input content
   const content = (
     <div>
 
@@ -260,7 +246,7 @@ const Project = ({projectId}) => {
                       onClick={() => handleEdit(project.id)}
                     >
                       <span>
-                        <img src={EditSvg} alt="edit icon" />{" "}
+                        <img src={EditSvg} alt="edit icon" />
                       </span>
                     </Button>
                     <Button
@@ -278,7 +264,7 @@ const Project = ({projectId}) => {
             </div>
             <div className="status">
               <span>
-                <img src={statusImg} alt="dot" />{" "}
+                <img src={statusImg} alt="dot" />
               </span>
               {editingProjectId === project.id ? (
                 <select
@@ -322,7 +308,7 @@ const Project = ({projectId}) => {
                 <div className="tasks">
                   <p style={{ marginLeft: "8px" }}>{tasks.length}</p>
                   {tasks && tasks.length > 0 && (
-                    <div className="task-list">
+                    <div className="task-list" key={project.id}>
                       <List
                         dataSource={project.tasks}
                         renderItem={(task, index) => (
@@ -340,8 +326,8 @@ const Project = ({projectId}) => {
                     </div>
                   )}
                   <div className="task-input">
-                    <Link to="/tasks">
-                      <p>Tasks</p>
+                    <Link to={`/${project.id}/tasks`}>
+                      <p >Tasks</p>
                     </Link>
                     <Modal
                       title="Add Task"
@@ -408,7 +394,7 @@ const Project = ({projectId}) => {
   return (
     <div>
 
-{/*------------------------ Navbar filteration -----------------------------------*/}
+      {/*------------------------ Navbar filteration -----------------------------------*/}
       <div className="navbar">
         <div className="new-project">
           <Popover placement="bottom" content={content}>
@@ -432,9 +418,13 @@ const Project = ({projectId}) => {
       {/* ----------------------------card render-------------------------------- */}
       <div className="card">
         {projects.map((project) => (
-          <div key={project.id}>{cardRender(project)}</div>
+          <>
+            <div key={project.id}>{cardRender(project)}</div>
+          </>
         ))}
+
       </div>
+
     </div>
   );
 };
