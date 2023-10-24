@@ -56,9 +56,9 @@ const MenuBar = ({ currentPage }) => {
       <Menu.Item key="profile" icon={<UserOutlined />} onClick={() => setShowProfilePopup(true)}>
         Profile
       </Menu.Item>
-      <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={handleClick}>
+      {/* <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={handleClick}>
         Logout
-      </Menu.Item>
+      </Menu.Item> */}
     </Menu>
   );
 
@@ -88,7 +88,7 @@ const MenuBar = ({ currentPage }) => {
           <Badge dot>
             <BellOutlined style={headerStyles.icon} />
           </Badge>
-          <Dropdown overlay={menu} trigger={['click']}>
+          <Dropdown menu={menu} trigger={['click']}>
             <Avatar icon={<UserOutlined />} style={headerStyles.avatar} />
           </Dropdown>
         </Space>

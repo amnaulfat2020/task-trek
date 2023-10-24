@@ -3,9 +3,9 @@ import { UserOutlined, FileOutlined, LogoutOutlined, TeamOutlined } from '@ant-d
 import logo from '../../assets/images/side-logo.png';
 import './sidebar.css'
 import { Menu, Button } from 'antd';
-import { useNavigate, useParams } from 'react-router-dom';
-import { signOut } from 'firebase/auth'; 
-import { auth } from '../../utils/constants/Firebase'; 
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../utils/constants/Firebase';
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -33,20 +33,20 @@ const Sidebar = () => {
 
   const items = [
     getItem('Dashboard', 'sub1', <UserOutlined onClick={() => {
-      navigate(`/dashboard/:${userId}`)
+      navigate(`/dashboard/${userId}`)
     }} />),
     {
       type: 'divider',
     },
     getItem('Projects', 'sub2', <FileOutlined onClick={() => {
-      navigate(`/dashboard/project/:${userId}`)
+      navigate(`/dashboard/project/${userId}`)
     }} />),
     {
       type: 'divider',
     },
-    getItem('Members', 'sub4', <TeamOutlined  onClick={() => {
+    getItem('Members', 'sub4', <TeamOutlined onClick={() => {
       navigate(`/members/`)
-    }}/>,
+    }} />,
     ),
   ];
 
@@ -59,16 +59,16 @@ const Sidebar = () => {
       <div className='logo-container'>
         <img src={logo} alt='logo' className='logo' />
       </div>
-      <Menu
-        onClick={onClick}
-        style={{
-          width: 256,
-        }}
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
-        mode="inline"
-        items={items}
-      />
+        <Menu
+          onClick={onClick}
+          style={{
+            width: 256,
+          }}
+          defaultSelectedKeys={['1']}
+          defaultOpenKeys={['sub1']}
+          mode="inline"
+          items={items}
+        />
       <Button className='sidebar-btn' onClick={handleLogout}>
         <LogoutOutlined style={{ marginRight: '20px' }} />
         Logout
