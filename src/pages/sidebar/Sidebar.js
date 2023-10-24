@@ -21,7 +21,6 @@ function getItem(label, key, icon, children, type) {
 const Sidebar = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
-
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -33,17 +32,17 @@ const Sidebar = () => {
   };
 
   const items = [
-    getItem('Dashboard', 'sub1', <UserOutlined />, null, 'item'), 
+    getItem('Dashboard', 'sub1', <UserOutlined />, null, 'item'),
     {
       type: 'divider',
     },
-    getItem('Projects', 'sub2', <FileOutlined />, null, 'item'), 
+    getItem('Projects', 'sub2', <FileOutlined />, null, 'item'),
     {
       type: 'divider',
     },
-    getItem('Members', 'sub4', <TeamOutlined />, null, 'item'), 
-    
-   
+    getItem('Members', 'sub4', <TeamOutlined />, null, 'item'),
+
+
   ];
 
   const onClick = (e) => {
@@ -72,7 +71,7 @@ const Sidebar = () => {
             navigate(`/dashboard/project/${userId}`);
           }
           if (key === 'sub4') {
-            navigate('/members');
+            navigate(`/members/${userId}`);
           }
         }}
       />

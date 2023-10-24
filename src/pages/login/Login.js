@@ -54,7 +54,7 @@ const Login = () => {
           const userId = await getUserIdByEmail(values.email);
 
           if (userId) {
-            navigate(`/dashboard/project/:${userId}`);
+            navigate(`/dashboard/project/${userId}`);
             // Update the user data in the context
             updateUser({
               displayName: res.user.displayName,

@@ -12,13 +12,11 @@ import {
   collection,
   doc,
   setDoc,
-  getDoc,
   getDocs,
-  query, where, addDoc
+  query, addDoc
 } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import { db } from '../../utils/constants/Firebase';
-import Title from 'antd/es/typography/Title';
 import dbNames from '../../utils/constants/db';
 
 const TaskPage = () => {

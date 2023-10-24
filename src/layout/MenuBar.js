@@ -87,7 +87,7 @@ const MenuBar = ({ currentPage }) => {
   return (
     <div style={headerStyles.container}>
       <div style={headerStyles.leftSection}>
-        Task Trek
+        {currentPage}
       </div>
       <div style={headerStyles.centerSection}>
         <Space>
@@ -105,7 +105,7 @@ const MenuBar = ({ currentPage }) => {
           <Badge dot>
             <BellOutlined style={headerStyles.icon} onClick={showWelcomeNotification} />
           </Badge>
-          <Dropdown overlay={menu} trigger={['click']}>
+          <Dropdown menu={menu} trigger={['click']}>
             <Avatar icon={<UserOutlined />} style={headerStyles.avatar} onClick={() => setLoggedIn(!loggedIn)} />
           </Dropdown>
         </Space>
