@@ -47,7 +47,6 @@ const TaskPage = () => {
       });
     } catch (error) {
       console.error('Error fetching projects: ', error);
-
     }
 
     return tasksList;
