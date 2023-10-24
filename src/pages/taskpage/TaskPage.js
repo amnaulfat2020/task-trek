@@ -14,13 +14,15 @@ import {
   setDoc,
   getDoc,
   getDocs,
-  query, where
+  query, where, addDoc
 } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import { db } from '../../utils/constants/Firebase';
+import Title from 'antd/es/typography/Title';
 
-const TaskPage = () => {
-  // const { userId } = useParams();
+const TaskPage = (projectId) => {
+  // const { projectId } = useParams()
+  // console.warn(projectId)
   const [tasks, setTasks] = useState([]);
   const docId = useRef();
 
@@ -34,7 +36,8 @@ const TaskPage = () => {
   const [editedTask, setEditedTask] = useState({});
   const [editedTaskIndex, setEditedTaskIndex] = useState(null);
 
-  const fetchTasks = async (userId) => {
+  const fetchTasks = async () => {
+    // console.log(projectId)
     const tasksList = [];
     try {
       const querySnapshot = await getDocs(
@@ -42,62 +45,79 @@ const TaskPage = () => {
       );
       querySnapshot.forEach((doc) => {
         tasksList.push({ id: doc.id, ...doc.data() });
+        // console.log(project.id)
+
       });
     } catch (error) {
       console.error('Error fetching projects: ', error);
+
     }
+
     return tasksList;
   };
 
-
-
-
   useEffect(() => {
-    async function fetchTasksData(userId) {
-      const taskList = await fetchTasks(userId);
+    async function fetchTasksData(projectId) {
+      const taskList = await fetchTasks(projectId);
       setTasks(taskList);
     }
     fetchTasksData();
-    console.log("task fetched");
+    // console.log("task fetched");
   }, []);
 
 
 
-  const q = query(collection(db, "projects"));
+  // const q = query(collection(db, "projects"));
+  const q = collection(db, "projects")
   const [docs, loading, error] = useCollectionData(q);
 
-  async function handleAddTask() {
-    if (newTask.title.trim() !== '') {
+  async function handleAddTask(projectId) {
+    // if (newTask.title.trim() !== '') {
 
-      //document reference
-      const docRef = doc(db, "projects", docId.current.value);
-      await setDoc(docRef, { docId: docId.current.value });
+    //   //document reference
+    //   const docRef = doc(db, "projects", docId.current.value);
+    //   await setDoc(docRef, { docId: docId.current.value });
+    //   //---------------creating subcollection-----------
+    //   {
+    //     docs?.map((doc) => (
+    //       setDoc(db, `projects/${doc.id}/new-Task`, newTask.title), {
+    //         title: newTask.title,
+    //         assigned: newTask.assigned,
+    //         status: newTask.status,
+    //       }
+    //     ))
+    //   }
 
-      //---------------creating subcollection-----------
-      {
-        docs?.map((doc) => (
-          setDoc(db, `projects/${doc.id}/new-Task`, newTask.title), {
-            title: newTask.title,
-            assigned: newTask.assigned,
-            status: newTask.status,
-          }
-        ))
+    //   setTasks([...tasks, newTask]);
+    //   setNewTask({
+    //     title: '',
+    //     assigned: '',
+    //     status: 'In Progress',
+    //   });
+    // } 
+
+
+    if (docs) {
+      
+      for (const doc of docs) {
+        const newTaskData = {
+          title: newTask.title,
+          assigned: newTask.assigned,
+          status: newTask.status,
+        };
+
+        const taskRef = collection(db, `projects/${doc.id}/new-Task`);
+        await addDoc(taskRef, newTaskData);
       }
-
-      setTasks([...tasks, newTask]);
-      setNewTask({
-        title: '',
-        assigned: '',
-        status: 'In Progress',
-      });
     }
+
   }
 
   const handleDeleteTask = (index) => {
     const updatedTasks = [...tasks];
     updatedTasks.splice(index, 1);
     setTasks(updatedTasks);
-    console.table(updatedTasks)
+    // console.table(updatedTasks)
   };
 
   const openEditModal = (task, index) => {
@@ -204,6 +224,7 @@ const TaskPage = () => {
         <div>
 
           {tasks.map((task, index) => (
+
             <Card key={index}>
               <h2>{task.title}</h2>
               <p>Assigned: {task.assigned}</p>
@@ -249,6 +270,7 @@ const TaskPage = () => {
             <option value="Completed">Completed</option>
           </select>
         </Modal>
+        {loading && <Title> Loading....</Title>}
       </div>
     );
 };

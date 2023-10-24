@@ -45,7 +45,9 @@
 .new-project{
   margin: 6px 7px 0px 36px;
 }
-
+.invisible{
+  display: none !important;
+}
 .filterMenu{
   width: 80%;
   border: 1px solid #F1F2F7;
