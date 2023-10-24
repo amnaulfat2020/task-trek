@@ -1,11 +1,11 @@
 import React from 'react';
 import { UserOutlined, FileOutlined, LogoutOutlined, TeamOutlined } from '@ant-design/icons';
 import logo from '../../assets/images/side-logo.png';
-import './sidebar.css'
+import './sidebar.css';
 import { Menu, Button } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
-import { signOut } from 'firebase/auth'; 
-import { auth } from '../../utils/constants/Firebase'; 
+import { signOut } from 'firebase/auth';
+import { auth } from '../../utils/constants/Firebase';
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -32,22 +32,15 @@ const Sidebar = () => {
   };
 
   const items = [
-    getItem('Dashboard', 'sub1', <UserOutlined onClick={() => {
-      navigate(`/dashboard/:${userId}`)
-    }} />),
+    getItem('Dashboard', 'sub1', <UserOutlined />, null, 'item'), 
     {
       type: 'divider',
     },
-    getItem('Projects', 'sub2', <FileOutlined onClick={() => {
-      navigate(`/dashboard/project/:${userId}`)
-    }} />),
+    getItem('Projects', 'sub2', <FileOutlined />, null, 'item'), 
     {
       type: 'divider',
     },
-    getItem('Members', 'sub4', <TeamOutlined  onClick={() => {
-      navigate(`/members/`)
-    }}/>,
-    ),
+    getItem('Members', 'sub4', <TeamOutlined />, null, 'item'), 
   ];
 
   const onClick = (e) => {
@@ -55,9 +48,9 @@ const Sidebar = () => {
   };
 
   return (
-    <div className='side-bar'>
-      <div className='logo-container'>
-        <img src={logo} alt='logo' className='logo' />
+    <div className="side-bar">
+      <div className="logo-container">
+        <img src={logo} alt="logo" className="logo" />
       </div>
       <Menu
         onClick={onClick}
@@ -68,8 +61,19 @@ const Sidebar = () => {
         defaultOpenKeys={['sub1']}
         mode="inline"
         items={items}
+        onSelect={({ key }) => {
+          if (key === 'sub1') {
+            navigate(`/dashboard/${userId}`);
+          }
+          if (key === 'sub2') {
+            navigate(`/dashboard/project/${userId}`);
+          }
+          if (key === 'sub4') {
+            navigate('/members');
+          }
+        }}
       />
-      <Button className='sidebar-btn' onClick={handleLogout}>
+      <Button className="sidebar-btn" onClick={handleLogout}>
         <LogoutOutlined style={{ marginRight: '20px' }} />
         Logout
       </Button>
