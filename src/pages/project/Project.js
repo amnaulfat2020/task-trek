@@ -351,7 +351,7 @@ const Project = () => {
                     </div>
                   )}
                   <div className="task-input">
-                    <Link to={`/:${project.id}/tasks`}>
+                    <Link to={`/${project.id}/tasks`}>
                       <p >Tasks</p>
                     </Link>
                     <Modal
@@ -445,16 +445,11 @@ const Project = () => {
         {projects.map((project) => (
           <>
             <div key={project.id}>{cardRender(project)}</div>
-            <div className="invisible">
-              <TaskPage projectId={project.id} />
-            </div>
           </>
         ))}
 
       </div>
-      {/* <div className="invisible">
-        <TaskPage fetchTasksData={fetchTasksData} />
-      </div> */}
+
     </div>
   );
 };
