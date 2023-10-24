@@ -1,24 +1,9 @@
-import {
-  FileOutlined,
-  TeamOutlined,
-  LogoutOutlined,
-} from '@ant-design/icons';
-import AppHeader from "../../layout/MenuBar";
 import logo from '../../assets/images/side-logo.png';
-import React, { useState } from 'react';
-import {
-  UserOutlined,
-} from '@ant-design/icons';
+import React from 'react';
 import './sidebar.css'
 import { Layout, Menu, Button, theme } from 'antd';
-import Project from '../project/Project';
-import { useNavigate } from 'react-router-dom';
-const { Sider } = Layout;
-import React from 'react';
 import { UserOutlined, FileOutlined, LogoutOutlined, TeamOutlined } from '@ant-design/icons';
-import logo from '../../assets/images/side-logo.png';
 import './sidebar.css';
-import { Menu, Button } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../utils/constants/Firebase';

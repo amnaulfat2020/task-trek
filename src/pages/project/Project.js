@@ -16,14 +16,11 @@ import {
   fetchTasksForProject,
 } from "../../services/api";
 import { doc, setDoc } from 'firebase/firestore';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useParams } from "react-router-dom";
 import { db } from '../../utils/constants/Firebase';
 
 import { useSearch, useMenuContext } from "../../contexts/SearchContext";
-import { useParams } from 'react-router-dom';
 import TaskPage from "../taskpage/TaskPage";
-import { Link, useParams } from "react-router-dom";
-import { useSearch, useMenuContext } from "../../contexts/SearchContext";
 
 const Project = () => {
   const { userId } = useParams();

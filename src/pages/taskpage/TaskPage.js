@@ -16,6 +16,7 @@ import {
   getDocs,
   query, where, addDoc
 } from 'firebase/firestore';
+import { useParams } from 'react-router-dom';
 import { db } from '../../utils/constants/Firebase';
 import Title from 'antd/es/typography/Title';
 import dbNames from '../../utils/constants/db';
@@ -23,6 +24,7 @@ import dbNames from '../../utils/constants/db';
 const TaskPage = () => {
   const { projectId } = useParams()
 
+  const [tasks, setTasks] = useState([]);
   const docId = useRef();
 
   const [newTask, setNewTask] = useState({
@@ -218,6 +220,7 @@ const TaskPage = () => {
 
         </div>
 
+        {/* Tasks rendering  */}
 
         <div>
 

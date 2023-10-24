@@ -25,7 +25,7 @@ const Routers = () => {
       <Router>
 
         <Routes>
-          <Route path="/tasks/:userId" element={<LayoutSideBar currentPage="TaskPage"><TaskPage /></LayoutSideBar>} />
+          <Route exact path="/:projectId/tasks" element={<LayoutSideBar currentPage="TaskPage"><TaskPage /></LayoutSideBar>} />
           <Route path="/members" element={<LayoutSideBar currentPage="Member"><Member /></LayoutSideBar>} />
           <Route path="/dashboard/:userId" element={<LayoutSideBar currentPage="Dashboard"><Dashboard /></LayoutSideBar>} />
           <Route path="/dashboard/project/:userId" element={<LayoutSideBar currentPage="Project"><Project /></LayoutSideBar>} />
@@ -36,8 +36,7 @@ const Routers = () => {
           <Route path="/register" element={<Registration />} />
           <Route path="/success-email" element={<SuccessEmail />} />
           <Route path="/success-register" element={<SuccessRegister />} />
-          <Route exact path="/:projectId/tasks" element={<TaskPage />} />
-          <Route path="/term-condition" element={<TermAndCondition />}/>
+          <Route path="/term-condition" element={<TermAndCondition />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
 
