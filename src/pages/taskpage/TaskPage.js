@@ -197,7 +197,6 @@ const TaskPage = () => {
 
         </div>
 
-        {/* Tasks rendering  */}
 
         <div>
 

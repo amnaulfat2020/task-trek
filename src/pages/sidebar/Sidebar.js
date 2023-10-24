@@ -41,6 +41,8 @@ const Sidebar = () => {
       type: 'divider',
     },
     getItem('Members', 'sub4', <TeamOutlined />, null, 'item'), 
+    
+   
   ];
 
   const onClick = (e) => {
@@ -74,6 +76,7 @@ const Sidebar = () => {
         }}
       />
       <Button className="sidebar-btn" onClick={handleLogout}>
+
         <LogoutOutlined style={{ marginRight: '20px' }} />
         Logout
       </Button>
