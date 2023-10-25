@@ -177,8 +177,8 @@ const Registration = () => {
               <p className="reg-info reg-typography">
                 We need you to help us with some basic information for your
                 account creation. Here are our
-                <span className="reg-link"> terms and conditions</span>. Please read
-                them carefully. We are GDPR compliant
+                <span className="reg-link"  onClick={() => {navigate("/term-condition");}}> terms and conditions</span>. 
+                Please read them carefully. We are GDPR compliant
               </p>
             </div>
             <div className="dotted-line">
@@ -239,7 +239,11 @@ const Registration = () => {
                     onChange={handleCheckboxChange}
                   />
                   I agree with
-                  <span className="reg-link"> terms and conditions.</span>
+                  <span className="reg-link"
+                     onClick={() => {
+                      navigate("/term-condition");
+                    }}
+                  > terms and conditions.</span>
                 </p>
                 <Button
                   type="submit"

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { collection, query, getDocs } from 'firebase/firestore';
 import { db } from '../../utils/constants/Firebase';
-import { List, Avatar, Input, Card, Typography, Pagination } from 'antd';
-import './Member.css'; 
+import { List, Avatar, Input, Card, Typography, Pagination, Alert } from 'antd';
+import './Member.css';
 import { UserOutlined } from '@ant-design/icons';
 
 
@@ -17,7 +17,7 @@ const Member = () => {
   const [sortBy, setSortBy] = useState('firstName');
   const [filterRole, setFilterRole] = useState('');
   const membersPerPage = 10;
-
+  const [visible, setVisible] = useState(true);
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -32,7 +32,20 @@ const Member = () => {
 
     fetchUsers();
   }, []);
+  const AlertMessage = () => {
 
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setVisible(false);
+      }, 800);
+
+
+      return () => {
+        clearTimeout(timer);
+      };
+    })
+    return (<>{visible ? <Alert className='alert-message' message="Loading..." type="success" /> : ""}</>);
+  };
   useEffect(() => {
     setFilteredUsers(
       users.filter((user) =>
@@ -69,12 +82,14 @@ const Member = () => {
     filterRole ? user.role === filterRole : true
   );
 
+
   return (
-    <div>
-      <h1>Members</h1>
+    <div className='members-container'>
+      {/* <h1>Members</h1> */}
       <Search
         placeholder="Search members..."
         onSearch={handleSearch}
+        className='members-search'
         style={{ width: 400 }}
       />
       {/* <div className="filter-buttons">
@@ -87,12 +102,13 @@ const Member = () => {
         <button onClick={() => handleSort('firstName')}>Sort by Name</button>
         <button onClick={() => handleSort('email')}>Sort by Email</button>
       </div> */}
+      <AlertMessage />
       <List
         itemLayout="vertical"
         dataSource={filteredByRoleUsers}
         renderItem={(user) => (
           <List.Item>
-            <Card>
+            <Card className='members-card'>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar
                   size={50}
@@ -102,14 +118,14 @@ const Member = () => {
                     marginRight: 16,
                   }}
                 >
-                  
+
                   <UserOutlined />
 
                 </Avatar>
                 <div className="user-details">
-                  <Typography.Title level={4}>{user.firstName}</Typography.Title>
-                  {/* <Typography.Text>{user.email}</Typography.Text>
-                  <Typography.Text>{user.role}</Typography.Text> */}
+                  <Typography.Title level={4} className='members-name'>{user.firstName}</Typography.Title>
+                  {/* <Typography.Text>{user.email}</Typography.Text> */}
+                  {/*<Typography.Text>{user.role}</Typography.Text> */}
                 </div>
               </div>
             </Card>

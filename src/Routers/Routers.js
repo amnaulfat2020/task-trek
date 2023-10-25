@@ -26,7 +26,7 @@ const Routers = () => {
 
         <Routes>
           <Route exact path="/:projectId/tasks" element={<LayoutSideBar currentPage="TaskPage"><TaskPage /></LayoutSideBar>} />
-          <Route path="/members/:userId" element={<LayoutSideBar currentPage="Member"><Member /></LayoutSideBar>} />
+          <Route path="/members/:userId" element={<LayoutSideBar currentPage="Member" ><Member /></LayoutSideBar>} />
           <Route path="/dashboard/:userId" element={<LayoutSideBar currentPage="Dashboard"><Dashboard /></LayoutSideBar>} />
           <Route path="/dashboard/project/:userId" element={<LayoutSideBar currentPage="Project"><Project /></LayoutSideBar>} />
           <Route path="/project/user-profile" element={<UserProfile />} />

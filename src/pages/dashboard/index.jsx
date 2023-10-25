@@ -8,33 +8,32 @@ import "./dashboard.css";
 const { Title } = Typography;
 
 const Cascader = () => {
-
-  const options = [
-    {
-      value: "zhejiang",
-      label: "Zhejiang"
-    },
-    {
-      value: "Nabeel",
-      label: "Nabeel"
-    },
-    {
-      value: "Suleman",
-      label: "Suleman"
-    }
-  ];
-  const onChange = (value) => {
-    console.log(value);
-  };
-  return (
-    <>
-      <Cascader
-        options={options}
-        onChange={onChange}
-        placeholder="Please select"
-      />
-    </>
-  );
+  // const options = [
+  //   {
+  //     value: "zhejiang",
+  //     label: "Zhejiang"
+  //   },
+  //   {
+  //     value: "Nabeel",
+  //     label: "Nabeel"
+  //   },
+  //   {
+  //     value: "Suleman",
+  //     label: "Suleman"
+  //   }
+  // ];
+  // const onChange = (value) => {
+  //   console.log(value);
+  // };
+  // return (
+  //   <>
+  //     <Cascader
+  //       options={options}
+  //       onChange={onChange}
+  //       placeholder="Please select"
+  //     />
+  //   </>
+  // );
 };
 
 // const Calender = () => {
@@ -51,11 +50,9 @@ const Cascader = () => {
 //   );
 // };
 const Dashboard = () => {
-
   return (
-    
     <section className="dashboard-container">
-      <div className="left-section">
+      {/* <div className="left-section">
         <div className="lineup-section">
           <div className="section-header">
             <Title>LineUp</Title>
@@ -84,7 +81,10 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="right-section">
-        {/* <Calender /> */}
+      </div> */}
+
+      <div className="temporary-msg-container">
+        <Title className="temporary-msg">This Page is not done yet.</Title>
       </div>
     </section>
   );

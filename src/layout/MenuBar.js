@@ -3,17 +3,17 @@ import UserProfilePopup from '../pages/userprofile/index';
 import { signOut } from 'firebase/auth';
 import { auth, db } from '../utils/constants/Firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { Link, useNavigate } from 'react-router-dom';
 import { Input, Space, Badge, Avatar, Menu, Dropdown, Modal } from 'antd';
-import { useNavigate } from 'react-router-dom';
 import {
   SearchOutlined,
   BellOutlined,
   UserOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
-import { useSearch } from '../contexts/SearchContext'; // Import the useSearch hook
-import headerStyles from '../styles/headerStyles.js';
-
+import { useSearch } from '../contexts/SearchContext';
+import headerStyles from '../styles/headerStyles';
+import Title from 'antd/es/typography/Title';
 
 const MenuBar = ({ currentPage }) => {
   const { searchQuery, setSearch } = useSearch();
@@ -30,7 +30,6 @@ const MenuBar = ({ currentPage }) => {
       showWelcomeNotification();
     }
   }, []);
-
   useEffect(() => {
     async function fetchUserData() {
       try {
@@ -77,14 +76,13 @@ const MenuBar = ({ currentPage }) => {
     const query = e.target.value;
     setSearch(query);
   };
-
   const showWelcomeNotification = () => {
     setShowWelcomeModal(true);
   };
   return (
     <div style={headerStyles.container}>
       <div style={headerStyles.leftSection}>
-        {currentPage}
+        <Title style={headerStyles.userLink}>  {currentPage}</Title>
       </div>
       <div style={headerStyles.centerSection}>
         <Space>
@@ -102,11 +100,9 @@ const MenuBar = ({ currentPage }) => {
           <Badge dot>
             <BellOutlined style={headerStyles.icon} onClick={showWelcomeNotification} />
           </Badge>
-          {/* <Dropdown menu={menu} trigger={['click']}> */}
-            <Avatar icon={<UserOutlined />} style={headerStyles.avatar}
-              onClick={() => setLoggedIn(!loggedIn)}
-            />
-          {/* </Dropdown> */}
+          <Dropdown menu={menu} trigger={['click']}>
+            <Avatar icon={<UserOutlined />} style={headerStyles.avatar} onClick={() => setLoggedIn(!loggedIn)} />
+          </Dropdown>
         </Space>
       </div>
       {showProfilePopup && userData && (
