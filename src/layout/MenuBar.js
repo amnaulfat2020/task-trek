@@ -3,7 +3,7 @@ import UserProfilePopup from '../pages/userprofile/index';
 import { signOut } from 'firebase/auth';
 import { auth, db } from '../utils/constants/Firebase';
 import { doc, getDoc } from 'firebase/firestore';
-import { Input, Space, Badge, Avatar, Typography, Menu, Dropdown, Modal } from 'antd';
+import { Input, Space, Badge, Avatar, Menu, Dropdown, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
   SearchOutlined,
@@ -13,9 +13,6 @@ import {
 } from '@ant-design/icons';
 import { useSearch } from '../contexts/SearchContext'; // Import the useSearch hook
 import headerStyles from '../styles/headerStyles.js';
-const Title = Typography;
-
-
 
 
 const MenuBar = ({ currentPage }) => {
@@ -105,9 +102,11 @@ const MenuBar = ({ currentPage }) => {
           <Badge dot>
             <BellOutlined style={headerStyles.icon} onClick={showWelcomeNotification} />
           </Badge>
-          <Dropdown menu={menu} trigger={['click']}>
-            <Avatar icon={<UserOutlined />} style={headerStyles.avatar} onClick={() => setLoggedIn(!loggedIn)} />
-          </Dropdown>
+          {/* <Dropdown menu={menu} trigger={['click']}> */}
+            <Avatar icon={<UserOutlined />} style={headerStyles.avatar}
+              onClick={() => setLoggedIn(!loggedIn)}
+            />
+          {/* </Dropdown> */}
         </Space>
       </div>
       {showProfilePopup && userData && (
@@ -116,7 +115,7 @@ const MenuBar = ({ currentPage }) => {
       {loggedIn && (
         <Modal
           title="Welcome to Task Trek!"
-          visible={showWelcomeModal}
+          open={showWelcomeModal}
           onOk={() => setShowWelcomeModal(false)}
           onCancel={() => setShowWelcomeModal(false)}
         >
