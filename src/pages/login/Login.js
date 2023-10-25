@@ -1,12 +1,10 @@
-
-
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, getUserIdByEmail } from "../../utils/constants/Firebase";
-import { Col, Row, Typography } from "antd";
+import { Col, Row, Typography, Input } from "antd";
 import { Checkbox } from "antd";
 import {
-  QuestionCircleFilled,
+  QuestionCircleFilled, UserOutlined, KeyOutlined
 } from "@ant-design/icons";
 import Button from "@mui/material/Button";
 import { useFormik } from "formik";
@@ -28,6 +26,10 @@ const Login = () => {
   const [errMsg, setErrMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
+  const onChange = () =>{
+    console.log("checked");
+  }
+
   // Use the useUserContext hook to access the updateUser function
   const { updateUser } = useUserContext();
 
@@ -46,7 +48,7 @@ const Login = () => {
 
         setErrMsg("");
         setSubmitButtonDisabled(true);
-
+ 
         try {
           const res = await signInWithEmailAndPassword(auth, values.email, values.password);
           setSubmitButtonDisabled(false);
@@ -79,8 +81,7 @@ const Login = () => {
   return (
     <Row className="login-boxStyle">
       {/* 1st column */}
-      <Col xs={24} sm={24} md={10} lg={8} xl={8}>
-        <div className="column1">
+      <Col xs={24} sm={24} md={10} lg={8} xl={8} className="column1">
           <div className="login-heading">
             <h1>Login</h1>
             <p>
@@ -98,35 +99,40 @@ const Login = () => {
               </div>
               {/* Email input */}
               <div className="formContainer">
-                <input
-                  htmlFor="email"
-                  type="email"
-                  name="email"
-                  value={values.email}
-                  id="email"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  placeholder="Username"
-                  className={errors.email && touched.email ? "input-error" : ""}
-                />
+              <Input 
+                 htmlFor="email"
+                 type="email"
+                 name="email"
+                 value={values.email}
+                 id="email"
+                 onChange={handleChange}
+                 onBlur={handleBlur}
+                 placeholder="Email Address"
+                 className={errors.email && touched.email ? "input-error" : ""} 
+                 size="large" 
+                 prefix={<UserOutlined />} 
+                 />
                 {errors.email && touched.email && (
                   <p className="error">{errors.email}</p>
                 )}
               </div>
+              {/* password */}
               <div className="formContainer">
-                <input
-                  htmlFor="password"
-                  type="password"
-                  name="password"
-                  id="password"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  placeholder="input password"
-                  className={
-                    errors.password && touched.password ? "input-error" : ""
-                  }
-                />
+              <Input 
+               htmlFor="password"
+               type="password"
+               name="password"
+               id="password"
+               value={values.password}
+               onChange={handleChange}
+               onBlur={handleBlur}
+               placeholder="Password"
+               className={
+                 errors.password && touched.password ? "input-error" : ""
+               }
+              size="large"
+              prefix={<KeyOutlined />}
+              />
                 {errors.password && touched.password && (
                   <p className="error">{errors.password}</p>
                 )}
@@ -139,7 +145,7 @@ const Login = () => {
                   onMouseOver={MouseOver}
                   onMouseOut={MouseOut}
                   onClick={() => {
-                    navigate("/change-password");
+                    navigate("/forget-password");
                   }}
                   className="forgot-pwd"
                 >
@@ -157,17 +163,21 @@ const Login = () => {
             {/* signin button */}
             <div className="btn-area">
               {/* remember me */}
-              <Checkbox>Remember me</Checkbox>
+              <div className="checked">
+              <Checkbox onChange={onChange}>Remember Me</Checkbox>
+              </div>
               {/* signin button  */}
+              <div className="button-log">
               <Button
                 type="submit"
                 disabled={submitButtonDisabled}
                 variant="contained"
-                className="btn"
+                className="log-btn"
                 sx={{ mt: 3, mb: 2 }}
               >
                 Login
               </Button>
+              </div>
             </div>
           </form>
 
@@ -195,7 +205,6 @@ const Login = () => {
               Register Here
             </Typography>
           </div>
-        </div>
       </Col>
       {/* column2 */}
       <Col md={14} lg={16} xl={16} className="column2">
