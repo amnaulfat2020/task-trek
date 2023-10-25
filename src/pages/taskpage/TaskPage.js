@@ -12,6 +12,7 @@ import {
   collection,
   doc,
   setDoc,
+  deleteDoc, 
   getDocs,
   query, addDoc
 } from 'firebase/firestore';
@@ -20,7 +21,7 @@ import { db } from '../../utils/constants/Firebase';
 import dbNames from '../../utils/constants/db';
 
 const TaskPage = () => {
-  const { projectId } = useParams()
+  const { projectId } = useParams();
 
   const [tasks, setTasks] = useState([]);
   const docId = useRef();
@@ -39,11 +40,10 @@ const TaskPage = () => {
     const tasksList = [];
     try {
       const querySnapshot = await getDocs(
-        query(collection(db, dbNames.getTaskCollection(projectId)),)
+        query(collection(db, dbNames.getTaskCollection(projectId)))
       );
       querySnapshot.forEach((doc) => {
         tasksList.push({ id: doc.id, ...doc.data() });
-
       });
     } catch (error) {
       console.error('Error fetching projects: ', error);
@@ -53,22 +53,19 @@ const TaskPage = () => {
   };
 
   useEffect(() => {
-    async function fetchTasksData(projectId) {
+    async function fetchTasksData() {
       const taskList = await fetchTasks(projectId);
       setTasks(taskList);
     }
     fetchTasksData();
-    // console.log("task fetched");
-  }, []);
-  const q = collection(db, dbNames.projectCollection)
+  }, [projectId]);
+
+  const q = collection(db, dbNames.projectCollection);
   const [docs, loading, error] = useCollectionData(q);
 
-  async function handleAddTask(projectId) {
+  async function handleAddTask() {
     if (newTask.title.trim() !== '') {
-      // Document reference
       const collectionName = dbNames.getTaskCollection(projectId);
-      const docRef = null;
-      // Create a new task in the subcollection
       const taskRef = collection(db, collectionName);
       const newTaskData = {
         title: newTask.title,
@@ -78,18 +75,14 @@ const TaskPage = () => {
       };
 
       if (docId && docId.current && docId.current.value) {
-        docRef = doc(db, collectionName, docId.current.value);
-
+        const docRef = doc(db, collectionName, docId.current.value);
         await setDoc(docRef, newTaskData);
-      }
-      else {
+      } else {
         await addDoc(taskRef, newTaskData);
       }
 
-      // Update the local state
       setTasks([...tasks, newTask]);
 
-      // Reset the new task input fields
       setNewTask({
         title: '',
         assigned: '',
@@ -98,10 +91,21 @@ const TaskPage = () => {
     }
   }
 
-  const handleDeleteTask = (index) => {
-    const updatedTasks = [...tasks];
-    updatedTasks.splice(index, 1);
-    setTasks(updatedTasks);
+  const deleteTask = async (taskId) => {
+    try {
+      const collectionName = dbNames.getTaskCollection(projectId);
+      const taskRef = doc(db, collectionName, taskId);
+      await deleteDoc(taskRef);
+
+      const updatedTasks = tasks.filter((task) => task.id !== taskId);
+      setTasks(updatedTasks);
+    } catch (error) {
+      console.error('Error deleting task:', error);
+    }
+  };
+
+  const handleDeleteTask = (taskId) => {
+    deleteTask(taskId);
   };
 
   const openEditModal = (task, index) => {
@@ -110,15 +114,23 @@ const TaskPage = () => {
     setEditModalVisible(true);
   };
 
-  const handleUpdateTask = () => {
+  const handleUpdateTask = async () => {
     if (editedTaskIndex !== null) {
       const updatedTasks = [...tasks];
       updatedTasks[editedTaskIndex] = editedTask;
       setTasks(updatedTasks);
+  
+      try {
+        const collectionName = dbNames.getTaskCollection(projectId);
+        const taskRef = doc(db, collectionName, editedTask.id);
+        await setDoc(taskRef, editedTask); 
+      } catch (error) {
+        console.error('Error updating task:', error);
+      }
+  
       setEditModalVisible(false);
       setEditedTask({});
       setEditedTaskIndex(null);
-      console.log(...tasks)
     }
   };
 
@@ -230,7 +242,7 @@ const TaskPage = () => {
               </div>
 
               <Button onClick={() => openEditModal(task, index)}>Edit</Button>
-              <Button onClick={() => handleDeleteTask(index)}>Delete</Button>
+    <Button onClick={() => handleDeleteTask(task.id)}>Delete</Button>
             </Card>
           ))}
         </div>

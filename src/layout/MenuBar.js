@@ -1,30 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import UserProfilePopup from '../pages/userprofile/index';
+import UserProfilePopup from '../pages/userprofile/index'; 
 import { signOut } from 'firebase/auth';
 import { auth, db } from '../utils/constants/Firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { Link, useNavigate } from 'react-router-dom'; 
 import { Input, Space, Badge, Avatar, Typography, Menu, Dropdown, Modal } from 'antd';
-import { useNavigate } from 'react-router-dom';
 import {
   SearchOutlined,
   BellOutlined,
   UserOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
-import { useSearch } from '../contexts/SearchContext'; // Import the useSearch hook
-import headerStyles from '../styles/headerStyles.js';
+import { useSearch } from '../contexts/SearchContext';
+import headerStyles from '../styles/headerStyles'; 
 const Title = Typography;
-
-
-
 
 const MenuBar = ({ currentPage }) => {
   const { searchQuery, setSearch } = useSearch();
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [userData, setUserData] = useState(null);
-  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false); 
+  const [loggedIn, setLoggedIn] = useState(false); 
   const navigate = useNavigate();
   useEffect(() => {
     const user = auth.currentUser;
@@ -33,7 +29,6 @@ const MenuBar = ({ currentPage }) => {
       showWelcomeNotification();
     }
   }, []);
-
   useEffect(() => {
     async function fetchUserData() {
       try {
@@ -80,21 +75,20 @@ const MenuBar = ({ currentPage }) => {
     const query = e.target.value;
     setSearch(query);
   };
-
   const showWelcomeNotification = () => {
     setShowWelcomeModal(true);
   };
   return (
     <div style={headerStyles.container}>
       <div style={headerStyles.leftSection}>
-        {currentPage}
+      {currentPage}     
       </div>
       <div style={headerStyles.centerSection}>
-        <Space>
+      <Space>
           <Input
             prefix={<SearchOutlined />}
             placeholder="Search..."
-            style={{ ...headerStyles.searchInput, width: '700px', height: '40px' }}
+            style={{ ...headerStyles.searchInput, width: '700px',height:'40px' }} 
             value={searchQuery}
             onChange={handleSearchChange}
           />
@@ -103,17 +97,17 @@ const MenuBar = ({ currentPage }) => {
       <div style={headerStyles.rightSection}>
         <Space size="large">
           <Badge dot>
-            <BellOutlined style={headerStyles.icon} onClick={showWelcomeNotification} />
+          <BellOutlined style={headerStyles.icon} onClick={showWelcomeNotification} />
           </Badge>
-          <Dropdown menu={menu} trigger={['click']}>
-            <Avatar icon={<UserOutlined />} style={headerStyles.avatar} onClick={() => setLoggedIn(!loggedIn)} />
+          <Dropdown overlay={menu} trigger={['click']}>
+          <Avatar icon={<UserOutlined />} style={headerStyles.avatar} onClick={() => setLoggedIn(!loggedIn)} />
           </Dropdown>
         </Space>
       </div>
       {showProfilePopup && userData && (
         <UserProfilePopup userData={userData} onClose={() => setShowProfilePopup(false)} />
       )}
-      {loggedIn && (
+       {loggedIn && (
         <Modal
           title="Welcome to Task Trek!"
           visible={showWelcomeModal}
