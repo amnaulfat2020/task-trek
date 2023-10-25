@@ -37,7 +37,8 @@
   color: "#000";
   width: 100%;
   min-width: 28vw;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
+  padding: 0 24px 0;
   justify-items: "center";
 }
 .account {
@@ -128,10 +129,7 @@
 
 @media (max-width: 991px) {
 
-  .form-area {
-    margin: 0rem 3rem;
-  }
-  .change-btn {
+   .change-btn {
     width: 79% !important;
   }
   .footer-area {
@@ -140,24 +138,26 @@
 }
 
 @media(max-width: 768px) {
-
   .line {
     display: none;
+  }
+  .form-area {
+    margin: 0rem 3rem;
   }
 
 
 }
 
 @media (max-width: 600px) {
+  .form-area {
+    margin: 0rem 3rem;
+  }
+
   .column2 {
     display: none !important;
   }
   .line {
     display: none;
-  }
-
-  .form-area {
-    margin: 0;
   }
   .change-btn {
     width: 70% !important;

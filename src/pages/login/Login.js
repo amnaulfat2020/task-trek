@@ -145,7 +145,7 @@ const Login = () => {
                   onMouseOver={MouseOver}
                   onMouseOut={MouseOut}
                   onClick={() => {
-                    navigate("/change-password");
+                    navigate("/forget-password");
                   }}
                   className="forgot-pwd"
                 >

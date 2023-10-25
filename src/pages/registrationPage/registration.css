@@ -28,6 +28,7 @@
 .reg-link {
   color: var(--primary-clr) !important;
   text-decoration: none;
+  cursor: pointer;
 }
 .terms {
   font-weight: 700;
