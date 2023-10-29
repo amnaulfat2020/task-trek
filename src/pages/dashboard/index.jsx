@@ -4,6 +4,8 @@ import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import "./dashboard.css";
+import ContentLoader from '../contentLoader/ContentLoader';
+
 // import { Calendar } from "react-modern-calendar-datepicker";
 const { Title } = Typography;
 
@@ -50,7 +52,20 @@ const Cascader = () => {
 //   );
 // };
 const Dashboard = () => {
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    setTimeout(() => {
+      setData();
+      setLoading(false); 
+    }, 2000); 
+  }, []);
   return (
+    
+    <div>
+      {loading ? (
+        <ContentLoader /> 
+      ) : (
     <section className="dashboard-container">
       {/* <div className="left-section">
         <div className="lineup-section">
@@ -87,8 +102,11 @@ const Dashboard = () => {
         <Title className="temporary-msg">This Page is not done yet.</Title>
       </div>
     </section>
-  );
-};
+       
+        )}
+      </div>
+    );
+  };
 PropTypes.shape({
   year: PropTypes.number.isRequired,
   month: PropTypes.number.isRequired,
