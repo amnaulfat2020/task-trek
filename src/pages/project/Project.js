@@ -166,10 +166,10 @@ const Project = () => {
     setProjects(updatedProjects);
   };
 
-  const handleStatusFilterChange = ({ key }) => {
-    // console.log("Selected Status:", selectedStatus);
-    setMenuFilter(key);
-  };
+  // const handleStatusFilterChange = ({ key }) => {
+  //   // console.log("Selected Status:", selectedStatus);
+  //   setMenuFilter(key);
+  // };
 
   const { searchQuery } = useSearch(); 
   const { menuFilter, setMenuFilter } = useMenuContext();
@@ -415,7 +415,7 @@ const Project = () => {
           </Popover>
         </div>
 
-        <div className="filterMenu">
+        {/* <div className="filterMenu">
           <Menu style={headerStyles.AdditonalMenuStyle} value={menuFilter} onClick={handleStatusFilterChange}>
             <Menu.Item key="All">All</Menu.Item>
             <Menu.Item key="In Progress">In Progress</Menu.Item>
@@ -423,7 +423,7 @@ const Project = () => {
             <Menu.Item key="Completed">Completed</Menu.Item>
           </Menu>
 
-        </div>
+        </div> */}
 
       </div>
       {/* ----------------------------card render-------------------------------- */}

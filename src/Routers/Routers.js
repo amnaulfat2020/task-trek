@@ -16,7 +16,7 @@ import Project from '../pages/project/Project';
 import LayoutSideBar from '../layout/LayoutSideBar';
 import TermAndCondition from '../pages/TermsAndConditons';
 import Member from '../pages/member/Member';
-
+import Error from '../components/Error'; 
 const Routers = () => {
 
   return (
@@ -38,6 +38,9 @@ const Routers = () => {
           <Route path="/success-register" element={<SuccessRegister />} />
           <Route path="/term-condition" element={<TermAndCondition />} />
           <Route path="*" element={<NotFound />} />
+          
+     <Route path="/error" element={<Error />} />
+ 
         </Routes>
 
       </Router>
