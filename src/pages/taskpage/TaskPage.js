@@ -4,6 +4,8 @@ import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useSearch, useMenuContext } from "../../contexts/SearchContext";
 import headerStyles from '../../styles/headerStyles';
 import "./taskPage.css";
+import ContentLoader from '../contentLoader/ContentLoader';
+
 import redDotSvg from "../../assets/images/Ellipse red.svg";
 import greenDotSvg from "../../assets/images/Ellipse 12.svg";
 import yellowDotSvg from "../../assets/images/Ellipse yellow.svg";
@@ -24,6 +26,7 @@ const TaskPage = () => {
   const { projectId } = useParams();
 
   const [tasks, setTasks] = useState([]);
+  
   const docId = useRef();
 
   const [newTask, setNewTask] = useState({
@@ -35,7 +38,8 @@ const TaskPage = () => {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [editedTask, setEditedTask] = useState({});
   const [editedTaskIndex, setEditedTaskIndex] = useState(null);
-
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
   const fetchTasks = async () => {
     const tasksList = [];
     try {
@@ -51,7 +55,12 @@ const TaskPage = () => {
 
     return tasksList;
   };
-
+  useEffect(() => {
+    setTimeout(() => {
+      setData();
+      setLoading(false); 
+    }, 2000); 
+  }, []);
   useEffect(() => {
     async function fetchTasksData() {
       const taskList = await fetchTasks(projectId);
@@ -61,7 +70,8 @@ const TaskPage = () => {
   }, [projectId]);
 
   const q = collection(db, dbNames.projectCollection);
-  const [docs, loading, error] = useCollectionData(q);
+  // const [docs, loading, error] = useCollectionData(q);
+  const [docs, error] = useCollectionData(q);
 
   async function handleAddTask() {
     if (newTask.title.trim() !== '') {
@@ -200,7 +210,12 @@ const TaskPage = () => {
   const filteredByMenu =
     menuFilter === "All" || newTask.status === menuFilter;
   if (filteredByMenu)
+  
     return (
+      <div>
+      {loading ? (
+        <ContentLoader /> 
+      ) : (
       <div>
         <div className="navbar">
           <div className="new-project">
@@ -278,7 +293,9 @@ const TaskPage = () => {
         </Modal>
         {loading && <Alert className='alert-message' message=" Loading..." type="success" />}
       </div>
-    );
+    )}
+    </div>
+  );
 };
 
 export default TaskPage;

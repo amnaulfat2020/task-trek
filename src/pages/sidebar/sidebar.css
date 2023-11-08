@@ -18,3 +18,18 @@
   height: 50px;
   margin: auto;
 }
+.side-bar.collapsed {
+  width: 80px;
+}
+
+.side-bar.collapsed .ant-menu-item {
+  display: flex;
+  align-items: center;
+}
+
+.side-bar.collapsed .ant-menu-item > span {
+  display: none;
+}
+.side-bar.collapsed .ant-menu-item > .anticon {
+  display: inline; 
+}

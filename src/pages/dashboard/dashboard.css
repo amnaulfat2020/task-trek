@@ -1,50 +1,69 @@
-@import url(../../index.css);
+/* Dashboard.css */
+
+/* Styles for the main container */
 .dashboard-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 20px;
+}
+
+/* Styles for the heading */
+.dashboard-heading {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Styles for the tasks overview card */
+.tasks-overview-card {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for individual project cards */
+.project-card {
+  margin: 20px 0;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for task list items */
+.task-list-item {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+/* Styles for task titles */
+.task-title {
+  font-size: 18px;
+}
+
+/* Styles for task status badges */
+.task-status-badge {
+  margin-left: 10px;
+}
+
+/* Styles for task actions (buttons or components) */
+.task-actions {
+  margin-top: 10px;
+}
+.notification-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px; /* Adjust the width as needed */
   height: 100%;
+  background-color: #f5f5f5; /* Change the background color as needed */
+  padding: 20px;
+  overflow-y: auto;
+  border-left: 1px solid #ccc;
 }
-/* .left-section {
-  width: 60%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-.section-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.line-up-btn {
-  width: 100%;
-  border: 1px dashed gray;
-  height: 50px;
-  background: #f2f2f2;
-}
-.line-up-btn:hover {
-  cursor: pointer;
-  color: var(--primary-clr) !important;
-  border: 1px dashed var(--primary-clr) !important;
-}
-.right-section {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40%;
-} */
-.temporary-msg-container {
-  width: 550px;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-transform: uppercase;
-  border-radius: 10px;
-  box-shadow: 4px 8px 28px 0px rgba(0, 0, 0, 0.58);
-  -webkit-box-shadow: 4px 8px 28px 0px rgba(0, 0, 0, 0.58);
-  -moz-box-shadow: 4px 8px 28px 0px rgba(0, 0, 0, 0.58);
-}
-.temporary-msg {
-  color: #b42426 !important;
+#taskStatusChart {
+  background: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 4px;
+  text-align: center;
 }

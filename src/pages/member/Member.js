@@ -4,6 +4,7 @@ import { db } from '../../utils/constants/Firebase';
 import { List, Avatar, Input, Card, Typography, Pagination, Alert } from 'antd';
 import './Member.css';
 import { UserOutlined } from '@ant-design/icons';
+import ContentLoader from '../contentLoader/ContentLoader';
 
 
 
@@ -11,6 +12,8 @@ const { Search } = Input;
 
 const Member = () => {
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,20 +35,20 @@ const Member = () => {
 
     fetchUsers();
   }, []);
-  const AlertMessage = () => {
+  // const AlertMessage = () => {
 
-    useEffect(() => {
-      const timer = setTimeout(() => {
-        setVisible(false);
-      }, 800);
+    // useEffect(() => {
+    //   const timer = setTimeout(() => {
+    //     setVisible(false);
+    //   }, 800);
 
 
-      return () => {
-        clearTimeout(timer);
-      };
-    })
-    return (<>{visible ? <Alert className='alert-message' message="Loading..." type="success" /> : ""}</>);
-  };
+    //   return () => {
+    //     clearTimeout(timer);
+    //   };
+    // })
+  //   return (<>{visible ? <Alert className='alert-message' message="Loading..." type="success" /> : ""}</>);
+  // };
   useEffect(() => {
     setFilteredUsers(
       users.filter((user) =>
@@ -81,9 +84,19 @@ const Member = () => {
   const filteredByRoleUsers = sortedUsers.filter((user) =>
     filterRole ? user.role === filterRole : true
   );
-
+  useEffect(() => {
+    setTimeout(() => {
+    
+      setData();
+      setLoading(false); 
+    }, 2000); 
+  }, []);
 
   return (
+    <div>
+    {loading ? (
+      <ContentLoader /> 
+    ) : (
     <div className='members-container'>
       {/* <h1>Members</h1> */}
       <Search
@@ -102,7 +115,7 @@ const Member = () => {
         <button onClick={() => handleSort('firstName')}>Sort by Name</button>
         <button onClick={() => handleSort('email')}>Sort by Email</button>
       </div> */}
-      <AlertMessage />
+      {/* <AlertMessage /> */}
       <List
         itemLayout="vertical"
         dataSource={filteredByRoleUsers}
@@ -138,6 +151,8 @@ const Member = () => {
         total={filteredByRoleUsers.length}
         pageSize={membersPerPage}
       />
+    </div>
+      )}
     </div>
   );
 };

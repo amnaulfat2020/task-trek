@@ -8,6 +8,8 @@ import redDotSvg from "../../assets/images/Ellipse red.svg";
 import greenDotSvg from "../../assets/images/Ellipse 12.svg";
 import yellowDotSvg from "../../assets/images/Ellipse yellow.svg";
 import Line3 from "../../assets/images/Line 3.png";
+import ContentLoader from '../contentLoader/ContentLoader';
+
 import {
   createProject,
   fetchProjects,
@@ -25,6 +27,8 @@ import TaskPage from "../taskpage/TaskPage";
 const Project = () => {
   const { userId } = useParams();
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
   const [projects, setProjects] = useState([]);
   const [newProject, setNewProject] = useState({
     title: '',
@@ -53,7 +57,13 @@ const Project = () => {
     fetchProjectData();
   }, [userId]);
 
-
+  useEffect(() => {
+    setTimeout(() => {
+      
+      setData();
+      setLoading(false); 
+    }, 2000); 
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -103,7 +113,6 @@ const Project = () => {
       setTaskModalVisible(false);
     } catch (error) {
       console.error('Error creating project: ', error);
-      // Handle error here
     }
   };
 
@@ -157,12 +166,12 @@ const Project = () => {
     setProjects(updatedProjects);
   };
 
-  const handleStatusFilterChange = ({ key }) => {
-    // console.log("Selected Status:", selectedStatus);
-    setMenuFilter(key);
-  };
+  // const handleStatusFilterChange = ({ key }) => {
+  //   // console.log("Selected Status:", selectedStatus);
+  //   setMenuFilter(key);
+  // };
 
-  const { searchQuery } = useSearch(); // Access the searchQuery from the context
+  const { searchQuery } = useSearch(); 
   const { menuFilter, setMenuFilter } = useMenuContext();
 
   // create project input content
@@ -218,6 +227,7 @@ const Project = () => {
     const filteredByMenu =
       menuFilter === "All" || project.status === menuFilter;
     if (filteredBySearch && filteredByMenu)
+
       return (
         <div className="card-render" key={project.id}>
           <Card>
@@ -390,6 +400,10 @@ const Project = () => {
 
   return (
     <div>
+    {loading ? (
+      <ContentLoader /> 
+    ) : (
+    <div>
 
       {/*------------------------ Navbar filteration -----------------------------------*/}
       <div className="navbar">
@@ -401,7 +415,7 @@ const Project = () => {
           </Popover>
         </div>
 
-        <div className="filterMenu">
+        {/* <div className="filterMenu">
           <Menu style={headerStyles.AdditonalMenuStyle} value={menuFilter} onClick={handleStatusFilterChange}>
             <Menu.Item key="All">All</Menu.Item>
             <Menu.Item key="In Progress">In Progress</Menu.Item>
@@ -409,7 +423,7 @@ const Project = () => {
             <Menu.Item key="Completed">Completed</Menu.Item>
           </Menu>
 
-        </div>
+        </div> */}
 
       </div>
       {/* ----------------------------card render-------------------------------- */}
@@ -423,8 +437,10 @@ const Project = () => {
       </div>
 
     </div>
-  );
-};
+          )}
+          </div>
+        );
+      };
 
 export default Project;
 
