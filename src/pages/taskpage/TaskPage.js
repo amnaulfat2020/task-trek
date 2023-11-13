@@ -16,13 +16,15 @@ import {
   getDocs,
   query, addDoc
 } from 'firebase/firestore';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '../../utils/constants/Firebase';
 import dbNames from '../../utils/constants/db';
 
 const TaskPage = () => {
+  const navigate = useNavigate()
   const { projectId } = useParams();
-
+  const { userId } = useParams();
+  // console.log(userId)
   const [tasks, setTasks] = useState([]);
   const docId = useRef();
 

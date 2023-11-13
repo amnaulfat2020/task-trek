@@ -3,7 +3,7 @@ import UserProfilePopup from '../pages/userprofile/index';
 import { signOut } from 'firebase/auth';
 import { auth, db } from '../utils/constants/Firebase';
 import { doc, getDoc } from 'firebase/firestore';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Input, Space, Badge, Avatar, Menu, Dropdown, Modal } from 'antd';
 import {
   SearchOutlined,
@@ -100,9 +100,9 @@ const MenuBar = ({ currentPage }) => {
           <Badge dot>
             <BellOutlined style={headerStyles.icon} onClick={showWelcomeNotification} />
           </Badge>
-          <Dropdown menu={menu} trigger={['click']}>
+          {/* <Dropdown menu={menu} trigger={['click']}> */}
             <Avatar icon={<UserOutlined />} style={headerStyles.avatar} onClick={() => setLoggedIn(!loggedIn)} />
-          </Dropdown>
+          {/* </Dropdown> */}
         </Space>
       </div>
       {showProfilePopup && userData && (

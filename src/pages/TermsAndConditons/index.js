@@ -1,11 +1,14 @@
 import React from 'react'
 import termStyle from './termsAndC.module.css'
+import { Button } from 'antd'
+import { useNavigate } from 'react-router-dom'
+import { DoubleLeftOutlined } from '@ant-design/icons'
 const TermAndCondition = () => {
+  const navigate = useNavigate()
   return (
-
     <div className={termStyle.mainDiv}>
-        <h1 className={termStyle.HeaderCls}>Terms and Condition</h1>
-        <h3 className={termStyle.HeaderCls2}>Using TaskTrek's Project Management Dashboard, you agree to the following terms and conditions</h3>
+      <h1 className={termStyle.HeaderCls}>Terms and Condition</h1>
+      <h3 className={termStyle.HeaderCls2}>Using TaskTrek's Project Management Dashboard, you agree to the following terms and conditions</h3>
       <ul>
         <li>You are responsible for your actions and the content you create or share on the Dashboard</li>
         <li>Keep your login details secure. Don't share them with others. We are not responsible for unauthorized account access</li>
@@ -19,8 +22,11 @@ const TermAndCondition = () => {
         <li>We're not liable for any damages from using the Dashboard</li>
         <li>We can change these terms, so check them regularly. Your continued use means you accept the changes</li>
       </ul>
+      <Button className={termStyle.terms_btn} onClick={() => { navigate('/') }}>
+        <DoubleLeftOutlined /> Login Page
+      </Button>
     </div>
+
   )
 }
-
 export default TermAndCondition

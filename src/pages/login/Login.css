@@ -89,20 +89,23 @@
   flex-direction: row;
   justify-content: space-between;
 }
-.checked{
+.checked {
   margin-top: 30px;
 }
-.button-log{
+/* .button-log {
   margin-top: 0px !important;
-    margin-bottom: 0px !important;
-}
+  margin-bottom: 0px !important;
+} */
 .log-btn {
   background-color: #4743e0 !important;
   color: white !important;
-  margin: 12px;
-  padding: 10px 25px;
-  /* min-width: 35px !important;x */
+  border-radius: 0px !important;
+}
+.log-btn:hover {
+  background-color: #fff !important;
+  color: #4743e0 !important;
   cursor: pointer;
+  border: 1px solid #4743e0 ;
 }
 .btn:hover {
   background-color: black;
@@ -129,8 +132,7 @@
 }
 
 @media (max-width: 991px) {
-
-   .change-btn {
+  .change-btn {
     width: 79% !important;
   }
   .footer-area {
@@ -138,15 +140,13 @@
   }
 }
 
-@media(max-width: 768px) {
+@media (max-width: 768px) {
   .line {
     display: none;
   }
   .form-area {
     margin: 0rem 3rem;
   }
-
-
 }
 
 @media (max-width: 600px) {
