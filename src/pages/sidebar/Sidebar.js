@@ -2,7 +2,7 @@ import logo from '../../assets/images/side-logo.png';
 import React, { useState } from 'react';
 import './sidebar.css';
 import { Layout, Menu, Button, theme } from 'antd';
-import { UserOutlined, FileOutlined, LogoutOutlined, TeamOutlined,MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import { UserOutlined, FileOutlined, LogoutOutlined, TeamOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import './sidebar.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
@@ -43,7 +43,7 @@ const Sidebar = () => {
     },
     getItem('Members', 'sub4', <TeamOutlined />, null, 'item'),
   ];
-  
+
 
   const onClick = (e) => {
     console.log('click ', e);
@@ -51,22 +51,22 @@ const Sidebar = () => {
 
   return (
     <div className={`side-bar ${collapsed ? 'collapsed' : ''}`}>
-      
+
       <div className="logo-container">
         <img src={logo} alt="logo" className="logo" />
         <div
-        className="collapse-btn"
-        onClick={() => setCollapsed(!collapsed)}
-        style={{ position: 'absolute', left: '5.5%', top: '40px' }}
-      >
-        {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-      </div>
+          className="collapse-btn"
+          onClick={() => setCollapsed(!collapsed)}
+          style={{ position: 'absolute', left: '5.5%', top: '40px' }}
+        >
+          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        </div>
 
       </div>
       <Menu
         onClick={onClick}
         style={{
-          width: collapsed ? 80 : 256, 
+          width: collapsed ? 80 : 256,
         }}
         defaultSelectedKeys={['1']}
         defaultOpenKeys={['sub1']}
@@ -83,14 +83,15 @@ const Sidebar = () => {
             navigate(`/members/${userId}`);
           }
         }}
-        inlineCollapsed={collapsed} 
+        inlineCollapsed={collapsed}
       />
-      
-     <Button className="sidebar-btn" onClick={handleLogout}>
-        {collapsed ? <LogoutOutlined /> : 'Logout'}
-      </Button>
-      
-    </div>
+      {collapsed ? <Button className="sidebar-btn" onClick={handleLogout}>
+        <LogoutOutlined />
+      </Button> : <Button className="sidebar-btn" onClick={handleLogout}>
+        <LogoutOutlined /> Logout
+      </Button>}
+
+    </div >
   );
 };
 

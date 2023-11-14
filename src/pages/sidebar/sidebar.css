@@ -22,6 +22,11 @@
   border: none;
   margin: auto;
 }
+.sidebar-btn:hover {
+  background: #fff !important;
+  color: #00db99 !important;
+  border: 1px solid #00db99 !important;
+}
 .side-bar.collapsed {
   width: 80px;
 }
@@ -35,5 +40,5 @@
   display: none;
 }
 .side-bar.collapsed .ant-menu-item > .anticon {
-  display: inline; 
+  display: inline;
 }

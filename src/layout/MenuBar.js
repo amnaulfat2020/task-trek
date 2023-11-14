@@ -3,7 +3,7 @@ import UserProfilePopup from '../pages/userprofile/index';
 import { signOut } from 'firebase/auth';
 import { auth, db } from '../utils/constants/Firebase';
 import { doc, getDoc } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Input, Space, Badge, Avatar, Typography, Menu, Dropdown, Modal } from 'antd';
 import {
 SearchOutlined,
@@ -76,10 +76,7 @@ Logout
 );
 
 
-const handleSearchChange = (e) => {
-const query = e.target.value;
-setSearch(query);
-};
+
 const showWelcomeNotification = () => {
 setShowWelcomeModal(true);
 };
@@ -95,7 +92,7 @@ prefix={<SearchOutlined />}
 placeholder="Search..."
 style={{ ...headerStyles.searchInput, width: '700px',height:'40px' }}
 value={searchQuery}
-onChange={handleSearchChange}
+// onChange={handleSearchChange}
 />
 </Space>
 </div>
