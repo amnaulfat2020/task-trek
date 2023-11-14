@@ -10,3 +10,33 @@
 .alert-message{
     margin-top: 10px !important;
 }
+/* Status Column Styles */
+.kanban-column {
+    display: inline-block;
+    width: 18%; 
+    vertical-align: top;
+    margin: 10px;
+    padding: 10px;
+    border: 9px solid #ccc;
+    background-color: #f7f7f7;
+  }
+  
+  .kanban-column h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .kanban-column.red {
+    border-left: 5px solid #FF285C;
+  }
+  
+  .kanban-column.green {
+    border-left: 5px solid #00DB99;
+  }
+  
+  .kanban-column.yellow {
+    border-left: 5px solid #F0BB00;
+  }
+  
+  
+  
