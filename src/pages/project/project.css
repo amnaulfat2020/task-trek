@@ -27,6 +27,11 @@
   flex-shrink: 0;
   color: #fff;
 }
+.newbtn:hover {
+  background: #fff !important;
+  color: #00db99 !important;
+  border: 1px solid #00db99 !important;
+}
 .createbtn {
   width: 5.9375rem !important;
   height: 2.25rem !important;

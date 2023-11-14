@@ -76,10 +76,7 @@ Logout
 );
 
 
-const handleSearchChange = (e) => {
-const query = e.target.value;
-setSearch(query);
-};
+
 const showWelcomeNotification = () => {
 setShowWelcomeModal(true);
 };

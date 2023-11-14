@@ -1,4 +1,4 @@
-.logo-container{
+.logo-container {
   border-bottom: 1px solid #f1f1f1;
 }
 .logo {
@@ -12,11 +12,20 @@
   display: flex;
   flex-direction: column;
 }
-.sidebar-btn{
+.sidebar-btn {
   margin-top: 300px;
   width: 65%;
   height: 50px;
+  border-radius: 0px !important;
+  background: #00db99 !important;
+  color: #fff !important;
+  border: none;
   margin: auto;
+}
+.sidebar-btn:hover {
+  background: #fff !important;
+  color: #00db99 !important;
+  border: 1px solid #00db99 !important;
 }
 .side-bar.collapsed {
   width: 80px;

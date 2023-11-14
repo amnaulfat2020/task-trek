@@ -19,7 +19,7 @@ import {
   query,
   addDoc,
 } from 'firebase/firestore';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '../../utils/constants/Firebase';
 import dbNames from '../../utils/constants/db';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
@@ -33,8 +33,10 @@ const statusColumns = {
 };
 
 const TaskPage = () => {
+  const navigate = useNavigate()
   const { projectId } = useParams();
-
+  const { userId } = useParams();
+  // console.log(userId)
   const [tasks, setTasks] = useState([]);
 
   const docId = useRef();

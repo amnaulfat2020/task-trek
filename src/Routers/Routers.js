@@ -1,10 +1,6 @@
-// Routers.js
-
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Registration from '../pages/registrationPage/Registration';
-import SuccessEmail from '../pages/successEmail/SuccessEmail';
-import SuccessRegister from '../pages/successRegister/SuccessRegister';
 import ChangePassword from '../pages/changespassword/ChangePassword';
 import Login from '../pages/login/Login';
 import UserProfile from '../pages/userprofile';
@@ -21,9 +17,7 @@ const Routers = () => {
 
   return (
     <div>
-
       <Router>
-
         <Routes>
           <Route exact path="/:projectId/tasks" element={<LayoutSideBar currentPage="TaskPage"><TaskPage /></LayoutSideBar>} />
           <Route path="/members/:userId" element={<LayoutSideBar currentPage="Member" ><Member /></LayoutSideBar>} />
@@ -34,15 +28,12 @@ const Routers = () => {
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Registration />} />
-          <Route path="/success-email" element={<SuccessEmail />} />
-          <Route path="/success-register" element={<SuccessRegister />} />
           <Route path="/term-condition" element={<TermAndCondition />} />
           <Route path="*" element={<NotFound />} />
           
      <Route path="/error" element={<Error />} />
  
         </Routes>
-
       </Router>
     </div>
   );

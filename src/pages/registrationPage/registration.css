@@ -24,7 +24,9 @@
   align-items: center;
   justify-content: center;
 }
-
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+  border-radius: 0px !important;
+}
 .reg-link {
   color: var(--primary-clr) !important;
   text-decoration: none;
@@ -33,6 +35,12 @@
 .terms {
   font-weight: 700;
   font-size: 14px;
+}
+.disabled-btn {
+  color: #fff !important;
+  background: #a09deb !important;
+  cursor: pointer;
+  border-radius: 0px !important;
 }
 .button {
   color: #fff;
@@ -179,6 +187,7 @@
   }
   .field {
     width: 250px !important;
+    border-radius: 0px !important;
   }
 }
 @media only screen and (min-width: 1400px) {
