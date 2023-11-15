@@ -23,7 +23,6 @@ const getStatusColor = (status) => {
 const Dashboard = () => {
   const { userId } = useParams();
   const [projects, setProjects] = useState([]);
-  // const [loading, setLoading] = useState(true);
   const [notifications, setNotifications] = useState([]);
   const [taskStatusData, setTaskStatusData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -84,6 +83,15 @@ const Dashboard = () => {
     ],
   };
 
+  const pieChartOptions = {
+    onClick: (event, elements) => {
+      if (elements.length > 0) {
+        const clickedStatus = pieChartData.labels[elements[0].index];
+        console.log(`User clicked on: ${clickedStatus}`);
+      }
+    },
+  };
+
   const pieChartData = {
     labels: [
       "To-Do",
@@ -100,79 +108,89 @@ const Dashboard = () => {
           "#FF6384",
           "#36A2EB",
           "#FFCE56",
-          "#45aaf2",
+          "#90EE90",
           "#F7464A",
-          "#D4AF37",
+          "#808080",
         ],
         hoverBackgroundColor: [
           "#FF6384",
           "#36A2EB",
           "#FFCE56",
-          "#45aaf2",
+          "#90EE90",
           "#F7464A",
-          "#D4AF37",
+          "#808080",
         ],
       },
     ],
   };
+
   useEffect(() => {
     setTimeout(() => {
-    
       setData();
-      setLoading(false); 
-    }, 2000); 
+      setLoading(false);
+    }, 2000);
   }, []);
+
   return (
-    
-      <div>
-      <h2>Your Activities...</h2>
+  <div>
+    <h2>Your Activities...</h2>
     {loading ? (
-      <ContentLoader /> 
+      <ContentLoader />
     ) : (
-        <Row gutter={20}>
-          <Col span={16}>
-            <Card title="Tasks Overview">
-              <Bar
-                data={chartData}
-                options={{
-                  scales: {
-                    x: {
-                      type: "category",
-                    },
-                    y: {
-                      beginAtZero: true,
-                    },
+      <Row gutter={20}>
+        <Col span={14}>
+          <Card title="Tasks Overview">
+            <Bar
+              data={chartData}
+              options={{
+                scales: {
+                  x: {
+                    type: "category",
                   },
-                }}
-              />
+                  y: {
+                    beginAtZero: true,
+                  },
+                },
+              }}
+            />
+          </Card>
+        </Col>
+        <Col span={7}>
+          <Card title="Task Status Distribution">
+            <Pie data={pieChartData} options={pieChartOptions} />
+          </Card>
+        </Col>
+        <Col span={3}>
+          <Card title="Colors Info">
+            {statusColors.map((status) => (
+              <div key={status.color} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <div style={{ width: "20px", height: "20px", backgroundColor: status.color }}></div>
+                <span>{status.name}</span>
+              </div>
+            ))}
+          </Card>
+        </Col>
+        {projects.map((project) => (
+          <Col span={8} key={project.id}>
+            <Card
+              title={project.title}
+              extra={<Link to={`/${project.id}/tasks`}>Add Tasks</Link>}
+            >
+              <div>
+                <h3>Tasks:</h3>
+                {project.tasks.length > 0 ? (
+                  <TaskList tasks={project.tasks} />
+                ) : (
+                  <Empty description="No tasks available" />
+                )}
+              </div>
             </Card>
           </Col>
-          <Col span={8}>
-            <Card title="Task Status Distribution">
-              <Pie data={pieChartData} />
-            </Card>
-          </Col>
-          {projects.map((project) => (
-            <Col span={8} key={project.id}>
-              <Card
-                title={project.title}
-                extra={<Link to={`/${project.id}/tasks`}>Add Tasks</Link>}
-              >
-                <div>
-                  <h3>Tasks:</h3>
-                  {project.tasks.length > 0 ? (
-                    <TaskList tasks={project.tasks} />
-                  ) : (
-                    <Empty description="No tasks available" />
-                  )}
-                </div>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      )}
-    </div>
-  );
+        ))}
+      </Row>
+    )}
+  </div>
+);
 };
 
 const TaskList = ({ tasks }) => {
@@ -209,5 +227,14 @@ const TaskActions = ({ task }) => {
     </div>
   );
 };
+
+const statusColors = [
+  { name: "To-Do", color: "#FF6384" },
+  { name: "In Progress", color: "#36A2EB" },
+  { name: "Completed", color: "#FFCE56" },
+  {name:"Review",color:"#90EE90"},
+  {name:"Cancelled",color:"#F7464A"},
+  {name:"On Hold",color:"#808080"},
+];
 
 export default Dashboard;
