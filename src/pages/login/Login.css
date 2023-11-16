@@ -1,8 +1,13 @@
+@import url(../../index.css);
 .column1 {
   /* padding-left: 10px; */
-  margin: 29px 0px 0px;
+  /* margin: 29px 0px 0px; */
   background-color: white;
-  height: 93vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+  margin-top: 50px;
 }
 .login-heading {
   display: flex;
@@ -11,41 +16,42 @@
   align-items: center;
   /* margin-left: 43px; */
 }
-/* .login-boxStyle {
-  height: 100vh;
-} */
+.login-boxStyle {
+  display: flex;
+  flex-direction: row;
+}
 .login-heading h1 {
   /* margin-top: 2rem; */
   color: #42505c;
   font-size: 3.375rem;
   font-weight: 700;
+  font-family: "Roboto", sans-serif !important;
   line-height: 4.25rem;
 }
 .login-heading p {
-  margin: 7px 26px 0;
   font-style: normal;
+  font-family: "Roboto", sans-serif !important;
   font-weight: 400;
+  font-size: 14px;
+  margin: 0 70px;
   line-height: 1.75rem;
   letter-spacing: 0.01563rem;
 }
-.flex {
+.login-flex {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 670px;
 }
 .line {
-  color: "#000";
-  width: 100%;
-  min-width: 28vw;
+  width: 400px !important;
+  /* min-width: 28vw; */
   margin-top: 2.5rem;
-  padding: 0 24px 0;
-  justify-items: "center";
 }
 .account {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin: 10px 0;
+  padding: 0 25px;
   width: 100%;
 }
 /* validation errors */
@@ -60,23 +66,24 @@
   opacity: 0.1;
 }
 .inputs {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  margin: 22px 26px 0;
+  justify-content: center;
 }
 .formContainer {
-  margin-bottom: 6px;
+  margin-bottom: 10px;
   border-radius: none !important;
-  width: 100%;
-  /* margin-left: 2em;
-  margin-right: 2em; */
-  /* margin-top: 3em; */
 }
 .forgot-pwd {
   margin-top: 10px;
   cursor: pointer;
   color: #4743e0;
 }
-
+.login-input {
+  border-radius: 0px !important;
+  width: 350px !important;
+}
 .change-btn {
   width: 75% !important;
   height: 50% !important;
@@ -84,9 +91,10 @@
   padding: 15px !important;
 }
 .btn-area {
-  margin: 0 26px 0px;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  align-items: center;
   justify-content: space-between;
 }
 .checked {
@@ -100,35 +108,34 @@
   background-color: #4743e0 !important;
   color: white !important;
   border-radius: 0px !important;
+  border: 1px solid #4743e0 !important;
 }
 .log-btn:hover {
   background-color: #fff !important;
   color: #4743e0 !important;
   cursor: pointer;
-  border: 1px solid #4743e0 ;
+  border: 1px solid #4743e0;
 }
 .btn:hover {
   background-color: black;
   border-radius: 6px;
 }
 .nav-area {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
+  margin: 0 20px;
 }
 
 .column2 {
   background-color: #f9faff;
   background-image: url("../../assets/images/Layer\ 11.png");
-  background-size: 100% 100%;
+  background-size: 1200px 800px;
+  height: 100vh;
   background-repeat: no-repeat;
-  /* background-position-x: right;
-  background-position-y: bottom; */
+  width: 70%;
+  background-position-x: right;
+  background-position-y: bottom;
 }
 .footer-area {
-  display: flex;
-  flex-direction: column;
-  margin-top: 7rem;
+  margin-top: 50px;
 }
 
 @media (max-width: 991px) {

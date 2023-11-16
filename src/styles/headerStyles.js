@@ -15,6 +15,7 @@ const headerStyles = {
   },
   leftSection: {
     flex: 1,
+
   },
   centerSection: {
     flex: 2,
@@ -30,7 +31,9 @@ const headerStyles = {
   pageTitle: {
     fontSize: '20px',
     fontWeight: 'bold',
-    margin: '0', 
+    margin: '0',
+    color: 'var(--primary-clr)',
+
   },
   searchInput: {
     width: '200px',
@@ -47,8 +50,8 @@ const headerStyles = {
   AdditonalMenuStyle: {
     display: 'flex',
   },
-  AdditonalMenuStyleMain:{
-    width:'80%', 
+  AdditonalMenuStyleMain: {
+    width: '80%',
     border: '1px solid #F1F2F7',
     marginTop: '10px'
   },

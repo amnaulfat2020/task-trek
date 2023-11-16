@@ -37,16 +37,16 @@ const Member = () => {
   }, []);
   // const AlertMessage = () => {
 
-    // useEffect(() => {
-    //   const timer = setTimeout(() => {
-    //     setVisible(false);
-    //   }, 800);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setVisible(false);
+  //   }, 800);
 
 
-    //   return () => {
-    //     clearTimeout(timer);
-    //   };
-    // })
+  //   return () => {
+  //     clearTimeout(timer);
+  //   };
+  // })
   //   return (<>{visible ? <Alert className='alert-message' message="Loading..." type="success" /> : ""}</>);
   // };
   useEffect(() => {
@@ -81,31 +81,32 @@ const Member = () => {
     setFilterRole(role);
   };
 
-  const filteredByRoleUsers = sortedUsers.filter((user) =>
-    filterRole ? user.role === filterRole : true
-  );
+  const filteredByRoleUsers =
+    sortedUsers.filter((user) =>
+      filterRole ? user.role === filterRole : true
+    );
   useEffect(() => {
     setTimeout(() => {
-    
+
       setData();
-      setLoading(false); 
-    }, 2000); 
+      setLoading(false);
+    }, 2000);
   }, []);
 
   return (
     <div>
-    {loading ? (
-      <ContentLoader /> 
-    ) : (
-    <div className='members-container'>
-      {/* <h1>Members</h1> */}
-      <Search
-        placeholder="Search members..."
-        onSearch={handleSearch}
-        className='members-search'
-        style={{ width: 400 }}
-      />
-      {/* <div className="filter-buttons">
+      {loading ? (
+        <ContentLoader />
+      ) : (
+        <div className='members-container'>
+          {/* <h1>Members</h1> */}
+          <Search
+            placeholder="Search members..."
+            onSearch={handleSearch}
+            className='members-search'
+            style={{ width: 400 }}
+          />
+          {/* <div className="filter-buttons">
         <button onClick={() => handleRoleFilter('admin')}>Admin</button>
         <button onClick={() => handleRoleFilter('member')}>Member</button>
         <button onClick={() => handleRoleFilter('guest')}>Guest</button>
@@ -115,43 +116,43 @@ const Member = () => {
         <button onClick={() => handleSort('firstName')}>Sort by Name</button>
         <button onClick={() => handleSort('email')}>Sort by Email</button>
       </div> */}
-      {/* <AlertMessage /> */}
-      <List
-        itemLayout="vertical"
-        dataSource={filteredByRoleUsers}
-        renderItem={(user) => (
-          <List.Item>
-            <Card className='members-card'>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Avatar
-                  size={50}
-                  style={{
-                    backgroundColor: '#125bc1',
-                    color: 'white',
-                    marginRight: 16,
-                  }}
-                >
+          {/* <AlertMessage /> */}
+          <List
+            itemLayout="vertical"
+            dataSource={filteredByRoleUsers}
+            renderItem={(user) => (
+              <List.Item>
+                <Card className='members-card'>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Avatar
+                      size={50}
+                      style={{
+                        backgroundColor: '#4743e0',
+                        color: 'white',
+                        marginRight: 16,
+                      }}
+                    >
 
-                  <UserOutlined />
+                      <UserOutlined />
 
-                </Avatar>
-                <div className="user-details">
-                  <Typography.Title level={4} className='members-name'>{user.firstName}</Typography.Title>
-                  {/* <Typography.Text>{user.email}</Typography.Text> */}
-                  {/*<Typography.Text>{user.role}</Typography.Text> */}
-                </div>
-              </div>
-            </Card>
-          </List.Item>
-        )}
-      />
-      <Pagination
-        current={currentPage}
-        onChange={handlePageChange}
-        total={filteredByRoleUsers.length}
-        pageSize={membersPerPage}
-      />
-    </div>
+                    </Avatar>
+                    <div className="user-details">
+                      <Typography.Title level={4} className='members-name'>{user.firstName}</Typography.Title>
+                      {/* <Typography.Text>{user.email}</Typography.Text> */}
+                      {/*<Typography.Text>{user.role}</Typography.Text> */}
+                    </div>
+                  </div>
+                </Card>
+              </List.Item>
+            )}
+          />
+          <Pagination
+            current={currentPage}
+            onChange={handlePageChange}
+            total={filteredByRoleUsers.length}
+            pageSize={membersPerPage}
+          />
+        </div>
       )}
     </div>
   );

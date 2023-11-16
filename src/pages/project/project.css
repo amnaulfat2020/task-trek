@@ -21,7 +21,7 @@
 }
 .newbtn {
   border-radius: 1.625rem;
-  background: #00db99 !important;
+  background: var(--primary-clr) !important;
   width: 7.9375rem;
   height: 3.25rem;
   flex-shrink: 0;
@@ -29,15 +29,15 @@
 }
 .newbtn:hover {
   background: #fff !important;
-  color: #00db99 !important;
-  border: 1px solid #00db99 !important;
+  color: var(--primary-clr) !important;
+  border: 1px solid var(--primary-clr) !important;
 }
 .createbtn {
   width: 5.9375rem !important;
   height: 2.25rem !important;
 }
 .updatebtn {
-  background-color: #00db99 !important;
+  background-color: var(--primary-clr) !important;
   color: #fff !important;
   margin: 2px;
 }
@@ -96,7 +96,7 @@
   color: #ff285c !important;
 }
 .green {
-  color: #00db99 !important;
+  color: var(--primary-clr) !important;
 }
 .yellow {
   color: #f0bb00 !important;
