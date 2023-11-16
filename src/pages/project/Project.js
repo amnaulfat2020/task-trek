@@ -18,6 +18,7 @@ import {
   fetchTasksForProject,
 } from "../../services/api";
 import { doc, setDoc } from 'firebase/firestore';
+
 import { Link, useNavigate,useParams } from "react-router-dom";
 import { db } from '../../utils/constants/Firebase';
 
@@ -46,6 +47,14 @@ const Project = () => {
   const [editingStartDate, setEditingStartDate] = useState(null);
   const [editingMembers, setEditingMembers] = useState(null);
   const [editingTitle, setEditingTitle] = useState('');
+  const [editingValues, setEditingValues] = useState({
+    title: '',
+    startDate: '',
+    members: '',
+    progress:'',
+    status:'',
+
+  });
 
 
   // for fetching project
@@ -89,16 +98,22 @@ const Project = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // useRef
-    // const docRef = doc(db, "projects", docId.current.value);
-    // await setDoc(docRef, { docId: docId.current.value });
-
+    await createProject({ ...newProject, tasks: taskList });
+    setNewProject({
+      title: "",
+      StartDate: "",
+      status: "In Progress",
+      members: "",
+      progress: 0,
+    });
+    setTaskList([]);
     const updatedProjectList = await fetchProjects();
     setProjects(updatedProjectList);
     setShowInputFields(true);
     setTaskModalVisible(false);
     try {
-      await createProject({ ...newProject, tasks: taskList, userId });
+      // Include status and progress properties when creating a new project
+      await createProject({ ...newProject, tasks: taskList, userId, status: newProject.status, progress: newProject.progress });
       setNewProject({
         title: '',
         client: '',
@@ -117,40 +132,55 @@ const Project = () => {
   };
 
   const handleDelete = async (projectId) => {
-    // console.log(projectId)
-    await deleteProject(projectId);
-    const updatedProjectList = await fetchProjects();
-    setProjects(updatedProjectList);
+    try {
+      const updatedProjects = projects.filter((project) => project.id !== projectId);
+      setProjects(updatedProjects);
+  
+      await deleteProject(projectId);
+    } catch (error) {
+      // Roll back the state if there's an error
+      const projectList = await fetchProjects(userId);
+      setProjects(projectList);
+  
+      console.error('Error deleting project: ', error);
+    }
   };
 
   const handleEdit = (projectId) => {
+    const currentProject = projects.find((project) => project.id === projectId);
+    setEditingValues({
+      title: currentProject.title,
+      startDate: currentProject.startDate,
+      members: currentProject.members,
+    });
     setEditingProjectId(projectId);
   };
 
   const handleUpdate = async () => {
     if (editingProjectId !== null) {
-      const currentProject = projects.find(
-        (project) => project.id === editingProjectId
-      );
+      const currentProjectIndex = projects.findIndex((project) => project.id === editingProjectId);
+      const currentProject = projects[currentProjectIndex];
+      
       const updatedProject = {
         ...currentProject,
-        title:
-          editingTitle !== null ? editingTitle : currentProject.title,
-        StartDate:
-          editingStartDate !== null
-            ? editingStartDate
-            : currentProject.StartDate,
-        members:
-          editingMembers !== null ? editingMembers : currentProject.members,
+        title: editingTitle !== null ? editingTitle : currentProject.title,
+        StartDate: editingStartDate !== null ? editingStartDate : currentProject.StartDate,
+        members: editingMembers !== null ? editingMembers : currentProject.members,
         status: newProject.status,
         progress: newProject.progress,
       };
+
+      // Update the project locally
+      const updatedProjects = [...projects];
+      updatedProjects[currentProjectIndex] = updatedProject;
+      setProjects(updatedProjects);
+
+      // Send the update to the server
       await updateProject(editingProjectId, updatedProject);
       setEditingProjectId(null);
-      const updatedProjectList = await fetchProjects();
-      setProjects(updatedProjectList);
     }
   };
+   
 
   const toggleInputFields = () => {
     setShowInputFields(!showInputFields);
@@ -312,8 +342,6 @@ const Project = () => {
               </div>
               {/* tasks box */}
               <div className="tasks-box">
-                <div className="tasks">
-                  <p style={{ marginLeft: "8px" }}>{tasks.length}</p>
                   {tasks && tasks.length > 0 && (
                     <div className="task-list" key={project.id}>
                       <List
@@ -350,15 +378,7 @@ const Project = () => {
                     </Modal>
                   </div>
                 </div>
-                <div className="line3">
-                  <img src={Line3} alt="line3" />
-                </div>
-
-                <div className="users">
-                  <p style={{ marginLeft: "12px" }}>{4}</p>
-                  <p>Users</p>
-                </div>
-              </div>
+               
             </div>
 
             <div className="attribute">

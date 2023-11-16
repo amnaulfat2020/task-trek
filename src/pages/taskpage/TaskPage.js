@@ -187,7 +187,6 @@ const TaskPage = () => {
         }}
       >
         <option value="In Progress">In Progress</option>
-        <option value="Discussing">Discussing</option>
         <option value="Completed">Completed</option>
         <option value="Review">Review</option>
         <option value="Cancelled">Cancelled</option>
@@ -282,7 +281,7 @@ const TaskPage = () => {
               </Popover>
             </div>
 
-            <div className="filterMenu">
+            {/* <div className="filterMenu">
               {/* <Menu
                 style={headerStyles.AdditonalMenuStyle}
                 value={menuFilter}
@@ -293,8 +292,9 @@ const TaskPage = () => {
                 <Menu.Item key="On Hold">On Hold</Menu.Item>
                 <Menu.Item key="Completed">Completed</Menu.Item>
               </Menu> */}
-            </div>
-          </div>
+             </div>
+                    {/* </div> */}
+          
 
           {/* Kanban Board */}
           <DragDropContext onDragEnd={onDragEnd}>
