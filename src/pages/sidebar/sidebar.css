@@ -1,3 +1,4 @@
+@import url(../../index.css);
 .logo-container {
   border-bottom: 1px solid #f1f1f1;
 }
@@ -17,15 +18,15 @@
   width: 65%;
   height: 50px;
   border-radius: 0px !important;
-  background: #00db99 !important;
+  background: var(--primary-clr) !important;
   color: #fff !important;
   border: none;
   margin: auto;
 }
 .sidebar-btn:hover {
   background: #fff !important;
-  color: #00db99 !important;
-  border: 1px solid #00db99 !important;
+  color: var(--primary-clr) !important;
+  border: 1px solid var(--primary-clr) !important;
 }
 .side-bar.collapsed {
   width: 80px;
