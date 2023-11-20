@@ -12,14 +12,14 @@ import Project from '../pages/project/Project';
 import LayoutSideBar from '../layout/LayoutSideBar';
 import TermAndCondition from '../pages/TermsAndConditons';
 import Member from '../pages/member/Member';
-import Error from '../components/Error'; 
+import Error from '../components/Error';
 const Routers = () => {
 
   return (
     <div>
       <Router>
         <Routes>
-          <Route exact path="/:projectId/tasks" element={<LayoutSideBar currentPage="TaskPage"><TaskPage /></LayoutSideBar>} />
+          <Route exact path="/dashboard/project/:userId/:projectId/tasks" element={<LayoutSideBar currentPage="TaskPage"><TaskPage /></LayoutSideBar>} />
           <Route path="/members/:userId" element={<LayoutSideBar currentPage="Member" ><Member /></LayoutSideBar>} />
           <Route path="/dashboard/:userId" element={<LayoutSideBar currentPage="Dashboard"><Dashboard /></LayoutSideBar>} />
           <Route path="/dashboard/project/:userId" element={<LayoutSideBar currentPage="Project"><Project /></LayoutSideBar>} />
@@ -30,9 +30,9 @@ const Routers = () => {
           <Route path="/register" element={<Registration />} />
           <Route path="/term-condition" element={<TermAndCondition />} />
           <Route path="*" element={<NotFound />} />
-          
-     <Route path="/error" element={<Error />} />
- 
+
+          <Route path="/error" element={<Error />} />
+
         </Routes>
       </Router>
     </div>

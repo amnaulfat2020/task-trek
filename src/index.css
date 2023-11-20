@@ -19,3 +19,12 @@
 .body{
   overflow-y: hidden  !important;
 }
+.mt-5{
+  margin-top: 5px !important;
+}
+.no-bg{
+  background: transparent !important;
+}
+.br-0{
+  border-radius: 0 !important;
+}

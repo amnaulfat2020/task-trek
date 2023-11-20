@@ -87,7 +87,7 @@ const MenuBar = ({ currentPage }) => {
                     {currentPage}
                 </Title>
             </div>
-            <div style={headerStyles.centerSection}>
+            {/* <div style={headerStyles.centerSection}>
                 <Space>
                     <Input
                         prefix={<SearchOutlined />}
@@ -97,7 +97,7 @@ const MenuBar = ({ currentPage }) => {
                     // onChange={handleSearchChange}
                     />
                 </Space>
-            </div>
+            </div> */}
             <div style={headerStyles.rightSection}>
                 <Space size="large">
                     <Badge dot>

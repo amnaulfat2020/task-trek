@@ -1,7 +1,7 @@
 import "./project.css";
 import headerStyles from '../../styles/headerStyles';
 import React, { useState, useEffect, useRef } from "react";
-import { Card, Progress, Button, Input, Modal, List, Menu, Popover } from "antd";
+import { Card, Progress, Button, Input, Modal, List, Menu, Popover, Typography } from "antd";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import EditSvg from "../../assets/images/edit-pencil 1.svg";
 import redDotSvg from "../../assets/images/Ellipse red.svg";
@@ -9,7 +9,6 @@ import greenDotSvg from "../../assets/images/Ellipse 12.svg";
 import yellowDotSvg from "../../assets/images/Ellipse yellow.svg";
 import Line3 from "../../assets/images/Line 3.png";
 import ContentLoader from '../contentLoader/ContentLoader';
-
 import {
   createProject,
   fetchProjects,
@@ -18,12 +17,10 @@ import {
   fetchTasksForProject,
 } from "../../services/api";
 import { doc, setDoc } from 'firebase/firestore';
-
-import { Link, useNavigate,useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { db } from '../../utils/constants/Firebase';
-
 import { useSearch, useMenuContext } from "../../contexts/SearchContext";
-import TaskPage from "../taskpage/TaskPage";
+const { Title, Text } = Typography;
 
 const Project = () => {
   const { userId } = useParams();
@@ -51,8 +48,8 @@ const Project = () => {
     title: '',
     startDate: '',
     members: '',
-    progress:'',
-    status:'',
+    progress: '',
+    status: '',
 
   });
 
@@ -68,10 +65,10 @@ const Project = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      
+
       setData();
-      setLoading(false); 
-    }, 2000); 
+      setLoading(false);
+    }, 2000);
   }, []);
 
   const handleInputChange = (e) => {
@@ -135,13 +132,13 @@ const Project = () => {
     try {
       const updatedProjects = projects.filter((project) => project.id !== projectId);
       setProjects(updatedProjects);
-  
+
       await deleteProject(projectId);
     } catch (error) {
       // Roll back the state if there's an error
       const projectList = await fetchProjects(userId);
       setProjects(projectList);
-  
+
       console.error('Error deleting project: ', error);
     }
   };
@@ -160,7 +157,7 @@ const Project = () => {
     if (editingProjectId !== null) {
       const currentProjectIndex = projects.findIndex((project) => project.id === editingProjectId);
       const currentProject = projects[currentProjectIndex];
-      
+
       const updatedProject = {
         ...currentProject,
         title: editingTitle !== null ? editingTitle : currentProject.title,
@@ -180,7 +177,7 @@ const Project = () => {
       setEditingProjectId(null);
     }
   };
-   
+
 
   const toggleInputFields = () => {
     setShowInputFields(!showInputFields);
@@ -201,7 +198,7 @@ const Project = () => {
   //   setMenuFilter(key);
   // };
 
-  const { searchQuery } = useSearch(); 
+  const { searchQuery } = useSearch();
   const { menuFilter, setMenuFilter } = useMenuContext();
 
   // create project input content
@@ -209,19 +206,20 @@ const Project = () => {
     <div>
 
       <form onSubmit={handleSubmit}>
-        <div >
-          <p>Project Title</p>
+        <div className="pop-content-container">
+          <Title className='pop-title '>Project Title</Title>
           <Input
             name="title"
             required
             value={newProject.title}
             onChange={handleInputChange}
             placeholder="Project Title"
+            className='title-input'
           />
         </div>
-        <Button className="newbtn createbtn" type="primary" htmlType="submit">
-          Create
+        <Button className='task-add mt-5' htmlType="submit" >          Create
         </Button>
+
       </form>
 
 
@@ -260,7 +258,7 @@ const Project = () => {
 
       return (
         <div className="card-render" key={project.id}>
-          <Card>
+          <Card className='br-0'>
             <div className="card-header">
               {editingProjectId === project.id ? (
                 <Input
@@ -269,16 +267,16 @@ const Project = () => {
                   value={editingTitle !== null ? editingTitle : ""}
                   onChange={(e) => setEditingTitle(e.target.value)}
                 />
-              ) : (<h1>{title}</h1>)}
+              ) : (<Title className="card-title">{title}</Title>)}
               <div className="icon">
                 {editingProjectId === project.id ? (
                   <Button onClick={handleUpdate} className="updatebtn" >
                     Update
                   </Button>
                 ) : (
-                  <div className="padding">
+                  <div className="fn-btn-container">
                     <Button
-                      className="padding"
+                      className="fn-btn no-bg"
                       type="text"
                       onClick={() => handleEdit(project.id)}
                     >
@@ -287,7 +285,7 @@ const Project = () => {
                       </span>
                     </Button>
                     <Button
-                      className="padding"
+                      className="fn-btn no-bg"
                       type="text"
                       onClick={() => handleDelete(project.id)}
                     >
@@ -319,7 +317,7 @@ const Project = () => {
                   <option value="On Hold">On Hold</option>
                 </select>
               ) : (
-                <p className={statusColor}>{status}</p>
+                <p className={statusColor} >{status}</p>
               )}
             </div>
             <div className="Task-area">
@@ -342,46 +340,46 @@ const Project = () => {
               </div>
               {/* tasks box */}
               <div className="tasks-box">
-                  {tasks && tasks.length > 0 && (
-                    <div className="task-list" key={project.id}>
-                      <List
-                        dataSource={project.tasks}
-                        renderItem={(task, index) => (
-                          <List.Item key={index}>
-                            {task}
-                            <Button
-                              type="text"
-                              onClick={() => handleTaskDelete(index)}
-                            >
-                              Delete
-                            </Button>
-                          </List.Item>
-                        )}
-                      />
-                    </div>
-                  )}
-                  <div className="task-input">
-                    <Link to={`/${project.id}/tasks`}>
-                      <p >Tasks</p>
-                    </Link>
-                    <Modal
-                      title="Add Task"
-                      open={taskModalVisible}
-                      onOk={handleTaskAdd}
-                      onCancel={toggleTaskModal}
-                    >
-                      <Input
-                        placeholder="Task Name"
-                        value={taskText}
-                        onChange={handleTaskInputChange}
-                      />
-                    </Modal>
+                {tasks && tasks.length > 0 && (
+                  <div className="task-list" key={project.id}>
+                    <List
+                      dataSource={project.tasks}
+                      renderItem={(task, index) => (
+                        <List.Item key={index}>
+                          {task}
+                          <Button
+                            type="text"
+                            onClick={() => handleTaskDelete(index)}
+                          >
+                            Delete
+                          </Button>
+                        </List.Item>
+                      )}
+                    />
                   </div>
+                )}
+                <div className="task-input">
+                  <Link to={`/dashboard/project/${userId}/${project.id}/tasks`}>
+                    <Text className="l-task">Tasks</Text>
+                  </Link>
+                  <Modal
+                    title="Add Task"
+                    open={taskModalVisible}
+                    onOk={handleTaskAdd}
+                    onCancel={toggleTaskModal}
+                  >
+                    <Input
+                      placeholder="Task Name"
+                      value={taskText}
+                      onChange={handleTaskInputChange}
+                    />
+                  </Modal>
                 </div>
-               
+              </div>
+
             </div>
 
-            <div className="attribute">
+            {/* <div className="attribute">
               <p>Members</p>
               {editingProjectId === project.id ? (
                 <Input
@@ -392,7 +390,7 @@ const Project = () => {
               ) : (
                 <p>{members}</p>
               )}
-            </div>
+            </div> */}
             <div className="attribute">
               <p>Progress</p>
               {editingProjectId === project.id ? (
@@ -420,22 +418,22 @@ const Project = () => {
 
   return (
     <div>
-    {loading ? (
-      <ContentLoader /> 
-    ) : (
-    <div>
+      {loading ? (
+        <ContentLoader />
+      ) : (
+        <div>
 
-      {/*------------------------ Navbar filteration -----------------------------------*/}
-      <div className="navbar">
-        <div className="new-project">
-          <Popover placement="bottom" content={content}>
-            <Button className="newbtn">
-              <PlusOutlined />
-              New</Button>
-          </Popover>
-        </div>
+          {/*------------------------ Navbar filteration -----------------------------------*/}
+          <div className="navbar">
+            <div className="new-project">
+              <Popover placement="bottom" content={content}>
+                <Button className="newbtn">
+                  <PlusOutlined />
+                  New</Button>
+              </Popover>
+            </div>
 
-        {/* <div className="filterMenu">
+            {/* <div className="filterMenu">
           <Menu style={headerStyles.AdditonalMenuStyle} value={menuFilter} onClick={handleStatusFilterChange}>
             <Menu.Item key="All">All</Menu.Item>
             <Menu.Item key="In Progress">In Progress</Menu.Item>
@@ -445,22 +443,22 @@ const Project = () => {
 
         </div> */}
 
-      </div>
-      {/* ----------------------------card render-------------------------------- */}
-      <div className="card">
-        {projects.map((project) => (
-          <>
-            <div key={project.id}>{cardRender(project)}</div>
-          </>
-        ))}
-
-      </div>
-
-    </div>
-          )}
           </div>
-        );
-      };
+          {/* ----------------------------card render-------------------------------- */}
+          <div className="card">
+            {projects.map((project) => (
+              <>
+                <div key={project.id}>{cardRender(project)}</div>
+              </>
+            ))}
+
+          </div>
+
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default Project;
 

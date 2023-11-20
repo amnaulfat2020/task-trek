@@ -17,7 +17,6 @@ function getItem(label, key, icon, children, type) {
     type,
   };
 }
-
 const Sidebar = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
