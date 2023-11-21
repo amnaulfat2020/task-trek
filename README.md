@@ -18,19 +18,19 @@ The TaskTrek Project Management Dashboard is a comprehensive task management too
 - Visual indicators to easily identify task statuses on the dashboard.
 - Instant insight into the overall project progress.
 
-### 6. Task Filtering and Sorting Options
+### 3. Task Filtering and Sorting Options
 
 - Versatile filtering based on task status, assignee, priority, and more.
 - Sorting options to organize tasks by due date, priority, or alphabetical order.
 - Custom views for team members to focus on their individual tasks.
 
-### 7. User-Friendly Interface for Easy Navigation
+### 4. User-Friendly Interface for Easy Navigation
 
 - Intuitive design and layout for effortless task management.
 - Clear categorization of tasks, making it easy to find and interact with them.
 - Streamlined navigation to access different sections of the dashboard.
 
-### 8. Mobile Responsiveness for Accessibility on Various Devices
+### 5. Mobile Responsiveness for Accessibility on Various Devices
 
 - Fully responsive design ensuring usability on desktops, tablets, and smartphones.
 - Seamless transition between devices, enabling task management on the go.
