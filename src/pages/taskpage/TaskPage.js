@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, Input, Button, Modal, Menu, Popover, Alert } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Card, Input, Button, Modal, Menu, Popover, Alert, FloatButton, Typography } from 'antd';
+import { ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
 import { useSearch, useMenuContext } from '../../contexts/SearchContext';
 import headerStyles from '../../styles/headerStyles';
 import './taskPage.css';
 import ContentLoader from '../contentLoader/ContentLoader';
-
 import redDotSvg from '../../assets/images/Ellipse red.svg';
 import greenDotSvg from '../../assets/images/Ellipse 12.svg';
 import yellowDotSvg from '../../assets/images/Ellipse yellow.svg';
@@ -19,10 +18,11 @@ import {
   query,
   addDoc,
 } from 'firebase/firestore';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { db } from '../../utils/constants/Firebase';
 import dbNames from '../../utils/constants/db';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+const { Title, Text } = Typography;
 
 const statusColumns = {
   'To Do': { title: 'To Do', image: redDotSvg },
@@ -34,7 +34,8 @@ const statusColumns = {
 
 const TaskPage = () => {
   const navigate = useNavigate()
-  const { projectId } = useParams();
+  const { projectId } = useParams()
+  const { userId } = useParams()
   const [tasks, setTasks] = useState([]);
 
   const docId = useRef();
@@ -96,13 +97,13 @@ const TaskPage = () => {
         assigned: newTask.assigned,
         status: newTask.status,
       };
-  
+
       try {
         const docRef = await addDoc(taskRef, newTaskData);
         const addedTask = { id: docRef.id, ...newTaskData };
-  
+
         setTasks([...tasks, addedTask]);
-  
+
         setNewTask({
           title: '',
           assigned: '',
@@ -113,7 +114,7 @@ const TaskPage = () => {
       }
     }
   }
-  
+
 
   const deleteTask = async (taskId) => {
     try {
@@ -159,18 +160,19 @@ const TaskPage = () => {
   };
 
   const content = (
-    <div>
-      <h1>Tasks</h1>
+    <div className='pop-content-container'>
+      <Title className='pop-title'>Tasks</Title>
       <Input
         ref={docId}
         type="text"
+        className='title-input'
         placeholder="Task Title"
         value={newTask.title}
         onChange={(e) => {
           setNewTask({ ...newTask, title: e.target.value });
         }}
       />
-      <Input
+      {/* <Input
         ref={docId}
         type="text"
         placeholder="Assigned"
@@ -178,21 +180,23 @@ const TaskPage = () => {
         onChange={(e) => {
           setNewTask({ ...newTask, assigned: e.target.value });
         }}
-      />
-      <select
-        value={newTask.status}
-        ref={docId}
-        onChange={(e) => {
-          setNewTask({ ...newTask, status: e.target.value });
-        }}
-      >
-        <option value="In Progress">In Progress</option>
-        <option value="Completed">Completed</option>
-        <option value="Review">Review</option>
-        <option value="Cancelled">Cancelled</option>
-        <option value="On Hold">On Hold</option>
-      </select>
-      <Button onClick={handleAddTask}>Add Task</Button>
+      /> */}
+        <select
+          className='pop-select'
+          value={newTask.status}
+          ref={docId}
+          onChange={(e) => {
+            setNewTask({ ...newTask, status: e.target.value });
+          }}
+        >
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+          <option value="Review">Review</option>
+          <option value="Cancelled">Cancelled</option>
+          <option value="On Hold">On Hold</option>
+        </select>
+        <Button className='task-add' onClick={handleAddTask}>Add Task</Button>
+
     </div>
   );
 
@@ -212,7 +216,7 @@ const TaskPage = () => {
 
   const onDragEnd = async (result) => {
     if (!result.destination) {
-      return; 
+      return;
     }
 
     const sourceStatus = result.source.droppableId;
@@ -248,7 +252,7 @@ const TaskPage = () => {
       const reorderedTasks = Array.from(tasks);
       const [removed] = reorderedTasks.splice(result.source.index, 1);
       reorderedTasks.splice(result.destination.index, 0, removed);
-      
+
       setTasks(reorderedTasks);
 
       if (result.source.index !== result.destination.index) {
@@ -263,7 +267,7 @@ const TaskPage = () => {
     }
   };
 
-  
+
 
   return (
     <div>
@@ -281,20 +285,9 @@ const TaskPage = () => {
               </Popover>
             </div>
 
-            {/* <div className="filterMenu">
-              {/* <Menu
-                style={headerStyles.AdditonalMenuStyle}
-                value={menuFilter}
-                onClick={handleStatusFilterChange}
-              >
-                <Menu.Item key="All">All</Menu.Item>
-                <Menu.Item key="In Progress">In Progress</Menu.Item>
-                <Menu.Item key="On Hold">On Hold</Menu.Item>
-                <Menu.Item key="Completed">Completed</Menu.Item>
-              </Menu> */}
-             </div>
-                    {/* </div> */}
-          
+
+          </div>
+
 
           {/* Kanban Board */}
           <DragDropContext onDragEnd={onDragEnd}>
@@ -306,7 +299,7 @@ const TaskPage = () => {
                       className={`kanban-column ${status.toLowerCase()}`}
                       ref={provided.innerRef}
                     >
-                      <h2>{status}</h2>
+                      <Title className='card-status'>{status}</Title>
                       {tasks
                         .filter((task) => task.status === status)
                         .map((task, index) => (
@@ -320,16 +313,16 @@ const TaskPage = () => {
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
-                                className={`card ${status.toLowerCase()}`}
+                                className={`task-card ${status.toLowerCase()}`}
                               >
-                                <h2>{task.title}</h2>
-                                <p>Assigned: {task.assigned}</p>
-                                <div className="status">
+                                <Title className='card-title'>{task.title}</Title>
+                                {/* <p>Assigned: {task.assigned}</p> */}
+                                <div className="task-status-container">
                                   <img src={statusImg[task.status]} alt="dot" />
-                                  <p>{task.status}</p>
+                                  <Text className='task-status'>{task.status}</Text>
                                 </div>
-                                <Button onClick={() => openEditModal(task, index)}>Edit</Button>
-                                <Button onClick={() => handleDeleteTask(task.id)}>Delete</Button>
+                                {/* <Button onClick={() => openEditModal(task, index)}>Edit</Button> */}
+                                <Button className='task-del-btn' onClick={() => handleDeleteTask(task.id)}>Delete</Button>
                               </Card>
                             )}
                           </Draggable>
@@ -378,6 +371,18 @@ const TaskPage = () => {
           {loading && <Alert className="alert-message" message=" Loading..." type="success" />}
         </div>
       )}
+      <FloatButton
+        shape="circle"
+        type="primary"
+        icon={<ArrowLeftOutlined />}
+        onClick={() => {
+          navigate(`/dashboard/project/${userId}`)
+        }}
+        style={{
+          right: 50,
+        }}
+      />
+
     </div>
   );
 };

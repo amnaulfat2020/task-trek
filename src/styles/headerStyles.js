@@ -31,7 +31,7 @@ const headerStyles = {
   pageTitle: {
     fontSize: '20px',
     fontWeight: 'bold',
-    margin: '0',
+    margin: '0  60px',
     color: 'var(--primary-clr)',
 
   },

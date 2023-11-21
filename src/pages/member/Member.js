@@ -35,20 +35,6 @@ const Member = () => {
 
     fetchUsers();
   }, []);
-  // const AlertMessage = () => {
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setVisible(false);
-  //   }, 800);
-
-
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // })
-  //   return (<>{visible ? <Alert className='alert-message' message="Loading..." type="success" /> : ""}</>);
-  // };
   useEffect(() => {
     setFilteredUsers(
       users.filter((user) =>
@@ -106,17 +92,6 @@ const Member = () => {
             className='members-search'
             style={{ width: 400 }}
           />
-          {/* <div className="filter-buttons">
-        <button onClick={() => handleRoleFilter('admin')}>Admin</button>
-        <button onClick={() => handleRoleFilter('member')}>Member</button>
-        <button onClick={() => handleRoleFilter('guest')}>Guest</button>
-        <button onClick={() => handleRoleFilter('')}>Clear Filter</button>
-      </div>
-      <div className="sort-buttons">
-        <button onClick={() => handleSort('firstName')}>Sort by Name</button>
-        <button onClick={() => handleSort('email')}>Sort by Email</button>
-      </div> */}
-          {/* <AlertMessage /> */}
           <List
             itemLayout="vertical"
             dataSource={filteredByRoleUsers}

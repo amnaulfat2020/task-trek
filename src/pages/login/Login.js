@@ -112,7 +112,6 @@ const Login = () => {
           const userId = await getUserIdByEmail(values.email);
 
 
-
           if (userId) {
 
             navigate(`/dashboard/project/${userId}`);
@@ -192,136 +191,236 @@ const Login = () => {
   }, [navigate]);
 
 
-
   return (
+    <>
 
+      <div className="login-boxStyle">
 
-    <div className="login-boxStyle">
+        <div className="column1">
 
-      {/* 1st column */}
-      {/* xs={24} sm={24} md={10} lg={8} xl={8} */}
-      <div className="column1">
+          <div className="login-heading">
 
-        <div className="login-heading">
+            <h1>Login</h1>
 
-          <h1>Login</h1>
+            <p>
 
-          <p>
+              Please input your information in the fields below to enter your journey platform.
 
-            Please input your information in the fields below to enter your journey platform.
-
-          </p>
-
-        </div>
-
-
-        <img src={Line} alt="line" className="line" />
-
-
-        <form onSubmit={handleSubmit} className="form-area">
-
-          <div className="inputs">
-
-            <div className="account">
-
-              <label>Account</label>
-
-              <QuestionCircleFilled className="mark" />
-
-            </div>
-
-            {/* Email input */}
-
-            <div className="formContainer">
-
-              <Input
-
-                htmlFor="email"
-
-                type="email"
-
-                name="email"
-
-                value={values.email}
-
-                id="email"
-
-                onChange={handleChange}
-
-                onBlur={handleBlur}
-
-                placeholder="Email Address"
-
-                className={errors.email && touched.email ? "input-error login-input" : "login-input"}
-
-                size="large"
-
-                prefix={<UserOutlined />}
-
-              />
-
-              {errors.email && touched.email && (
-
-                <p className="error">{errors.email}</p>
-
-              )}
-
-            </div>
-
-            {/* password */}
-
-            <div className="formContainer">
-
-              <Input
-
-                htmlFor="password"
-
-                type="password"
-
-                name="password"
-
-                id="password"
-
-                value={values.password}
-
-                onChange={handleChange}
-
-                onBlur={handleBlur}
-
-                placeholder="Password"
-
-                className={
-
-                  errors.password && touched.password ? "input-error login-input" : "login-input"
-
-                }
-
-                size="large"
-
-                prefix={<KeyOutlined />}
-                autoComplete="current-password"
-              />
-
-              {errors.password && touched.password && (
-
-                <p className="error">{errors.password}</p>
-
-              )}
-
-            </div>
-
-
-
-            {/* Forgot password */}
-
-
+            </p>
 
           </div>
-          <div className="nav-area">
+
+
+          <img src={Line} alt="line" className="line" />
+
+
+          <form onSubmit={handleSubmit} className="form-area">
+
+            <div className="inputs">
+
+              <div className="account">
+
+                <label>Account</label>
+
+                <QuestionCircleFilled className="mark" />
+
+              </div>
+
+              {/* Email input */}
+
+              <div className="formContainer">
+
+                <Input
+
+                  htmlFor="email"
+
+                  type="email"
+
+                  name="email"
+
+                  value={values.email}
+
+                  id="email"
+
+                  onChange={handleChange}
+
+                  onBlur={handleBlur}
+
+                  placeholder="Email Address"
+
+                  className={errors.email && touched.email ? "input-error login-input" : "login-input"}
+
+                  size="large"
+
+                  prefix={<UserOutlined />}
+
+                />
+
+                {errors.email && touched.email && (
+
+                  <p className="error">{errors.email}</p>
+
+                )}
+
+              </div>
+
+              {/* password */}
+
+              <div className="formContainer">
+
+                <Input
+
+                  htmlFor="password"
+
+                  type="password"
+
+                  name="password"
+
+                  id="password"
+
+                  value={values.password}
+
+                  onChange={handleChange}
+
+                  onBlur={handleBlur}
+
+                  placeholder="Password"
+
+                  className={
+
+                    errors.password && touched.password ? "input-error login-input" : "login-input"
+
+                  }
+
+                  size="large"
+
+                  prefix={<KeyOutlined />}
+                  autoComplete="current-password"
+                />
+
+                {errors.password && touched.password && (
+
+                  <p className="error">{errors.password}</p>
+
+                )}
+
+              </div>
+
+
+
+              {/* Forgot password */}
+
+
+
+            </div>
+            <div className="nav-area">
+
+              <Typography
+
+                level={4}
+
+                onMouseOver={MouseOver}
+
+                onMouseOut={MouseOut}
+
+                onClick={() => {
+
+                  navigate("/forget-password");
+
+                }}
+
+                className="forgot-pwd"
+
+              >
+
+                Forgot Your password?
+
+              </Typography>
+
+            </div>
+
+            <img src={Line} alt="line" className="line" />
+
+
+
+
+            <div className="login-flex">
+
+              <p className="error">{errMsg}</p>
+
+            </div>
+
+            {/* signin button */}
+
+            <div className="btn-area">
+
+              {/* remember me */}
+
+              <div className="checked">
+
+                <Checkbox onChange={onChange}>Remember Me</Checkbox>
+
+              </div>
+
+              {/* signin button  */}
+
+              <div className="button-log">
+
+                <Button
+
+                  type="submit"
+
+                  disabled={submitButtonDisabled}
+
+                  variant="contained"
+
+                  className="log-btn"
+
+                  sx={{ mt: 3, mb: 2 }}
+
+                >
+
+                  Login
+
+                </Button>
+
+              </div>
+
+            </div>
+
+          </form>
+
+
+
+          <div className="footer-area">
 
             <Typography
 
-              level={4}
+              varient="body1"
+
+              component="span"
+
+              align="center"
+
+              style={{ marginTop: "10px" }}
+
+            >
+
+              Don't have an account yet?
+
+            </Typography>
+
+            <Typography
+
+              style={{
+
+                color: "#4743E0",
+
+                cursor: "pointer",
+
+              }}
+
+              align="center"
 
               onMouseOver={MouseOver}
 
@@ -329,131 +428,28 @@ const Login = () => {
 
               onClick={() => {
 
-                navigate("/forget-password");
+                navigate("/register");
 
               }}
 
-              className="forgot-pwd"
-
             >
 
-              Forgot Your password?
+              Register Here
 
             </Typography>
 
           </div>
 
-          <img src={Line} alt="line" className="line" />
+        </div>
 
-
-
-
-          <div className="login-flex">
-
-            <p className="error">{errMsg}</p>
-
-          </div>
-
-          {/* signin button */}
-
-          <div className="btn-area">
-
-            {/* remember me */}
-
-            <div className="checked">
-
-              <Checkbox onChange={onChange}>Remember Me</Checkbox>
-
-            </div>
-
-            {/* signin button  */}
-
-            <div className="button-log">
-
-              <Button
-
-                type="submit"
-
-                disabled={submitButtonDisabled}
-
-                variant="contained"
-
-                className="log-btn"
-
-                sx={{ mt: 3, mb: 2 }}
-
-              >
-
-                Login
-
-              </Button>
-
-            </div>
-
-          </div>
-
-        </form>
-
-
-
-        <div className="footer-area">
-
-          <Typography
-
-            varient="body1"
-
-            component="span"
-
-            align="center"
-
-            style={{ marginTop: "10px" }}
-
-          >
-
-            Don't have an account yet?
-
-          </Typography>
-
-          <Typography
-
-            style={{
-
-              color: "#4743E0",
-
-              cursor: "pointer",
-
-            }}
-
-            align="center"
-
-            onMouseOver={MouseOver}
-
-            onMouseOut={MouseOut}
-
-            onClick={() => {
-
-              navigate("/register");
-
-            }}
-
-          >
-
-            Register Here
-
-          </Typography>
+        {/* column2 */}
+        {/* md={14} lg={16} xl={16} */}
+        <div className="column2">
 
         </div>
 
       </div>
-
-      {/* column2 */}
-      {/* md={14} lg={16} xl={16} */}
-      <div className="column2">
-
-      </div>
-
-    </div>
-
+    </>
   );
 
 };
