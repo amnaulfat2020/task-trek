@@ -18,23 +18,6 @@ The TaskTrek Project Management Dashboard is a comprehensive task management too
 - Visual indicators to easily identify task statuses on the dashboard.
 - Instant insight into the overall project progress.
 
-### 3. Deadline Management and Reminders
-
-- Automatic tracking of task deadlines and due dates.
-- Reminders for approaching deadlines, reducing the risk of missed timelines.
-- Flexibility for team members to adjust and reschedule tasks as needed.
-
-### 4. Team Collaboration and Commenting on Tasks
-
-- Seamless communication through task-specific comment sections.
-- Team members can discuss task details, share insights, and offer assistance.
-- Threaded conversations to maintain context and clarity.
-
-### 5. File Attachment and Sharing Capabilities
-
-- Ability to attach files, documents, and relevant resources to tasks.
-- Simplified sharing of documents within the dashboard, reducing reliance on external tools.
-
 ### 6. Task Filtering and Sorting Options
 
 - Versatile filtering based on task status, assignee, priority, and more.
