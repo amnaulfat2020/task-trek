@@ -18,7 +18,7 @@ import Button from "@mui/material/Button";
 
 import { useFormik } from "formik";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./Login.css";
 
@@ -46,7 +46,7 @@ function MouseOut(event) {
 
 const Login = () => {
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [errMsg, setErrMsg] = useState("");
 
@@ -65,7 +65,7 @@ const Login = () => {
 
   // Use the useUserContext hook to access the updateUser function
 
-  const { updateUser } = useUserContext();
+  // const { updateUser } = useUserContext();
 
 
 
@@ -114,7 +114,8 @@ const Login = () => {
 
           if (userId) {
 
-            navigate(`/dashboard/project/${userId}`);
+            <Link to={`/dashboard/project/${userId}`}></Link>
+            // navigate(``);
 
             // Update the user data in the context
 
