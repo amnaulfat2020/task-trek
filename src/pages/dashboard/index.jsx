@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Routes, Route } from 'react-router-dom';
+
 import { Link, useParams } from "react-router-dom";
 import { fetchProjects, fetchTasksForProject } from "../../services/api";
 import { Card, Row, Col, Button, Empty, List, Badge } from "antd";
@@ -133,7 +135,6 @@ const Dashboard = () => {
 
   return (
   <div>
-    <h2>Your Activities...</h2>
     {loading ? (
       <ContentLoader />
     ) : (
@@ -171,51 +172,75 @@ const Dashboard = () => {
           </Card>
         </Col>
         {projects.map((project) => (
-          <Col span={8} key={project.id}>
-            <Card
-              title={project.title}
-              extra={<Link to={`/${project.id}/tasks`}>Add Tasks</Link>}
-            >
-              <div>
-                <h3>Tasks:</h3>
-                {project.tasks.length > 0 ? (
-                  <TaskList tasks={project.tasks} />
-                ) : (
-                  <Empty description="No tasks available" />
-                )}
-              </div>
-            </Card>
-          </Col>
-        ))}
+  <Col span={8} key={project.id}>
+    <Card
+      title={project.title.toUpperCase()}  
+      extra={<Link to={`/dashboard/project/${userId}/${project.id}/tasks`}>Add Tasks</Link>}
+    >
+      <div>
+        <h3>Tasks:</h3>
+        {project.tasks.length > 0 ? (
+          <TaskList tasks={project.tasks} />
+        ) : (
+          <Empty description="No tasks available" />
+        )}
+      </div>
+      
+    </Card>
+  </Col>
+))}
       </Row>
     )}
   </div>
 );
 };
 
+// const TaskList = ({ tasks }) => {
+//   return (
+//     <List
+//       itemLayout="horizontal"
+//       dataSource={tasks}
+//       renderItem={(task) => (
+//         <List.Item>
+//           <List.Item.Meta
+//             title={
+//               <div>
+//                 <span className="task-title">
+//                   {task.title.charAt(0).toUpperCase() + task.title.slice(1)}
+//                 </span>
+//                 <TaskStatusBadge status={task.status} />
+//               </div>
+//             }
+//             description={task.description}
+//           />
+//           <TaskActions task={task} />
+//         </List.Item>
+//       )}
+//     />
+//   );
+// };
 const TaskList = ({ tasks }) => {
   return (
     <List
       itemLayout="horizontal"
       dataSource={tasks}
       renderItem={(task) => (
-        <List.Item>
+        <List.Item className="task-list-item">
           <List.Item.Meta
             title={
-              <div>
-                {task.title}
-                <TaskStatusBadge status={task.status} />
+              <div className="task-title">
+                {task.title.charAt(0).toUpperCase() + task.title.slice(1)}
               </div>
             }
             description={task.description}
           />
+          <TaskStatusBadge status={task.status} />
           <TaskActions task={task} />
         </List.Item>
       )}
     />
   );
 };
-
 const TaskStatusBadge = ({ status }) => {
   return <Badge status={getStatusColor(status)} text={status} />;
 };
@@ -233,7 +258,7 @@ const statusColors = [
   { name: "In Progress", color: "#36A2EB" },
   { name: "Completed", color: "#FFCE56" },
   {name:"Review",color:"#90EE90"},
-  {name:"Cancelled",color:"#F7464A"},
+  // {name:"Cancelled",color:"#F7464A"},
   {name:"On Hold",color:"#808080"},
 ];
 
