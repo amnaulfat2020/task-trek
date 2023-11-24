@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Card, Input, Button, Modal, Menu, Popover, Alert, FloatButton, Typography } from 'antd';
 import { ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
-import { useMenuContext } from '../../contexts/SearchContext';
+import { useSearch, useMenuContext } from '../../contexts/SearchContext';
+import headerStyles from '../../styles/headerStyles';
 import './taskPage.css';
+
 import ContentLoader from '../contentLoader/ContentLoader';
 import redDotSvg from '../../assets/images/Ellipse red.svg';
+import GreenDotSvg from '../../assets/images/Ellipse green.svg';
+
 import greenDotSvg from '../../assets/images/Ellipse 12.svg';
 import yellowDotSvg from '../../assets/images/Ellipse yellow.svg';
+import blueDotSvg from '../../assets/images/Ellipse blue.svg';
+
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import {
   collection,
@@ -17,16 +23,16 @@ import {
   query,
   addDoc,
 } from 'firebase/firestore';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { db } from '../../utils/constants/Firebase';
 import dbNames from '../../utils/constants/db';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 const { Title, Text } = Typography;
 
 const statusColumns = {
-  'Todo': { title: 'Todo', image: redDotSvg },
-  'InProgress': { title: 'In Progress', image: yellowDotSvg },
-  'Review': { title: 'Review', image: yellowDotSvg },
+  'To-Do': { title: 'To-Do', image: redDotSvg },
+  'In Progress': { title: 'In Progress', image: blueDotSvg },
+  'Review': { title: 'Review', image: GreenDotSvg },
   'Testing': { title: 'Testing', image: yellowDotSvg },
   'Completed': { title: 'Completed', image: greenDotSvg },
 };
@@ -42,7 +48,7 @@ const TaskPage = () => {
   const [newTask, setNewTask] = useState({
     title: '',
     assigned: '',
-    status: 'Todo',
+    status: 'To-Do',
   });
 
   const [editModalVisible, setEditModalVisible] = useState(false);
@@ -108,7 +114,7 @@ const TaskPage = () => {
 
         setNewTask({
           title: '',
-          status: 'Todo',
+          status: 'To-Do',
         });
       } catch (error) {
         console.error('Error adding task to Firestore:', error);
@@ -181,7 +187,7 @@ const TaskPage = () => {
           setNewTask({ ...newTask, status: e.target.value });
         }}
       >
-        <option value="To Do">Todo</option>
+        <option value="To-Do">To-Do</option>
         <option value="In Progress">In Progress</option>
         <option value="Review">In Review</option>
         <option value="Testing">Testing</option>
@@ -193,9 +199,9 @@ const TaskPage = () => {
   );
 
   const statusImg = {
-    'Todo': redDotSvg,
-    'InProgress': yellowDotSvg,
-    'Review': yellowDotSvg,
+    'To-Do': redDotSvg,
+    'In Progress': blueDotSvg,
+    'Review': GreenDotSvg,
     'Testing': greenDotSvg,
     'Completed': yellowDotSvg,
   };
@@ -450,7 +456,7 @@ export default TaskPage;
 // import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 // const statusColumns = {
-//   'To Do': { title: 'To Do', image: redDotSvg },
+//   'To-Do': { title: 'To-Do', image: redDotSvg },
 //   'In Progress': { title: 'In Progress', image: yellowDotSvg },
 //   'On Hold': { title: 'On Hold', image: yellowDotSvg },
 //   'Completed': { title: 'Completed', image: greenDotSvg },
@@ -623,7 +629,7 @@ export default TaskPage;
 //   );
 
 //   const statusImg = {
-//     'To Do': redDotSvg,
+//     'To-Do': redDotSvg,
 //     'In Progress': yellowDotSvg,
 //     'On Hold': yellowDotSvg,
 //     'Completed': greenDotSvg,

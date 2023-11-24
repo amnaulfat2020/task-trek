@@ -55,8 +55,8 @@ const Dashboard = () => {
       "In Progress": 0,
       "Completed": 0,
       "Review": 0,
-      "Cancelled": 0,
-      "On Hold": 0,
+      // "Cancelled": 0,
+      "Testing": 0,
     };
 
     projects.forEach((project) => {
@@ -98,8 +98,8 @@ const Dashboard = () => {
       "In Progress",
       "Completed",
       "Review",
-      "Cancelled",
-      "On Hold",
+      // "Cancelled",
+      "Testing",
     ],
     datasets: [
       {
@@ -109,7 +109,7 @@ const Dashboard = () => {
           "#36A2EB",
           "#FFCE56",
           "#90EE90",
-          "#F7464A",
+          // "#F7464A",
           "#808080",
         ],
         hoverBackgroundColor: [
@@ -117,7 +117,7 @@ const Dashboard = () => {
           "#36A2EB",
           "#FFCE56",
           "#90EE90",
-          "#F7464A",
+          // "#F7464A",
           "#808080",
         ],
       },
@@ -233,8 +233,8 @@ const statusColors = [
   { name: "In Progress", color: "#36A2EB" },
   { name: "Completed", color: "#FFCE56" },
   {name:"Review",color:"#90EE90"},
-  {name:"Cancelled",color:"#F7464A"},
-  {name:"On Hold",color:"#808080"},
+  // {name:"Cancelled",color:"#F7464A"},
+  {name:"Testing",color:"#808080"},
 ];
 
 export default Dashboard;
