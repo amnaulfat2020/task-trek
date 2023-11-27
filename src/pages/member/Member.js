@@ -121,12 +121,22 @@ const Member = () => {
               </List.Item>
             )}
           />
-          <Pagination
-            current={currentPage}
-            onChange={handlePageChange}
-            total={filteredByRoleUsers.length}
-            pageSize={membersPerPage}
-          />
+           <Pagination
+  current={currentPage}
+  onChange={handlePageChange}
+  total={filteredByRoleUsers.length}
+  pageSize={membersPerPage}
+  style={{ marginTop: '20px', textAlign: 'center', color: '#4743e0' }}
+  itemRender={(current, type, originalElement) => {
+    if (type === 'prev' || type === 'next') {
+      return <a style={{ color: '#4743e0' }}>{originalElement}</a>;
+    }
+    if (type === 'page') {
+      return <a style={{ color: '#4743e0' }}>{current}</a>;
+    }
+    return originalElement;
+  }}
+/>
         </div>
       )}
     </div>
