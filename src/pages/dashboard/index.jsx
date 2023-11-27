@@ -5,13 +5,19 @@ import { Link, useParams } from "react-router-dom";
 import { fetchProjects, fetchTasksForProject } from "../../services/api";
 import { Card, Row, Col, Button, Empty, List, Badge } from "antd";
 import { Bar, Pie } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement } from "chart.js";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement
+} from "chart.js";
 import "./dashboard.css";
-import ContentLoader from '../contentLoader/ContentLoader';
+import ContentLoader from "../contentLoader/ContentLoader";
 
 const getStatusColor = (status) => {
   switch (status) {
-    case "To-Do":
+    case "Todo":
       return "default";
     case "In Progress":
       return "processing";
@@ -24,6 +30,8 @@ const getStatusColor = (status) => {
 
 const Dashboard = () => {
   const { userId } = useParams();
+  const { projectId } = useParams();
+
   const [projects, setProjects] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [taskStatusData, setTaskStatusData] = useState([]);
@@ -53,12 +61,13 @@ const Dashboard = () => {
 
   const countTaskStatuses = (projects) => {
     const statusCount = {
-      "To-Do": 0,
+      Todo: 0,
       "In Progress": 0,
-      "Completed": 0,
-      "Review": 0,
-      // "Cancelled": 0,
-      "Testing": 0,
+      Completed: 0,
+      Review: 0,
+      Cancelled: 0,
+      Completed: 0,
+      Testing: 0,
     };
 
     projects.forEach((project) => {
@@ -80,9 +89,9 @@ const Dashboard = () => {
         data: projects.map((project) => project.tasks.length),
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
-      },
-    ],
+        borderWidth: 1
+      }
+    ]
   };
 
   const pieChartOptions = {
@@ -91,16 +100,15 @@ const Dashboard = () => {
         const clickedStatus = pieChartData.labels[elements[0].index];
         console.log(`User clicked on: ${clickedStatus}`);
       }
-    },
+    }
   };
 
   const pieChartData = {
     labels: [
-      "To-Do",
+      "Todo",
       "In Progress",
       "Completed",
       "Review",
-      // "Cancelled",
       "Testing",
     ],
     datasets: [
@@ -111,16 +119,18 @@ const Dashboard = () => {
           "#36A2EB",
           "#FFCE56",
           "#90EE90",
-          // "#F7464A",
-          "#808080",
+
         ],
         hoverBackgroundColor: [
           "#FF6384",
           "#36A2EB",
           "#FFCE56",
           "#90EE90",
-          // "#F7464A",
-          "#808080",
+
+        ]
+      }
+    ]
+
         ],
       },
     ],
@@ -134,6 +144,79 @@ const Dashboard = () => {
   }, []);
 
   return (
+    <div>
+      <h2>Your Activities...</h2>
+      {loading ? (
+        <ContentLoader />
+      ) : (
+        <Row gutter={20}>
+          <Col span={14}>
+            <Card title="Tasks Overview">
+              <Bar
+                data={chartData}
+                options={{
+                  scales: {
+                    x: {
+                      type: "category"
+                    },
+                    y: {
+                      beginAtZero: true
+                    }
+                  }
+                }}
+              />
+            </Card>
+          </Col>
+          <Col span={7}>
+            <Card title="Task Status Distribution">
+              <Pie data={pieChartData} options={pieChartOptions} />
+            </Card>
+          </Col>
+          <Col span={3}>
+            <Card title="Colors Info">
+              {statusColors.map((status) => (
+                <div
+                  key={status.color}
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                >
+                  <div
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      backgroundColor: status.color
+                    }}
+                  ></div>
+                  <span>{status.name}</span>
+                </div>
+              ))}
+            </Card>
+          </Col>
+          {projects.map((project) => (
+            <Col span={8} key={project.id}>
+              <Card
+                title={project.title}
+                extra={
+                  <Link to={`/dashboard/project/${userId}/${projectId}/tasks`}>
+                    Add Tasks
+                  </Link>
+                }
+              >
+                <div>
+                  <h3>Tasks:</h3>
+                  {project.tasks.length > 0 ? (
+                    <TaskList tasks={project.tasks} />
+                  ) : (
+                    <Empty description="No tasks available" />
+                  )}
+                </div>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )}
+    </div>
+  );
+=======
   <div>
     {loading ? (
       <ContentLoader />
@@ -246,18 +329,14 @@ const TaskStatusBadge = ({ status }) => {
 };
 
 const TaskActions = ({ task }) => {
-  return (
-    <div>
-      {/* Add buttons or components for task actions here */}
-    </div>
-  );
+  return <div>{/* Add buttons or components for task actions here */}</div>;
 };
 
 const statusColors = [
-  { name: "To-Do", color: "#FF6384" },
+  { name: "Todo", color: "#FF6384" },
   { name: "In Progress", color: "#36A2EB" },
   { name: "Completed", color: "#FFCE56" },
-  {name:"Review",color:"#90EE90"},
+  { name: "Review", color: "#90EE90" },
   {name:"Testing",color:"#808080"},
 ];
 

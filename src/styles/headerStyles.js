@@ -29,11 +29,11 @@ const headerStyles = {
     alignItems: 'center',
   },
   pageTitle: {
-    fontSize: '20px',
-    fontWeight: 'bold',
+    fontSize: '22px',
+    fontWeight: '600',
     margin: '0  60px',
     color: 'var(--primary-clr)',
-
+    fontFamily: 'Montserrat, sans-serif'
   },
   searchInput: {
     width: '200px',
@@ -62,7 +62,10 @@ const headerStyles = {
     borderRadius: '26px',
     marginTop: '10px',
   },
-
+  U_img: {
+    width: "45px",
+    cursor: "pointer"
+  }
 };
 
 export default headerStyles;

@@ -271,19 +271,20 @@ const Project = () => {
                 <Input
                   type="text"
                   name="title"
+                  className="title-input"
                   value={editingTitle !== null ? editingTitle : ""}
                   onChange={(e) => setEditingTitle(e.target.value)}
                 />
               ) : (<Title className="card-title">{title}</Title>)}
               <div className="icon">
                 {editingProjectId === project.id ? (
-                  <Button onClick={handleUpdate} className="updatebtn" >
+                  <Button onClick={handleUpdate} className="updatebtn br-0" >
                     Update
                   </Button>
                 ) : (
                   <div className="fn-btn-container">
                     <Button
-                      className="fn-btn no-bg"
+                      className="fn-btn no-bg br-0"
                       type="text"
                       onClick={() => handleEdit(project.id)}
                     >
@@ -292,7 +293,7 @@ const Project = () => {
                       </span>
                     </Button>
                     <Button
-                      className="fn-btn no-bg"
+                      className="fn-btn no-bg br-0"
                       type="text"
                       onClick={() => handleDelete(project.id)}
                     >
@@ -334,12 +335,12 @@ const Project = () => {
                 {editingProjectId === project.id ? (
                   <Input
                     type="date"
-                    name="StartDate"
+                    name="StartDate br-0"
                     value={editingStartDate !== null ? editingStartDate : ""}
                     onChange={(e) => setEditingStartDate(e.target.value)}
                   />
                 ) : (
-                  <p>
+                  <p className="br-0">
                     {localStorage.getItem(`startDate_${project.id}`) ||
                       project.StartDate}
                   </p>
@@ -356,6 +357,7 @@ const Project = () => {
                           {task}
                           <Button
                             type="text"
+                            className="bro-0"
                             onClick={() => handleTaskDelete(index)}
                           >
                             Delete
@@ -369,35 +371,13 @@ const Project = () => {
                   <Link to={`/dashboard/project/${userId}/${project.id}/tasks`}>
                     <Text className="l-task">Tasks</Text>
                   </Link>
-                  <Modal
-                    title="Add Task"
-                    open={taskModalVisible}
-                    onOk={handleTaskAdd}
-                    onCancel={toggleTaskModal}
-                  >
-                    <Input
-                      placeholder="Task Name"
-                      value={taskText}
-                      onChange={handleTaskInputChange}
-                    />
-                  </Modal>
+                 
                 </div>
               </div>
 
             </div>
 
-            {/* <div className="attribute">
-              <p>Members</p>
-              {editingProjectId === project.id ? (
-                <Input
-                  name="members"
-                  value={editingMembers !== null ? editingMembers : members}
-                  onChange={(e) => setEditingMembers(e.target.value)}
-                />
-              ) : (
-                <p>{members}</p>
-              )}
-            </div> */}
+
             <div className="attribute">
               <p>Progress</p>
               {editingProjectId === project.id ? (
@@ -405,6 +385,7 @@ const Project = () => {
                   type="number"
                   name="progress"
                   value={newProject.progress}
+                  className="br-0"
                   onChange={(e) => {
                     setNewProject({
                       ...newProject,
@@ -440,15 +421,7 @@ const Project = () => {
               </Popover>
             </div>
 
-            {/* <div className="filterMenu">
-          <Menu style={headerStyles.AdditonalMenuStyle} value={menuFilter} onClick={handleStatusFilterChange}>
-            <Menu.Item key="All">All</Menu.Item>
-            <Menu.Item key="In Progress">In Progress</Menu.Item>
-            <Menu.Item key="On Hold">On Hold</Menu.Item>
-            <Menu.Item key="Completed">Completed</Menu.Item>
-          </Menu>
 
-        </div> */}
 
           </div>
           {/* ----------------------------card render-------------------------------- */}

@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 const SessionTimeout = ({ timeoutSeconds = 600 }) => { 
   const [visible, setVisible] = useState(false);
-  const [redirecting, setRedirecting] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,7 +40,7 @@ const SessionTimeout = ({ timeoutSeconds = 600 }) => {
   return (
     <Modal
       title="Session Expired"
-      visible={visible}
+      open={visible}
       onOk={handleLoginAgain}
       onCancel={() => setVisible(false)}
       footer={[
