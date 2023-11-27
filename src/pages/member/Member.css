@@ -15,6 +15,7 @@
 .members-name {
   text-transform: capitalize;
   font-family: "Poppins", sans-serif !important;
+  margin: 0 !important;
 }
 .list-item {
   display: flex;

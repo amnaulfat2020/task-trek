@@ -442,8 +442,7 @@ const Login = () => {
 
         </div>
 
-        {/* column2 */}
-        {/* md={14} lg={16} xl={16} */}
+      
         <div className="column2">
 
         </div>

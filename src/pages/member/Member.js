@@ -19,7 +19,7 @@ const Member = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState('firstName');
   const [filterRole, setFilterRole] = useState('');
-  const membersPerPage = 10;
+  const membersPerPage = 5;
   const [visible, setVisible] = useState(true);
   useEffect(() => {
     const fetchUsers = async () => {
@@ -113,8 +113,7 @@ const Member = () => {
                     </Avatar>
                     <div className="user-details">
                       <Typography.Title level={4} className='members-name'>{user.firstName}</Typography.Title>
-                      {/* <Typography.Text>{user.email}</Typography.Text> */}
-                      {/*<Typography.Text>{user.role}</Typography.Text> */}
+                    
                     </div>
                   </div>
                 </Card>

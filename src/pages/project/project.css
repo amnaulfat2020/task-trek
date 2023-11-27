@@ -37,9 +37,12 @@
   height: 2.25rem !important;
 }
 .updatebtn {
-  background-color: var(--primary-clr) !important;
-  color: #fff !important;
+  background: #fff !important;
   margin: 2px;
+}
+
+.ant-input {
+  border-radius: 0px !important;
 }
 .updatebtn span {
   margin: 3px !important;
@@ -47,7 +50,7 @@
 .new-project {
   margin: 6px 7px 0px 36px;
 }
-.card-status{
+.card-status {
   font-size: 22px !important;
   font-family: "Montserrat", sans-serif !important;
 }
@@ -112,7 +115,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #F9FAFF;
+  background: #f9faff;
   width: 80px;
   height: 60px;
   flex-shrink: 0;
@@ -125,7 +128,7 @@
   height: 2.625rem;
   margin: 0px 13px 0px;
 }
-.l-task{
+.l-task {
   font-size: 16px !important;
   color: var(--primary-clr) !important;
   font-weight: 400 !important;
@@ -147,8 +150,7 @@
   margin: 6px;
 }
 
-
-.attribute p{
+.attribute p {
   color: #717986;
   font-weight: 500;
   font-size: 14px;

@@ -1,22 +1,18 @@
-import React from 'react';
-import { Modal, Button } from 'antd';
-
+import React from "react";
+import { Modal } from "antd";
+import "./userprofile.css";
+import { useParams } from "react-router-dom";
 const UserProfilePopup = ({ userData, onClose }) => {
   return (
-    <Modal
-      title="User Profile"
-      visible={true}
-      onCancel={onClose}
-      footer={[
-        <Button key="close" onClick={onClose}>
-          Close
-        </Button>
-      ]}
-    >
-      <p>
-        Name: {userData.firstName} 
-      </p>
-      <p>Email: {userData.email}</p>
+    <Modal title="User Profile" open={true} onCancel={onClose} footer={[]}>
+      <div className="p-box">
+        <h1 className="p-title typo">Name:</h1>{" "}
+        <p className="typo cap"> {userData.firstName}</p>
+      </div>
+      <div className="p-box">
+        <h1 className="p-title typo">Email:</h1>{" "}
+        <p className="typo">{userData.email}</p>
+      </div>
     </Modal>
   );
 };
