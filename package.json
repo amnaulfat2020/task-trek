@@ -9,8 +9,6 @@
     "@mui/icons-material": "^5.14.9",
     "@mui/material": "^5.14.11",
     "@react-firebase/firestore": "^0.5.5",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.10.2",
     "chart.js": "^4.4.0",
@@ -58,6 +56,9 @@
     ]
   },
   "devDependencies": {
-    "@firebase/firestore-types": "^3.0.0"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@firebase/firestore-types": "^3.0.0",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^14.1.2"
   }
 }
