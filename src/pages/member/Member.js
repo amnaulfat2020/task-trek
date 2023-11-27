@@ -17,6 +17,7 @@ const Member = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState('firstName');
   const [filterRole, setFilterRole] = useState('');
+
   const [visible, setVisible] = useState(true);
   const [membersPerPage] = useState(5);
 
@@ -110,6 +111,7 @@ const Member = () => {
                       <UserOutlined />
                     </Avatar>
                     <div className="user-details">
+                    
                       <Typography.Title level={4} className='members-name'>
                         {user.firstName}
                       </Typography.Title>

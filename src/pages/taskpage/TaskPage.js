@@ -179,20 +179,7 @@ const TaskPage = () => {
           setNewTask({ ...newTask, title: e.target.value });
         }}
       />
-      {/* <select
-        className='pop-select'
-        value={newTask.status}
-        ref={docId}
-        onChange={(e) => {
-          setNewTask({ ...newTask, status: e.target.value });
-        }}
-      >
-        <option value="To-Do">To-Do</option>
-        <option value="In Progress">In Progress</option>
-        <option value="Review">In Review</option>
-        <option value="Testing">Testing</option>
-        <option value="Completed">Completed</option>
-      </select> */}
+
       <Button className='task-add' onClick={handleAddTask}>Add Task</Button>
 
     </div>
