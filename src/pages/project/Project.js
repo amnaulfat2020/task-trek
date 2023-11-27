@@ -1,5 +1,7 @@
 import "./project.css";
 import headerStyles from '../../styles/headerStyles';
+import { act } from 'react-dom/test-utils';
+
 import React, { useState, useEffect, useRef } from "react";
 import { Card, Progress, Button, Input, Modal, List, Menu, Popover, Typography } from "antd";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -29,11 +31,12 @@ const Project = () => {
   const [data, setData] = useState(null);
   const [projects, setProjects] = useState([]);
   const [newProject, setNewProject] = useState({
-    title: '',
-    client: '',
-    status: 'In Progress',
-    members: '',
+    title: "",
+    client: "",
+    status: "In Progress",
+    members: "",
     progress: 0,
+    startDate: "", 
   });
   const [tasks, setTasks] = useState([]);
   const [showInputFields, setShowInputFields] = useState(false);
@@ -56,19 +59,23 @@ const Project = () => {
 
   // for fetching project
   useEffect(() => {
-    async function fetchProjectData() {
-      const projectList = await fetchProjects(userId);
-      setProjects(projectList);
-    }
+    const fetchProjectData = async () => {
+      await act(async () => {
+        const projectList = await fetchProjects(userId);
+        setProjects(projectList);
+      });
+    };
+  
     fetchProjectData();
   }, [userId]);
 
   useEffect(() => {
-    setTimeout(() => {
-
+    const timeoutId = setTimeout(() => {
       setData();
       setLoading(false);
     }, 2000);
+    return () => clearTimeout(timeoutId);
+
   }, []);
 
   const handleInputChange = (e) => {
