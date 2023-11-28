@@ -140,7 +140,7 @@ const Dashboard = () => {
       ) : (
         <Row gutter={20}>
           <Col span={14}>
-            <Card title="Tasks Overview">
+            <Card title="Tasks Overview" style={{ height: "450px", width: "100%",fontFamily: 'Montserrat' }}>
               <Bar
                 data={chartData}
                 options={{
@@ -157,14 +157,14 @@ const Dashboard = () => {
             </Card>
           </Col>
           <Col span={7}>
-            <Card title="Task Status Distribution">
+            <Card title="Task Status Distribution" style={{ height: "450px", width: "100%", fontFamily: 'Montserrat' }}>
               <Pie data={pieChartData} options={pieChartOptions} />
             </Card>
           </Col>
           <Col span={3}>
-            <Card title="Colors Info">
+            <Card title="Colors Info" style={{ height: "450px", width: "100%",fontFamily: 'Montserrat' }}>
               {statusColors.map((status) => (
-                <div key={status.color} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <div key={status.color} style={{ display: "flex", alignItems: "center", gap: "8px", height: "60px"  }}>
                   <div style={{ width: "20px", height: "20px", backgroundColor: status.color }}></div>
                   <span>{status.name}</span>
                 </div>
@@ -174,14 +174,13 @@ const Dashboard = () => {
           {projects.map((project) => (
             <Col span={8} key={project.id}>
               <Card
-                title={project.title.toUpperCase()}  
+                title={project.title.toUpperCase()}
                 extra={
-                  <Link to={`/dashboard/project/${userId}/${project.id}/tasks`}>
-                    <Button type="primary" style={{ backgroundColor: '#4743e0', fontFamily: 'Montserrat', borderRadius: 0 }}>
-  Add Tasks
-</Button>
+                  <Link to={`/dashboard/project/${userId}/${project.id}/tasks`} style={{ color: '#4743e0', fontFamily: 'Montserrat' }}>
+                    Add Task
                   </Link>
                 }
+                style={{ height: "300px", width: "100%" }}
               >
                 <div>
                   <h3>Tasks:</h3>
@@ -190,15 +189,14 @@ const Dashboard = () => {
                   ) : (
                     <Empty description="No tasks available" />
                   )}
-      </div>
-      
-    </Card>
-  </Col>
-))}
-      </Row>
-    )}
-  </div>
-);
+                </div>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )}
+    </div>
+  );
 };
 
 // const TaskList = ({ tasks }) => {
