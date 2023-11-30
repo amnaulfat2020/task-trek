@@ -3,8 +3,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Montserrat", sans-serif;
-  font-family: "Roboto", sans-serif;
+  /* font-family: "Montserrat", sans-serif ; */
+  font-family: "Roboto", sans-serif !important;
   /* outline: 2px solid black !important; */
 }
 :root {
@@ -27,4 +27,13 @@
 }
 .br-0{
   border-radius: 0 !important;
+}
+.fnt{
+  font-family: "Montserrat", sans-serif !important;
+}
+.red{
+  color: red !important;
+}
+.f12{
+  font-size: 12px !important;
 }
