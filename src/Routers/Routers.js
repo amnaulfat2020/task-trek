@@ -25,12 +25,10 @@ const Routers = () => {
           <Route path="/dashboard/project/:userId" element={<LayoutSideBar currentPage="Project"><Project /></LayoutSideBar>} />
           <Route path="/project/user-profile" element={<UserProfile />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
-          <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/term-condition" element={<TermAndCondition />} />
           <Route path="*" element={<NotFound />} />
-
           <Route path="/error" element={<Error />} />
 
         </Routes>

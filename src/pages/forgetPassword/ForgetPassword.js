@@ -130,7 +130,7 @@ const ForgetPassword = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
-                {<p>{errors.email}</p>}
+                {<p className = "red f12">{errors.email}</p>}
               </div>
               
               <div className={classes.imgCls}>
@@ -140,10 +140,10 @@ const ForgetPassword = () => {
                 Request password change
               </button>
             </form>
-            <div className={classes.footerCls}>
+            {/* <div className={classes.footerCls}>
               <p>Do you need help?</p>
               <a href="#">Customer support</a>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

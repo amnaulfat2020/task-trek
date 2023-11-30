@@ -164,9 +164,9 @@ const Dashboard = () => {
           <Col span={3}>
             <Card title="Colors Info" style={{ height: "450px", width: "100%",fontFamily: 'Montserrat' }}>
               {statusColors.map((status) => (
-                <div key={status.color} style={{ display: "flex", alignItems: "center", gap: "8px", height: "60px"  }}>
-                  <div style={{ width: "20px", height: "20px", backgroundColor: status.color }}></div>
-                  <span>{status.name}</span>
+                <div key={status.color} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <div style={{ width: "20px", height: "20px", backgroundColor: status.color, fontFamily: "Montserrat, sans-serif"}}></div>
+                  <span className="fnt">{status.name}</span>
                 </div>
               ))}
             </Card>
@@ -183,7 +183,7 @@ const Dashboard = () => {
                 style={{ height: "300px", width: "100%" }}
               >
                 <div>
-                  <h3>Tasks:</h3>
+                  <h3 className="fnt">Tasks:</h3>
                   {project.tasks.length > 0 ? (
                     <TaskList tasks={project.tasks} />
                   ) : (
@@ -199,30 +199,7 @@ const Dashboard = () => {
   );
 };
 
-// const TaskList = ({ tasks }) => {
-//   return (
-//     <List
-//       itemLayout="horizontal"
-//       dataSource={tasks}
-//       renderItem={(task) => (
-//         <List.Item>
-//           <List.Item.Meta
-//             title={
-//               <div>
-//                 <span className="task-title">
-//                   {task.title.charAt(0).toUpperCase() + task.title.slice(1)}
-//                 </span>
-//                 <TaskStatusBadge status={task.status} />
-//               </div>
-//             }
-//             description={task.description}
-//           />
-//           <TaskActions task={task} />
-//         </List.Item>
-//       )}
-//     />
-//   );
-// };
+
 const TaskList = ({ tasks }) => {
   return (
     <List
@@ -250,13 +227,6 @@ const TaskStatusBadge = ({ status }) => {
   return <Badge status={getStatusColor(status)} text={status} />;
 };
 
-const TaskActions = ({ task }) => {
-  return (
-    <div>
-      {/* Add buttons or components for task actions here */}
-    </div>
-  );
-};
 
 const statusColors = [
   { name: "To-Do", color: "#FF6384" },
