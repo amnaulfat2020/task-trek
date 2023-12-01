@@ -217,7 +217,7 @@ const TaskList = ({ tasks }) => {
             description={task.description}
           />
           <TaskStatusBadge status={task.status} />
-          <TaskActions task={task} />
+          {/* <TaskActions task={task} /> */}
         </List.Item>
       )}
     />
