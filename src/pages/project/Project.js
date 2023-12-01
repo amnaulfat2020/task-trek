@@ -44,7 +44,8 @@ const Project = () => {
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editingStartDate, setEditingStartDate] = useState(null);
   const [editingMembers, setEditingMembers] = useState(null);
-  const [editingTitle, setEditingTitle] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [editingTitle, setEditingTitle] = useState('');
   const [editingValues, setEditingValues] = useState({
     title: '',
     startDate: '',
@@ -169,7 +170,7 @@ const Project = () => {
         StartDate: editingStartDate !== null ? editingStartDate : currentProject.StartDate,
         members: editingMembers !== null ? editingMembers : currentProject.members,
         // status: newProject.status,
-        progress: newProject.progress,
+        // progress: newProject.progress,
       };
 
       // Update the project locally
@@ -329,7 +330,7 @@ const Project = () => {
             </div>
 
 
-            <div className="attribute">
+            {/* <div className="attribute">
               <p>Progress</p>
               {editingProjectId === project.id ? (
                 <Input
@@ -349,7 +350,7 @@ const Project = () => {
                   <Progress percent={progress} strokeColor={color} />
                 </div>
               )}
-            </div>
+            </div> */}
           </Card>
         </div>
       );
@@ -362,10 +363,10 @@ const Project = () => {
       ) : (
         <div>
 
-          {/*------------------------ Navbar filteration -----------------------------------*/}
+          {/*------------------------ Navbar-----------------------------------*/}
           <div className="navbar">
             <div className="new-project">
-              <Popover placement="bottom" content={content}>
+              <Popover placement="bottom" content={content} trigger="click">
                 <Button className="newbtn">
                   <PlusOutlined />
                   New</Button>
