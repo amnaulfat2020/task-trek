@@ -8,7 +8,7 @@
 }
 .side-bar {
   height: 100vh;
-  width: 257px;
+  width: 200px;
   border-right: 1px solid #f1f1f1;
   display: flex;
   flex-direction: column;
@@ -36,7 +36,9 @@
   display: flex;
   align-items: center;
 }
-
+.ant-menu-title-content{
+  font-family: "Montserrat", sans-serif !important;
+}
 .side-bar.collapsed .ant-menu-item > span {
   display: none;
 }
@@ -53,4 +55,17 @@
     border-radius: 0 !important;
     background-color:#f9faff !important;
     color: #4743e0 !important;
+}
+
+.custom-collapse-btn {
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  color: #4743e0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: 20px; 
 }

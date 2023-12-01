@@ -60,10 +60,12 @@ const Project = () => {
   // for fetching project
   useEffect(() => {
     const fetchProjectData = async () => {
-      await act(async () => {
-        const projectList = await fetchProjects(userId);
-        setProjects(projectList);
-      });
+      const projectList = await fetchProjects(userId);
+  
+      const sortedProjects = projectList.sort((a, b) => a.title.localeCompare(b.title));
+  
+      setProjects(sortedProjects);
+      setLoading(false);
     };
   
     fetchProjectData();
@@ -102,39 +104,39 @@ const Project = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createProject({ ...newProject, tasks: taskList });
-    setNewProject({
-      title: "",
-      StartDate: "",
-      status: "In Progress",
-      members: "",
-      progress: 0,
-    });
-    setTaskList([]);
-    const updatedProjectList = await fetchProjects();
-    setProjects(updatedProjectList);
-    setShowInputFields(true);
-    setTaskModalVisible(false);
+
     try {
-      // Include status and progress properties when creating a new project
-      await createProject({ ...newProject, tasks: taskList, userId, status: newProject.status, progress: newProject.progress });
+      // Create the new project
+      const newProjectId = await createProject({
+        ...newProject,
+        tasks: taskList,
+        userId,
+        status: newProject.status,
+        progress: newProject.progress,
+      });
+
+      // Fetch updated projects
+      const updatedProjectList = await fetchProjects(userId);
+
+      const sortedProjects = updatedProjectList.sort((a, b) => a.timestamp - b.timestamp);
+
+      setProjects(sortedProjects);
+
       setNewProject({
-        title: '',
-        client: '',
-        status: 'In Progress',
-        members: '',
+        title: "",
+        startDate: "",
+        status: "In Progress",
+        members: "",
         progress: 0,
       });
       setTaskList([]);
-      const updatedProjectList = await fetchProjects(userId);
-      setProjects(updatedProjectList);
+
       setShowInputFields(false);
       setTaskModalVisible(false);
     } catch (error) {
       console.error('Error creating project: ', error);
     }
   };
-
   const handleDelete = async (projectId) => {
     try {
       const updatedProjects = projects.filter((project) => project.id !== projectId);
@@ -142,7 +144,6 @@ const Project = () => {
 
       await deleteProject(projectId);
     } catch (error) {
-      // Roll back the state if there's an error
       const projectList = await fetchProjects(userId);
       setProjects(projectList);
 

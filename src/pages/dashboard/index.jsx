@@ -33,19 +33,22 @@ const Dashboard = () => {
   useEffect(() => {
     async function fetchData() {
       const projectList = await fetchProjects(userId);
-
+  
       for (const project of projectList) {
         const tasks = await fetchTasksForProject(project.id);
         project.tasks = tasks;
       }
-
-      setProjects(projectList);
+  
+      // Sort projects alphabetically based on title
+      const sortedProjects = projectList.sort((a, b) => a.title.localeCompare(b.title));
+  
+      setProjects(sortedProjects);
       setLoading(false);
-
-      const statusData = countTaskStatuses(projectList);
+  
+      const statusData = countTaskStatuses(sortedProjects);
       setTaskStatusData(statusData);
     }
-
+  
     fetchData();
   }, [userId]);
 
@@ -112,7 +115,7 @@ const Dashboard = () => {
           "#FFCE56",
           "#90EE90",
           "#F7464A",
-          "#808080",
+          "#f06e3f",
         ],
         hoverBackgroundColor: [
           "#FF6384",
@@ -120,7 +123,7 @@ const Dashboard = () => {
           "#FFCE56",
           "#90EE90",
           "#F7464A",
-          "#808080",
+          "#f06e3f",
         ],
       },
     ],
@@ -264,7 +267,7 @@ const statusColors = [
   { name: "Completed", color: "#FFCE56" },
   {name:"Review",color:"#90EE90"},
   // {name:"Cancelled",color:"#F7464A"},
-  {name:"Testing",color:"#808080"},
+  {name:"Testing",color:"#f06e3f"},
 ];
 
 export default Dashboard;
