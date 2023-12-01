@@ -104,7 +104,6 @@ const Project = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       // Create the new project
       const newProjectId = await createProject({

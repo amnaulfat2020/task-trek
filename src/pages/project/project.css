@@ -19,6 +19,12 @@
   width: 100%;
   margin-top: 10px;
 }
+.card-title {
+  font-size: 22px !important;
+  text-transform: capitalize !important;
+  color: var(--primary-clr) !important;
+  font-family: "Montserrat", sans-serif !important;
+}
 .newbtn {
   border-radius: 1.625rem;
   background: var(--primary-clr) !important;
@@ -53,6 +59,7 @@
 .card-status {
   font-size: 22px !important;
   font-family: "Montserrat", sans-serif !important;
+  margin: 0 !important;
 }
 .filterMenu {
   width: 80%;
