@@ -1,15 +1,14 @@
 import "./project.css";
-import headerStyles from '../../styles/headerStyles';
+// import headerStyles from '../../styles/headerStyles';
 import { act } from 'react-dom/test-utils';
-
-import React, { useState, useEffect, useRef } from "react";
-import { Card, Progress, Button, Input, Modal, List, Menu, Popover, Typography } from "antd";
-import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import React, { useState, useEffect } from "react";
+import { Card, Progress, Button, Input, List, Popover, Typography } from "antd";
+import { PlusOutlined, DeleteOutlined, CheckOutlined } from "@ant-design/icons";
 import EditSvg from "../../assets/images/edit-pencil 1.svg";
-import redDotSvg from "../../assets/images/Ellipse red.svg";
-import greenDotSvg from "../../assets/images/Ellipse 12.svg";
-import yellowDotSvg from "../../assets/images/Ellipse yellow.svg";
-import Line3 from "../../assets/images/Line 3.png";
+// import redDotSvg from "../../assets/images/Ellipse red.svg";
+// import greenDotSvg from "../../assets/images/Ellipse 12.svg";
+// import yellowDotSvg from "../../assets/images/Ellipse yellow.svg";
+// import Line3 from "../../assets/images/Line 3.png";
 import ContentLoader from '../contentLoader/ContentLoader';
 import {
   createProject,
@@ -21,7 +20,6 @@ import {
 import { doc, setDoc } from 'firebase/firestore';
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { db } from '../../utils/constants/Firebase';
-import { useSearch, useMenuContext } from "../../contexts/SearchContext";
 const { Title, Text } = Typography;
 
 const Project = () => {
@@ -33,7 +31,7 @@ const Project = () => {
   const [newProject, setNewProject] = useState({
     title: "",
     client: "",
-    // status: "In Progress",
+    status: "In Progress",
     members: "",
     progress: 0,
     startDate: "", 
@@ -52,7 +50,7 @@ const Project = () => {
     startDate: '',
     members: '',
     progress: '',
-    // status: '',
+    status: '',
 
   });
 
@@ -106,7 +104,7 @@ const Project = () => {
     setNewProject({
       title: "",
       StartDate: "",
-      // status: "In Progress",
+      status: "In Progress",
       members: "",
       progress: 0,
     });
@@ -121,7 +119,7 @@ const Project = () => {
       setNewProject({
         title: '',
         client: '',
-        // status: 'In Progress',
+        status: 'In Progress',
         members: '',
         progress: 0,
       });
@@ -253,20 +251,11 @@ const Project = () => {
         <div className="card-render" key={project.id}>
           <Card className='br-0'>
             <div className="card-header">
-              {/* {editingProjectId === project.id ? (
-                <Input
-                  type="text"
-                  name="title"
-                  className="title-input"
-                  value={editingTitle !== null ? editingTitle : ""}
-                  onChange={(e) => setEditingTitle(e.target.value)}
-                />
-              ) : */}
                <Title className="card-title">{title}</Title>
               <div className="icon">
                 {editingProjectId === project.id ? (
                   <Button onClick={handleUpdate} className="updatebtn br-0" >
-                    Update
+                    <CheckOutlined />
                   </Button>
                 ) : (
                   <div className="fn-btn-container">
@@ -275,46 +264,21 @@ const Project = () => {
                       type="text"
                       onClick={() => handleEdit(project.id)}
                     >
-                      <span>
                         <img src={EditSvg} alt="edit icon" />
-                      </span>
+
                     </Button>
                     <Button
                       className="fn-btn no-bg br-0"
                       type="text"
                       onClick={() => handleDelete(project.id)}
                     >
-                      <span>
                         <DeleteOutlined />
-                      </span>
                     </Button>
                   </div>
                 )}
               </div>
             </div>
-            {/* <div className="status">
-              <span>
-                <img src={statusImg} alt="dot" />
-              </span>
-              {editingProjectId === project.id ? (
-                <select
-                  name="status"
-                  value={newProject.status}
-                  onChange={(e) => {
-                    setNewProject({ ...newProject, status: e.target.value });
-                  }}
-                >
-                  <option value="In Progress">In Progress</option>
-                  <option value="Discussing">Discussing</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Review">Review</option>
-                  <option value="Cancelled">Cancelled</option>
-                  <option value="On Hold">On Hold</option>
-                </select>
-              ) : (
-                <p className={statusColor} >{status}</p>
-              )}
-            </div> */}
+            <hr></hr>
             <div className="Task-area">
               {/* start date */}
               <div className="startDate">

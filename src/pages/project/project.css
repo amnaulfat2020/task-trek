@@ -7,9 +7,12 @@
 }
 .card-render {
   padding: 9px;
-  width: 26.9375rem;
-  height: 18.75rem;
+  /* width: 26.9375rem; */
+  /* height: 18.75rem; */
   flex-shrink: 0;
+}
+.ant-card {
+  border-left: 0.25rem solid green;
 }
 
 /* Navbar */
@@ -62,7 +65,7 @@
 }
 .fn-btn {
   padding: 0;
-  border: 1px solid #f1f2f7;
+  /* border: 1px solid #f1f2f7; */
   border-radius: 0 !important;
 }
 .card-header {
@@ -74,14 +77,16 @@
 .icon span {
   margin: 7px;
   color: #8b8b8b;
-  border: none !important;
-  background-color: none !important;
+  font-size: large;
+  /* border: none !important;
+  background-color: none !important; */
 }
 .fn-btn-container {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 2px;
+  gap: 6px;
+  background: none !important;
 }
 .status {
   display: flex;
@@ -110,6 +115,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-top: 5px;
 }
 .tasks-box {
   display: flex;
