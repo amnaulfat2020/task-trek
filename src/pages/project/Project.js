@@ -249,7 +249,7 @@ const Project = () => {
 
       return (
         <div className="card-render" key={project.id}>
-          <Card className='br-0'>
+          <Card className='br-0 cdProject'>
             <div className="card-header">
                <Title className="card-title">{title}</Title>
               <div className="icon">
