@@ -39,7 +39,6 @@ const Dashboard = () => {
         project.tasks = tasks;
       }
   
-      // Sort projects alphabetically based on title
       const sortedProjects = projectList.sort((a, b) => a.title.localeCompare(b.title));
   
       setProjects(sortedProjects);
@@ -54,6 +53,9 @@ const Dashboard = () => {
 
   ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement);
 
+  const getTaskCountForStatus = (tasks, status) => {
+    return tasks.filter(task => task.status === status).length;
+  };
   const countTaskStatuses = (projects) => {
     const statusCount = {
       "To-Do": 0,
@@ -160,49 +162,79 @@ const Dashboard = () => {
             </Card>
           </Col>
           <Col span={7}>
-            <Card title="Task Status Distribution" style={{ height: "450px", width: "100%", fontFamily: 'Montserrat, sans-serif' }}>
+            <Card title="Task Status Distribution" style={{ height: "450px", width: "100%", fontFamily: 'Montserrat' }}>
               <Pie data={pieChartData} options={pieChartOptions} />
             </Card>
           </Col>
           <Col span={3}>
-            <Card title="Colors Info" style={{ height: "450px", width: "100%",fontFamily: 'Montserrat, sans-serif' }}>
+            <Card title="Colors Info" style={{ height: "450px", width: "100%",fontFamily: 'Montserrat' }}>
               {statusColors.map((status) => (
-                <div key={status.color} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                  <div style={{ width: "20px", height: "20px", backgroundColor: status.color, fontFamily: "Montserrat, sans-serif"}}></div>
-                  <span className="fnt">{status.name}</span>
+                <div key={status.color} style={{ display: "flex", alignItems: "center", gap: "8px", height: "60px"  }}>
+                  <div style={{ width: "20px", height: "20px", backgroundColor: status.color }}></div>
+                  <span>{status.name}</span>
                 </div>
               ))}
             </Card>
           </Col>
           {projects.map((project) => (
-            <Col span={8} key={project.id}>
-              <Card
-                title={project.title.toUpperCase()}
-                extra={
-                  <Link to={`/dashboard/project/${userId}/${project.id}/tasks`} style={{ color: '#4743e0', fontFamily: 'Montserrat, sans-serif' }}>
-                    Add Task
-                  </Link>
-                }
-                style={{ height: "300px", width: "100%" }}
-              >
-                <div>
-                  <h3 className="fnt">Tasks:</h3>
-                  {project.tasks.length > 0 ? (
-                    <TaskList tasks={project.tasks} />
-                  ) : (
-                    <Empty description="No tasks available" />
-                  )}
-                </div>
-              </Card>
-            </Col>
-          ))}
+  <Col span={8} key={project.id}>
+    <Card
+      title={project.title.toUpperCase()}
+      extra={
+        <Link to={`/dashboard/project/${userId}/${project.id}/tasks`} style={{ color: '#4743e0', fontFamily: 'Montserrat' }}>
+          Add Task
+        </Link>
+      }
+      style={{ height: "300px", width: "100%" }}
+    >
+      <div className="project-card-content">
+        <h3>Tasks Overview:</h3>
+        {project.tasks.length > 0 ? (
+          <div className="task-status-section">
+            {statusColors.map((status) => (
+              <div key={status.color} style={{ display: "flex", alignItems: "center", gap: "8px", height: "30px" }}>
+                <Badge status={getStatusColor(status.name)} text={status.name} className="task-status-badge" />
+                <span className="status-count">{getTaskCountForStatus(project.tasks, status.name)}</span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <Empty description="No tasks available" />
+        )}
+      </div>
+    </Card>
+  </Col>
+))}
         </Row>
       )}
     </div>
   );
 };
 
-
+// const TaskList = ({ tasks }) => {
+//   return (
+//     <List
+//       itemLayout="horizontal"
+//       dataSource={tasks}
+//       renderItem={(task) => (
+//         <List.Item>
+//           <List.Item.Meta
+//             title={
+//               <div>
+//                 <span className="task-title">
+//                   {task.title.charAt(0).toUpperCase() + task.title.slice(1)}
+//                 </span>
+//                 <TaskStatusBadge status={task.status} />
+//               </div>
+//             }
+//             description={task.description}
+//           />
+//           <TaskActions task={task} />
+//         </List.Item>
+//       )}
+//     />
+//   );
+// };
 const TaskList = ({ tasks }) => {
   return (
     <List
@@ -220,7 +252,7 @@ const TaskList = ({ tasks }) => {
             description={task.description}
           />
           <TaskStatusBadge status={task.status} />
-          {/* <TaskActions task={task} /> */}
+          <TaskActions task={task} />
         </List.Item>
       )}
     />
@@ -230,6 +262,13 @@ const TaskStatusBadge = ({ status }) => {
   return <Badge status={getStatusColor(status)} text={status} />;
 };
 
+const TaskActions = ({ task }) => {
+  return (
+    <div>
+      {/* Add buttons or components for task actions here */}
+    </div>
+  );
+};
 
 const statusColors = [
   { name: "To-Do", color: "#FF6384" },
