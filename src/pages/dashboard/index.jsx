@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Routes, Route } from 'react-router-dom';
+
 import { Link, useParams } from "react-router-dom";
 import { fetchProjects, fetchTasksForProject } from "../../services/api";
 import { Card, Row, Col, Button, Empty, List, Badge } from "antd";
@@ -56,7 +58,7 @@ const Dashboard = () => {
       "Completed": 0,
       "Review": 0,
       "Cancelled": 0,
-      "On Hold": 0,
+      "Testing": 0,
     };
 
     projects.forEach((project) => {
@@ -99,7 +101,7 @@ const Dashboard = () => {
       "Completed",
       "Review",
       "Cancelled",
-      "On Hold",
+      "Testing",
     ],
     datasets: [
       {
@@ -132,66 +134,71 @@ const Dashboard = () => {
   }, []);
 
   return (
-  <div>
-    <h2>Your Activities...</h2>
-    {loading ? (
-      <ContentLoader />
-    ) : (
-      <Row gutter={20}>
-        <Col span={14}>
-          <Card title="Tasks Overview">
-            <Bar
-              data={chartData}
-              options={{
-                scales: {
-                  x: {
-                    type: "category",
+    <div>
+      {loading ? (
+        <ContentLoader />
+      ) : (
+        <Row gutter={20}>
+          <Col span={14}>
+            <Card title="Tasks Overview" style={{ height: "450px", width: "100%",fontFamily: 'Montserrat' }}>
+              <Bar
+                data={chartData}
+                options={{
+                  scales: {
+                    x: {
+                      type: "category",
+                    },
+                    y: {
+                      beginAtZero: true,
+                    },
                   },
-                  y: {
-                    beginAtZero: true,
-                  },
-                },
-              }}
-            />
-          </Card>
-        </Col>
-        <Col span={7}>
-          <Card title="Task Status Distribution">
-            <Pie data={pieChartData} options={pieChartOptions} />
-          </Card>
-        </Col>
-        <Col span={3}>
-          <Card title="Colors Info">
-            {statusColors.map((status) => (
-              <div key={status.color} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <div style={{ width: "20px", height: "20px", backgroundColor: status.color }}></div>
-                <span>{status.name}</span>
-              </div>
-            ))}
-          </Card>
-        </Col>
-        {projects.map((project) => (
-          <Col span={8} key={project.id}>
-            <Card
-              title={project.title}
-              extra={<Link to={`/${project.id}/tasks`}>Add Tasks</Link>}
-            >
-              <div>
-                <h3>Tasks:</h3>
-                {project.tasks.length > 0 ? (
-                  <TaskList tasks={project.tasks} />
-                ) : (
-                  <Empty description="No tasks available" />
-                )}
-              </div>
+                }}
+              />
             </Card>
           </Col>
-        ))}
-      </Row>
-    )}
-  </div>
-);
+          <Col span={7}>
+            <Card title="Task Status Distribution" style={{ height: "450px", width: "100%", fontFamily: 'Montserrat' }}>
+              <Pie data={pieChartData} options={pieChartOptions} />
+            </Card>
+          </Col>
+          <Col span={3}>
+            <Card title="Colors Info" style={{ height: "450px", width: "100%",fontFamily: 'Montserrat' }}>
+              {statusColors.map((status) => (
+                <div key={status.color} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <div style={{ width: "20px", height: "20px", backgroundColor: status.color, fontFamily: "Montserrat, sans-serif"}}></div>
+                  <span className="fnt">{status.name}</span>
+                </div>
+              ))}
+            </Card>
+          </Col>
+          {projects.map((project) => (
+            <Col span={8} key={project.id}>
+              <Card
+                title={project.title.toUpperCase()}
+                extra={
+                  <Link to={`/dashboard/project/${userId}/${project.id}/tasks`} style={{ color: '#4743e0', fontFamily: 'Montserrat' }}>
+                    Add Task
+                  </Link>
+                }
+                style={{ height: "300px", width: "100%" }}
+              >
+                <div>
+                  <h3 className="fnt">Tasks:</h3>
+                  {project.tasks.length > 0 ? (
+                    <TaskList tasks={project.tasks} />
+                  ) : (
+                    <Empty description="No tasks available" />
+                  )}
+                </div>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )}
+    </div>
+  );
 };
+
 
 const TaskList = ({ tasks }) => {
   return (
@@ -199,42 +206,35 @@ const TaskList = ({ tasks }) => {
       itemLayout="horizontal"
       dataSource={tasks}
       renderItem={(task) => (
-        <List.Item>
+        <List.Item className="task-list-item">
           <List.Item.Meta
             title={
-              <div>
-                {task.title}
-                <TaskStatusBadge status={task.status} />
+              <div className="task-title">
+            
+                {task.title.charAt(0).toUpperCase() + task.title.slice(1)}
               </div>
             }
             description={task.description}
           />
+          <TaskStatusBadge status={task.status} />
           <TaskActions task={task} />
         </List.Item>
       )}
     />
   );
 };
-
 const TaskStatusBadge = ({ status }) => {
   return <Badge status={getStatusColor(status)} text={status} />;
 };
 
-const TaskActions = ({ task }) => {
-  return (
-    <div>
-      {/* Add buttons or components for task actions here */}
-    </div>
-  );
-};
 
 const statusColors = [
   { name: "To-Do", color: "#FF6384" },
   { name: "In Progress", color: "#36A2EB" },
   { name: "Completed", color: "#FFCE56" },
   {name:"Review",color:"#90EE90"},
-  {name:"Cancelled",color:"#F7464A"},
-  {name:"On Hold",color:"#808080"},
+  // {name:"Cancelled",color:"#F7464A"},
+  {name:"Testing",color:"#808080"},
 ];
 
 export default Dashboard;

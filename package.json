@@ -61,5 +61,10 @@
     "@testing-library/react": "^14.1.2",
     "firebase": "^10.6.0",
     "mock-local-storage": "^1.1.24"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@firebase/firestore-types": "^3.0.0",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^14.1.2"
+
   }
 }

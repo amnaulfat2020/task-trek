@@ -69,6 +69,7 @@ const Sidebar = () => {
         }}
         defaultSelectedKeys={['1']}
         defaultOpenKeys={['sub1']}
+        className='fnt'
         mode="inline"
         items={items}
         onSelect={({ key }) => {

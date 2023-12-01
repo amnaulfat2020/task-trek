@@ -11,6 +11,7 @@ import {
     UserOutlined,
     LogoutOutlined,
 } from '@ant-design/icons';
+import UserImg from '../assets/images/OIP.jpeg'
 import { useSearch } from '../contexts/SearchContext';
 import headerStyles from '../styles/headerStyles';
 const Title = Typography;
@@ -99,19 +100,21 @@ const MenuBar = ({ currentPage }) => {
                 </Space>
             </div> */}
             <div style={headerStyles.rightSection}>
-                <Space size="large">
-                    <Badge dot>
+                {/* <Space size="large"> */}
+                {/* <Badge dot>
                         <BellOutlined style={headerStyles.icon} onClick={showWelcomeNotification} />
-                    </Badge>
-                    <Dropdown overlay={menu} trigger={['click']}>
-                        <Avatar icon={<UserOutlined />} style={headerStyles.avatar} onClick={() => setLoggedIn(!loggedIn)} />
-                    </Dropdown>
-                </Space>
+                    </Badge> */}
+                {/* <Dropdown overlay={menu} trigger={['click']}> */}
+                {/* <Avatar icon={<UserOutlined />} style={headerStyles.avatar} onClick={() => setLoggedIn(!loggedIn)} /> */}
+                {/* </Dropdown> */}
+                {/* </Space> */}
+                <img src={UserImg} style={headerStyles.U_img} alt='user-image' onClick={() => setShowProfilePopup(true)} />
+
             </div>
             {showProfilePopup && userData && (
                 <UserProfilePopup userData={userData} onClose={() => setShowProfilePopup(false)} />
             )}
-            {loggedIn && (
+            {/* {loggedIn && (
                 <Modal
                     title="Welcome to Task Trek!"
                     visible={showWelcomeModal}
@@ -120,7 +123,7 @@ const MenuBar = ({ currentPage }) => {
                 >
                     <p>You have successfully logged in. Enjoy your time with Task Trek!</p>
                 </Modal>
-            )}
+            )} */}
         </div>
     );
 };

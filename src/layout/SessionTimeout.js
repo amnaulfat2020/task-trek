@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
-const SessionTimeout = ({ timeoutSeconds = 600 }) => { 
+const SessionTimeout = ({ timeoutSeconds = 600 }) => {
   const [visible, setVisible] = useState(false);
-  const [redirecting, setRedirecting] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,14 +37,21 @@ const SessionTimeout = ({ timeoutSeconds = 600 }) => {
     navigate('/');
   };
 
+  const buttonStyle = {
+    borderRadius: 0,
+    fontFamily: 'Montserrat, sans-serif', 
+    backgroundColor: '#4743e0',
+  };
+
+
   return (
     <Modal
       title="Session Expired"
-      visible={visible}
+      open={visible}
       onOk={handleLoginAgain}
       onCancel={() => setVisible(false)}
       footer={[
-        <Button key="login" type="primary" onClick={handleLoginAgain}>
+        <Button key="login" type="primary" onClick={handleLoginAgain} style={buttonStyle}>
           Login Again
         </Button>,
       ]}
