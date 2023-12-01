@@ -19,7 +19,7 @@ const Routers = () => {
     <div>
       <Router>
         <Routes>
-          <Route exact path="/dashboard/project/:userId/:projectId/tasks" element={<LayoutSideBar currentPage="TaskPage"><TaskPage /></LayoutSideBar>} />
+          <Route exact path="/dashboard/project/:userId/:projectId/tasks" element={<LayoutSideBar currentPage="Tasks"><TaskPage /></LayoutSideBar>} />
           <Route path="/members/:userId" element={<LayoutSideBar currentPage="Member" ><Member /></LayoutSideBar>} />
           <Route path="/dashboard/:userId" element={<LayoutSideBar currentPage="Dashboard"><Dashboard /></LayoutSideBar>} />
           <Route path="/dashboard/project/:userId" element={<LayoutSideBar currentPage="Project"><Project /></LayoutSideBar>} />

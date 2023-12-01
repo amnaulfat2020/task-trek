@@ -102,19 +102,19 @@ const Project = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createProject({ ...newProject, tasks: taskList });
-    setNewProject({
-      title: "",
-      StartDate: "",
-      status: "In Progress",
-      members: "",
-      progress: 0,
-    });
-    setTaskList([]);
-    const updatedProjectList = await fetchProjects();
-    setProjects(updatedProjectList);
-    setShowInputFields(true);
-    setTaskModalVisible(false);
+    // await createProject({ ...newProject, tasks: taskList });
+    // setNewProject({
+    //   title: "",
+    //   StartDate: "",
+    //   status: "In Progress",
+    //   members: "",
+    //   progress: 0,
+    // });
+    // setTaskList([]);
+    // const updatedProjectList = await fetchProjects();
+    // setProjects(updatedProjectList);
+    // setShowInputFields(true);
+    // setTaskModalVisible(false);
     try {
       // Include status and progress properties when creating a new project
       await createProject({ ...newProject, tasks: taskList, userId, status: newProject.status, progress: newProject.progress });
