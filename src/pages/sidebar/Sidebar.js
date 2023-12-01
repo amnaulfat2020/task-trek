@@ -7,6 +7,8 @@ import './sidebar.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../utils/constants/Firebase';
+import { CaretRightOutlined, CaretLeftOutlined } from '@ant-design/icons';
+import { Tooltip } from 'antd';
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -20,8 +22,12 @@ function getItem(label, key, icon, children, type) {
 const Sidebar = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
+  // const [collapsed, setCollapsed] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
 
+  const handleCollapse = () => {
+    setCollapsed(!collapsed);
+  };
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -50,22 +56,21 @@ const Sidebar = () => {
 
   return (
     <div className={`side-bar ${collapsed ? 'collapsed' : ''}`}>
-
       <div className="logo-container">
         <img src={logo} alt="logo" className="logo" />
-        <div
-          className="collapse-btn"
-          onClick={() => setCollapsed(!collapsed)}
-          style={{ position: 'absolute', left: '5.5%', top: '40px' }}
-        >
-          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-        </div>
-
+        <Tooltip title={collapsed ? 'Expand' : 'Collapse'} placement="right">
+  <div
+    className="custom-collapse-btn"
+    onClick={handleCollapse}
+  >
+    {collapsed ? <CaretRightOutlined /> : <CaretLeftOutlined />}
+  </div>
+</Tooltip>
       </div>
       <Menu
         onClick={onClick}
         style={{
-          width: collapsed ? 80 : 256,
+          width: collapsed ? 80 : 200,
         }}
         defaultSelectedKeys={['1']}
         defaultOpenKeys={['sub1']}
