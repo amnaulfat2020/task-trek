@@ -33,7 +33,7 @@ const Project = () => {
   const [newProject, setNewProject] = useState({
     title: "",
     client: "",
-    status: "In Progress",
+    // status: "In Progress",
     members: "",
     progress: 0,
     startDate: "", 
@@ -52,7 +52,7 @@ const Project = () => {
     startDate: '',
     members: '',
     progress: '',
-    status: '',
+    // status: '',
 
   });
 
@@ -106,7 +106,7 @@ const Project = () => {
     setNewProject({
       title: "",
       StartDate: "",
-      status: "In Progress",
+      // status: "In Progress",
       members: "",
       progress: 0,
     });
@@ -121,7 +121,7 @@ const Project = () => {
       setNewProject({
         title: '',
         client: '',
-        status: 'In Progress',
+        // status: 'In Progress',
         members: '',
         progress: 0,
       });
@@ -153,7 +153,7 @@ const Project = () => {
   const handleEdit = (projectId) => {
     const currentProject = projects.find((project) => project.id === projectId);
     setEditingValues({
-      title: currentProject.title,
+      // title: currentProject.title,
       startDate: currentProject.startDate,
       members: currentProject.members,
     });
@@ -167,10 +167,10 @@ const Project = () => {
 
       const updatedProject = {
         ...currentProject,
-        title: editingTitle !== null ? editingTitle : currentProject.title,
+        // title: editingTitle !== null ? editingTitle : currentProject.title,
         StartDate: editingStartDate !== null ? editingStartDate : currentProject.StartDate,
         members: editingMembers !== null ? editingMembers : currentProject.members,
-        status: newProject.status,
+        // status: newProject.status,
         progress: newProject.progress,
       };
 
@@ -200,13 +200,6 @@ const Project = () => {
     setProjects(updatedProjects);
   };
 
-  // const handleStatusFilterChange = ({ key }) => {
-  //   // console.log("Selected Status:", selectedStatus);
-  //   setMenuFilter(key);
-  // };
-
-  const { searchQuery } = useSearch();
-  const { menuFilter, setMenuFilter } = useMenuContext();
 
   // create project input content
   const content = (
@@ -238,15 +231,15 @@ const Project = () => {
   const cardRender = (project) => {
     const { title, status, members, progress } = project;
 
-    let statusImg = redDotSvg;
-    let statusColor = "red";
-    if (status === "Completed") {
-      statusImg = greenDotSvg;
-      statusColor = "green";
-    } else if (status === "On Hold" || status === "Review") {
-      statusImg = yellowDotSvg;
-      statusColor = "yellow";
-    }
+    // let statusImg = redDotSvg;
+    // let statusColor = "red";
+    // if (status === "Completed") {
+    //   statusImg = greenDotSvg;
+    //   statusColor = "green";
+    // } else if (status === "On Hold" || status === "Review") {
+    //   statusImg = yellowDotSvg;
+    //   statusColor = "yellow";
+    // }
 
     let color = "red";
     if (progress >= 50) {
@@ -256,18 +249,11 @@ const Project = () => {
       color = "green";
     }
 
-    const filteredBySearch =
-      !searchQuery ||
-      project.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const filteredByMenu =
-      menuFilter === "All" || project.status === menuFilter;
-    if (filteredBySearch && filteredByMenu)
-
       return (
         <div className="card-render" key={project.id}>
           <Card className='br-0'>
             <div className="card-header">
-              {editingProjectId === project.id ? (
+              {/* {editingProjectId === project.id ? (
                 <Input
                   type="text"
                   name="title"
@@ -275,7 +261,8 @@ const Project = () => {
                   value={editingTitle !== null ? editingTitle : ""}
                   onChange={(e) => setEditingTitle(e.target.value)}
                 />
-              ) : (<Title className="card-title">{title}</Title>)}
+              ) : */}
+               <Title className="card-title">{title}</Title>
               <div className="icon">
                 {editingProjectId === project.id ? (
                   <Button onClick={handleUpdate} className="updatebtn br-0" >
@@ -305,7 +292,7 @@ const Project = () => {
                 )}
               </div>
             </div>
-            <div className="status">
+            {/* <div className="status">
               <span>
                 <img src={statusImg} alt="dot" />
               </span>
@@ -327,7 +314,7 @@ const Project = () => {
               ) : (
                 <p className={statusColor} >{status}</p>
               )}
-            </div>
+            </div> */}
             <div className="Task-area">
               {/* start date */}
               <div className="startDate">
