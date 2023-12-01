@@ -160,12 +160,12 @@ const Dashboard = () => {
             </Card>
           </Col>
           <Col span={7}>
-            <Card title="Task Status Distribution" style={{ height: "450px", width: "100%", fontFamily: 'Montserrat' }}>
+            <Card title="Task Status Distribution" style={{ height: "450px", width: "100%", fontFamily: 'Montserrat, sans-serif' }}>
               <Pie data={pieChartData} options={pieChartOptions} />
             </Card>
           </Col>
           <Col span={3}>
-            <Card title="Colors Info" style={{ height: "450px", width: "100%",fontFamily: 'Montserrat' }}>
+            <Card title="Colors Info" style={{ height: "450px", width: "100%",fontFamily: 'Montserrat, sans-serif' }}>
               {statusColors.map((status) => (
                 <div key={status.color} style={{ display: "flex", alignItems: "center", gap: "8px", height: "60px"  }}>
                   <div style={{ width: "20px", height: "20px", backgroundColor: status.color }}></div>
@@ -179,7 +179,7 @@ const Dashboard = () => {
               <Card
                 title={project.title.toUpperCase()}
                 extra={
-                  <Link to={`/dashboard/project/${userId}/${project.id}/tasks`} style={{ color: '#4743e0', fontFamily: 'Montserrat' }}>
+                  <Link to={`/dashboard/project/${userId}/${project.id}/tasks`} style={{ color: '#4743e0', fontFamily: 'Montserrat, sans-serif' }}>
                     Add Task
                   </Link>
                 }
