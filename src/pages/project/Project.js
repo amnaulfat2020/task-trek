@@ -1,15 +1,14 @@
 import "./project.css";
-import headerStyles from '../../styles/headerStyles';
+// import headerStyles from '../../styles/headerStyles';
 import { act } from 'react-dom/test-utils';
-
-import React, { useState, useEffect, useRef } from "react";
-import { Card, Progress, Button, Input, Modal, List, Menu, Popover, Typography } from "antd";
-import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import React, { useState, useEffect } from "react";
+import { Card, Progress, Button, Input, List, Popover, Typography } from "antd";
+import { PlusOutlined, DeleteOutlined, CheckOutlined } from "@ant-design/icons";
 import EditSvg from "../../assets/images/edit-pencil 1.svg";
-import redDotSvg from "../../assets/images/Ellipse red.svg";
-import greenDotSvg from "../../assets/images/Ellipse 12.svg";
-import yellowDotSvg from "../../assets/images/Ellipse yellow.svg";
-import Line3 from "../../assets/images/Line 3.png";
+// import redDotSvg from "../../assets/images/Ellipse red.svg";
+// import greenDotSvg from "../../assets/images/Ellipse 12.svg";
+// import yellowDotSvg from "../../assets/images/Ellipse yellow.svg";
+// import Line3 from "../../assets/images/Line 3.png";
 import ContentLoader from '../contentLoader/ContentLoader';
 import {
   createProject,
@@ -21,7 +20,6 @@ import {
 import { doc, setDoc } from 'firebase/firestore';
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { db } from '../../utils/constants/Firebase';
-import { useSearch, useMenuContext } from "../../contexts/SearchContext";
 const { Title, Text } = Typography;
 
 const Project = () => {
@@ -46,7 +44,8 @@ const Project = () => {
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editingStartDate, setEditingStartDate] = useState(null);
   const [editingMembers, setEditingMembers] = useState(null);
-  const [editingTitle, setEditingTitle] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [editingTitle, setEditingTitle] = useState('');
   const [editingValues, setEditingValues] = useState({
     title: '',
     startDate: '',
@@ -60,10 +59,12 @@ const Project = () => {
   // for fetching project
   useEffect(() => {
     const fetchProjectData = async () => {
-      await act(async () => {
-        const projectList = await fetchProjects(userId);
-        setProjects(projectList);
-      });
+      const projectList = await fetchProjects(userId);
+  
+      const sortedProjects = projectList.sort((a, b) => a.title.localeCompare(b.title));
+  
+      setProjects(sortedProjects);
+      setLoading(false);
     };
   
     fetchProjectData();
@@ -102,39 +103,38 @@ const Project = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createProject({ ...newProject, tasks: taskList });
-    setNewProject({
-      title: "",
-      StartDate: "",
-      status: "In Progress",
-      members: "",
-      progress: 0,
-    });
-    setTaskList([]);
-    const updatedProjectList = await fetchProjects();
-    setProjects(updatedProjectList);
-    setShowInputFields(true);
-    setTaskModalVisible(false);
     try {
-      // Include status and progress properties when creating a new project
-      await createProject({ ...newProject, tasks: taskList, userId, status: newProject.status, progress: newProject.progress });
+      // Create the new project
+      const newProjectId = await createProject({
+        ...newProject,
+        tasks: taskList,
+        userId,
+        status: newProject.status,
+        progress: newProject.progress,
+      });
+
+      // Fetch updated projects
+      const updatedProjectList = await fetchProjects(userId);
+
+      const sortedProjects = updatedProjectList.sort((a, b) => a.timestamp - b.timestamp);
+
+      setProjects(sortedProjects);
+
       setNewProject({
-        title: '',
-        client: '',
-        status: 'In Progress',
-        members: '',
+        title: "",
+        startDate: "",
+        status: "In Progress",
+        members: "",
         progress: 0,
       });
       setTaskList([]);
-      const updatedProjectList = await fetchProjects(userId);
-      setProjects(updatedProjectList);
+
       setShowInputFields(false);
       setTaskModalVisible(false);
     } catch (error) {
       console.error('Error creating project: ', error);
     }
   };
-
   const handleDelete = async (projectId) => {
     try {
       const updatedProjects = projects.filter((project) => project.id !== projectId);
@@ -142,7 +142,6 @@ const Project = () => {
 
       await deleteProject(projectId);
     } catch (error) {
-      // Roll back the state if there's an error
       const projectList = await fetchProjects(userId);
       setProjects(projectList);
 
@@ -153,7 +152,7 @@ const Project = () => {
   const handleEdit = (projectId) => {
     const currentProject = projects.find((project) => project.id === projectId);
     setEditingValues({
-      title: currentProject.title,
+      // title: currentProject.title,
       startDate: currentProject.startDate,
       members: currentProject.members,
     });
@@ -167,11 +166,11 @@ const Project = () => {
 
       const updatedProject = {
         ...currentProject,
-        title: editingTitle !== null ? editingTitle : currentProject.title,
+        // title: editingTitle !== null ? editingTitle : currentProject.title,
         StartDate: editingStartDate !== null ? editingStartDate : currentProject.StartDate,
         members: editingMembers !== null ? editingMembers : currentProject.members,
-        status: newProject.status,
-        progress: newProject.progress,
+        // status: newProject.status,
+        // progress: newProject.progress,
       };
 
       // Update the project locally
@@ -200,13 +199,6 @@ const Project = () => {
     setProjects(updatedProjects);
   };
 
-  // const handleStatusFilterChange = ({ key }) => {
-  //   // console.log("Selected Status:", selectedStatus);
-  //   setMenuFilter(key);
-  // };
-
-  const { searchQuery } = useSearch();
-  const { menuFilter, setMenuFilter } = useMenuContext();
 
   // create project input content
   const content = (
@@ -238,15 +230,15 @@ const Project = () => {
   const cardRender = (project) => {
     const { title, status, members, progress } = project;
 
-    let statusImg = redDotSvg;
-    let statusColor = "red";
-    if (status === "Completed") {
-      statusImg = greenDotSvg;
-      statusColor = "green";
-    } else if (status === "On Hold" || status === "Review") {
-      statusImg = yellowDotSvg;
-      statusColor = "yellow";
-    }
+    // let statusImg = redDotSvg;
+    // let statusColor = "red";
+    // if (status === "Completed") {
+    //   statusImg = greenDotSvg;
+    //   statusColor = "green";
+    // } else if (status === "On Hold" || status === "Review") {
+    //   statusImg = yellowDotSvg;
+    //   statusColor = "yellow";
+    // }
 
     let color = "red";
     if (progress >= 50) {
@@ -256,30 +248,15 @@ const Project = () => {
       color = "green";
     }
 
-    const filteredBySearch =
-      !searchQuery ||
-      project.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const filteredByMenu =
-      menuFilter === "All" || project.status === menuFilter;
-    if (filteredBySearch && filteredByMenu)
-
       return (
         <div className="card-render" key={project.id}>
-          <Card className='br-0'>
+          <Card className='br-0 cdProject'>
             <div className="card-header">
-              {editingProjectId === project.id ? (
-                <Input
-                  type="text"
-                  name="title"
-                  className="title-input"
-                  value={editingTitle !== null ? editingTitle : ""}
-                  onChange={(e) => setEditingTitle(e.target.value)}
-                />
-              ) : (<Title className="card-title">{title}</Title>)}
+               <Title className="card-title">{title}</Title>
               <div className="icon">
                 {editingProjectId === project.id ? (
                   <Button onClick={handleUpdate} className="updatebtn br-0" >
-                    Update
+                    <CheckOutlined />
                   </Button>
                 ) : (
                   <div className="fn-btn-container">
@@ -288,46 +265,21 @@ const Project = () => {
                       type="text"
                       onClick={() => handleEdit(project.id)}
                     >
-                      <span>
                         <img src={EditSvg} alt="edit icon" />
-                      </span>
+
                     </Button>
                     <Button
                       className="fn-btn no-bg br-0"
                       type="text"
                       onClick={() => handleDelete(project.id)}
                     >
-                      <span>
                         <DeleteOutlined />
-                      </span>
                     </Button>
                   </div>
                 )}
               </div>
             </div>
-            <div className="status">
-              <span>
-                <img src={statusImg} alt="dot" />
-              </span>
-              {editingProjectId === project.id ? (
-                <select
-                  name="status"
-                  value={newProject.status}
-                  onChange={(e) => {
-                    setNewProject({ ...newProject, status: e.target.value });
-                  }}
-                >
-                  <option value="In Progress">In Progress</option>
-                  <option value="Discussing">Discussing</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Review">Review</option>
-                  <option value="Cancelled">Cancelled</option>
-                  <option value="On Hold">On Hold</option>
-                </select>
-              ) : (
-                <p className={statusColor} >{status}</p>
-              )}
-            </div>
+            <hr></hr>
             <div className="Task-area">
               {/* start date */}
               <div className="startDate">
@@ -378,7 +330,7 @@ const Project = () => {
             </div>
 
 
-            <div className="attribute">
+            {/* <div className="attribute">
               <p>Progress</p>
               {editingProjectId === project.id ? (
                 <Input
@@ -398,7 +350,7 @@ const Project = () => {
                   <Progress percent={progress} strokeColor={color} />
                 </div>
               )}
-            </div>
+            </div> */}
           </Card>
         </div>
       );
@@ -411,10 +363,10 @@ const Project = () => {
       ) : (
         <div>
 
-          {/*------------------------ Navbar filteration -----------------------------------*/}
+          {/*------------------------ Navbar-----------------------------------*/}
           <div className="navbar">
             <div className="new-project">
-              <Popover placement="bottom" content={content}>
+              <Popover placement="bottom" content={content} trigger="click">
                 <Button className="newbtn">
                   <PlusOutlined />
                   New</Button>
