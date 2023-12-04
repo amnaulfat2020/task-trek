@@ -223,7 +223,7 @@ const Dashboard = () => {
                 className="p-Cards-dashboard"
                 extra={
                   <Link
-                    to={`/dashboard/project/${userId}/${project.id}/tasks`}
+                    to={`/dashboard/project/${userId}/${project.id}/tasks/${project.title}`}
                     style={{
                       color: "#4743e0"
                     }}
