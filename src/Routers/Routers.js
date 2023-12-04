@@ -13,13 +13,14 @@ import LayoutSideBar from '../layout/LayoutSideBar';
 import TermAndCondition from '../pages/TermsAndConditons';
 import Member from '../pages/member/Member';
 import Error from '../components/Error';
-const Routers = () => {
 
+const Routers = () => {
   return (
     <div>
       <Router>
         <Routes>
-          <Route exact path="/dashboard/project/:userId/:projectId/tasks" element={<LayoutSideBar currentPage="Tasks"><TaskPage /></LayoutSideBar>} />
+          {/* Updated route to pass projectName as a parameter */}
+          <Route path="/dashboard/project/:userId/:projectId/tasks/:projectName" element={<LayoutSideBar currentPage=""><TaskPage /></LayoutSideBar>} />
           <Route path="/members/:userId" element={<LayoutSideBar currentPage="Member" ><Member /></LayoutSideBar>} />
           <Route path="/dashboard/:userId" element={<LayoutSideBar currentPage="Dashboard"><Dashboard /></LayoutSideBar>} />
           <Route path="/dashboard/project/:userId" element={<LayoutSideBar currentPage="Projects"><Project /></LayoutSideBar>} />
@@ -30,7 +31,6 @@ const Routers = () => {
           <Route path="/term-condition" element={<TermAndCondition />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/error" element={<Error />} />
-
         </Routes>
       </Router>
     </div>
@@ -38,6 +38,3 @@ const Routers = () => {
 };
 
 export default Routers;
-
-
-

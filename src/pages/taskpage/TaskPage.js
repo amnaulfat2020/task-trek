@@ -18,7 +18,7 @@ import Inprogress from "../../assets/images/growth.png"
 import Review from "../../assets/images/rating.png"
 import Testing from "../../assets/images/testing.png"
 import Completed from "../../assets/images/list.png"
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom'; 
 import { db } from '../../utils/constants/Firebase';
 import dbNames from '../../utils/constants/db';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
@@ -40,13 +40,10 @@ const statusColumns = {
 //   'Completed': "completed-clr",
 // };
 const TaskPage = () => {
-  const navigate = useNavigate()
-  const { projectId } = useParams()
-  const { userId } = useParams()
+  const { userId, projectId, projectName } = useParams();
+  const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
-
   const docId = useRef();
-
   const [newTask, setNewTask] = useState({
     title: '',
     assigned: '',
@@ -80,6 +77,7 @@ const TaskPage = () => {
     }, 2000);
   }, []);
 
+  
   useEffect(() => {
     const fetchTasksData = async () => {
       let taskList = await fetchTasks(projectId);
@@ -91,6 +89,7 @@ const TaskPage = () => {
 
     fetchTasksData();
   }, [projectId]);
+
 
   const q = collection(db, dbNames.projectCollection);
   const [docs, error] = useCollectionData(q);
@@ -295,6 +294,11 @@ const TaskPage = () => {
         <ContentLoader />
       ) : (
         <div>
+<div className="title-container">
+  <Title style={{ color: "#4743e0", fontFamily: 'Montserrat', textTransform: 'capitalize', fontSize: '24px' , marginTop: '25px' }}>
+    {projectName}
+  </Title>
+</div>
           <div className="navbar">
             <div className="new-project">
               <Popover placement="bottom" content={content} trigger="click">
@@ -304,10 +308,7 @@ const TaskPage = () => {
                 </Button>
               </Popover>
             </div>
-
-
           </div>
-
 
           {/* Kanban Board */}
           <DragDropContext onDragEnd={onDragEnd}>
