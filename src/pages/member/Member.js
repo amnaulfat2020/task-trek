@@ -11,14 +11,11 @@ const { Search } = Input;
 const Member = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState(null);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState('firstName');
   const [filterRole, setFilterRole] = useState('');
-
-  const [visible, setVisible] = useState(true);
   const [membersPerPage] = useState(5);
 
   const [filteredByRoleUsers, setFilteredByRoleUsers] = useState([]);
@@ -65,7 +62,7 @@ const Member = () => {
 
   const handleSearch = (query) => {
     setSearchQuery(query);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const handlePageChange = (page) => {
@@ -78,7 +75,7 @@ const Member = () => {
 
   const handleRoleFilter = (role) => {
     setFilterRole(role);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   return (
@@ -111,7 +108,7 @@ const Member = () => {
                       <UserOutlined />
                     </Avatar>
                     <div className="user-details">
-                    
+
                       <Typography.Title level={4} className='members-name'>
                         {user.firstName}
                       </Typography.Title>
@@ -121,22 +118,22 @@ const Member = () => {
               </List.Item>
             )}
           />
-           <Pagination
-  current={currentPage}
-  onChange={handlePageChange}
-  total={filteredByRoleUsers.length}
-  pageSize={membersPerPage}
-  style={{ marginTop: '20px', textAlign: 'center', color: '#4743e0' }}
-  itemRender={(current, type, originalElement) => {
-    if (type === 'prev' || type === 'next') {
-      return <a style={{ color: '#4743e0' }}>{originalElement}</a>;
-    }
-    if (type === 'page') {
-      return <a style={{ color: '#4743e0' }}>{current}</a>;
-    }
-    return originalElement;
-  }}
-/>
+          <Pagination
+            current={currentPage}
+            onChange={handlePageChange}
+            total={filteredByRoleUsers.length}
+            pageSize={membersPerPage}
+            style={{ marginTop: '20px', textAlign: 'center', color: '#4743e0' }}
+            itemRender={(current, type, originalElement) => {
+              if (type === 'prev' || type === 'next') {
+                return <a style={{ color: '#4743e0' }}>{originalElement}</a>;
+              }
+              if (type === 'page') {
+                return <a style={{ color: '#4743e0' }}>{current}</a>;
+              }
+              return originalElement;
+            }}
+          />
         </div>
       )}
     </div>

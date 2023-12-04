@@ -216,7 +216,7 @@ const TaskPage = () => {
 
       taskToMove.status = destinationStatus;
       const updateData = { status: destinationStatus };
-      if (result.destination.index != result.source.index) {
+      if (result.destination.index !== result.source.index) {
         updateData['order'] = result.destination.index;
         reorder({ status: destinationStatus });
       }
@@ -225,7 +225,7 @@ const TaskPage = () => {
     } else {
 
 
-      if (result.destination.index != result.source.index) {
+      if (result.destination.index !== result.source.index) {
 
         reorder();
         console.log({ id: taskId, order: result.destination.index })
@@ -280,9 +280,9 @@ const TaskPage = () => {
     orders.reverse();
     for (const [i, key] of keys.entries()) {
       const order = orders[i];
-      if (order == 'asc')
+      if (order === 'asc')
         cb = sortBy(key, cb);
-      else if (order == 'desc')
+      else if (order === 'desc')
         cb = sortByDesc(key, cb);
       else
         throw new Error(`Unsupported order "${order}"`);

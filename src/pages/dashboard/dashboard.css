@@ -47,9 +47,55 @@
   -webkit-box-shadow: 4px 5px 15px 0px rgba(0, 0, 0, 0.58);
   -moz-box-shadow: 4px 3px 10px 0px rgba(0, 0, 0, 0.58);
 }
+.st_flex{
+  display: flex !important;
+  flex-direction: row;
+  justify-content: space-between !important;
+}
+.t_bar {
+  height: 300px !important;
+  width: 700px !important;
+}
+.row-1 {
+  margin: 30px auto;
+  width: 89%;
+  gap: 30px;
+  display: flex;
+  flex-direction: row;
+}
+.d_section .ant-card-head-title {
+  font-family: "Montserrat", sans-serif !important;
+  color: var(--primary-clr) !important;
+  font-weight: 600 !important;
+}
+.d_section .ant-badge-status-text {
+  font-family: "Montserrat", sans-serif !important;
+}
+.p-Cards-dashboard {
+  width: 450px !important;
+  height: 270px !important;
+}
+.d-proj-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
 .temporary-msg {
   color: #b42426 !important;
   margin: 20px;
+}
+.task-pagination {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.project_pagination {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
 }
 
 /* Styles for the heading */
@@ -66,19 +112,19 @@
   border-radius: 8px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
-
+.ant-pagination-item-active, .ant-pagination-item{
+  color: #b42426 !important;
+}
 /* Styles for individual project cards */
 .project-card {
   display: flex;
-  flex-direction: column; 
-  align-items: flex-start; 
+  flex-direction: column;
+  align-items: flex-start;
   margin: 20px 0;
   padding: 15px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-
 }
 
 /* Styles for task list items */
@@ -96,7 +142,7 @@
 }
 
 .task-status-badge {
-  margin-left:20px ; 
+  margin-left: 20px;
 }
 
 /* Styles for task actions (buttons or components) */
@@ -107,9 +153,9 @@
   position: fixed;
   top: 0;
   right: 0;
-  width: 300px; 
+  width: 300px;
   height: 100%;
-  background-color: #f5f5f5; 
+  background-color: #f5f5f5;
   padding: 20px;
   overflow-y: auto;
   border-left: 1px solid #ccc;
