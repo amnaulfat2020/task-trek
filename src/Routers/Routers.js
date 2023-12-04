@@ -23,7 +23,7 @@ const Routers = () => {
           <Route path="/dashboard/project/:userId/:projectId/tasks/:projectName" element={<LayoutSideBar currentPage=""><TaskPage /></LayoutSideBar>} />
           <Route path="/members/:userId" element={<LayoutSideBar currentPage="Member" ><Member /></LayoutSideBar>} />
           <Route path="/dashboard/:userId" element={<LayoutSideBar currentPage="Dashboard"><Dashboard /></LayoutSideBar>} />
-          <Route path="/dashboard/project/:userId" element={<LayoutSideBar currentPage="Project"><Project /></LayoutSideBar>} />
+          <Route path="/dashboard/project/:userId" element={<LayoutSideBar currentPage="Projects"><Project /></LayoutSideBar>} />
           <Route path="/project/user-profile" element={<UserProfile />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/" element={<Login />} />
