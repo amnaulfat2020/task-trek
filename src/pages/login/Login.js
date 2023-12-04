@@ -18,7 +18,7 @@ import Button from "@mui/material/Button";
 
 import { useFormik } from "formik";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "./Login.css";
 
@@ -46,7 +46,7 @@ function MouseOut(event) {
 
 const Login = () => {
 
-  //  const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [errMsg, setErrMsg] = useState("");
 
@@ -65,7 +65,7 @@ const Login = () => {
 
   // Use the useUserContext hook to access the updateUser function
 
-  // const { updateUser } = useUserContext();
+  const { updateUser } = useUserContext();
 
 
 
@@ -114,8 +114,7 @@ const Login = () => {
 
           if (userId) {
 
-            <Link to={`/dashboard/project/${userId}`}></Link>
-            // navigate(``);
+            navigate(`/dashboard/project/${userId}`);
 
             // Update the user data in the context
 
@@ -168,8 +167,8 @@ const Login = () => {
     if (userLoggedIn === 'true') {
 
       // User has logged in again, redirect to an error page
-      <Link to="/error"></Link>
-      // navigate('/error'); // Update the route as needed.
+
+      navigate('/error'); // Update the route as needed.
 
     } else {
 
@@ -179,18 +178,17 @@ const Login = () => {
 
     }
 
-  }, []);
+  }, [navigate]);
   useEffect(() => {
     const userLoggedIn = localStorage.getItem('userLoggedIn');
 
     if (userLoggedIn === 'true') {
-      // navigate('/'); // Redirect to the dashboard.
-      <Link to="/"></Link>
+      navigate('/'); // Redirect to the dashboard.
     } else {
       // Session has expired, show the error page.
       setSessionExpired(true);
     }
-  }, []);
+  }, [navigate]);
 
 
   return (
@@ -232,7 +230,7 @@ const Login = () => {
 
               <div className="formContainer">
 
-                <input
+                <Input
 
                   htmlFor="email"
 
@@ -270,7 +268,7 @@ const Login = () => {
 
               <div className="formContainer">
 
-                <input
+                <Input
 
                   htmlFor="password"
 
@@ -299,7 +297,6 @@ const Login = () => {
                   prefix={<KeyOutlined />}
                   autoComplete="current-password"
                 />
-                <label htmlFor="password">Password</label>
 
                 {errors.password && touched.password && (
 
@@ -370,7 +367,7 @@ const Login = () => {
               <div className="button-log">
 
                 <Button
-                  id ="login"
+
                   type="submit"
 
                   disabled={submitButtonDisabled}
@@ -383,7 +380,7 @@ const Login = () => {
 
                 >
 
-                  Signin
+                  Login
 
                 </Button>
 
@@ -445,7 +442,7 @@ const Login = () => {
 
         </div>
 
-      
+
         <div className="column2">
 
         </div>
