@@ -11,9 +11,9 @@ import ContentLoader from '../contentLoader/ContentLoader';
 
 const getStatusColor = (status) => {
   switch (status) {
-    case "To-Do":
+    case "Todo":
       return "default";
-    case "In Progress":
+    case "InProgress":
       return "processing";
     case "Completed":
       return "success";
@@ -58,8 +58,8 @@ const Dashboard = () => {
   };
   const countTaskStatuses = (projects) => {
     const statusCount = {
-      "To-Do": 0,
-      "In Progress": 0,
+      "Todo": 0,
+      "InProgress": 0,
       "Completed": 0,
       "Review": 0,
       "Cancelled": 0,
@@ -101,8 +101,8 @@ const Dashboard = () => {
 
   const pieChartData = {
     labels: [
-      "To-Do",
-      "In Progress",
+      "Todo",
+      "InProgress",
       "Completed",
       "Review",
       "Cancelled",
@@ -271,8 +271,8 @@ const TaskActions = ({ task }) => {
 };
 
 const statusColors = [
-  { name: "To-Do", color: "#FF6384" },
-  { name: "In Progress", color: "#36A2EB" },
+  { name: "Todo", color: "#FF6384" },
+  { name: "InProgress", color: "#36A2EB" },
   { name: "Completed", color: "#FFCE56" },
   {name:"Review",color:"#90EE90"},
   // {name:"Cancelled",color:"#F7464A"},

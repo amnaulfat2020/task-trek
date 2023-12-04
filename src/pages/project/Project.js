@@ -368,9 +368,9 @@ const Project = () => {
                   </div>
                 )}
                 <div className="task-input">
-                  <Link to={`/dashboard/project/${userId}/${project.id}/tasks`}>
-                    <Text className="l-task">Tasks</Text>
-                  </Link>
+                <Link to={`/dashboard/project/${userId}/${project.id}/tasks/${project.title}`}>
+    <Text className="l-task">Tasks</Text>
+  </Link>
                  
                 </div>
               </div>
@@ -441,4 +441,3 @@ const Project = () => {
 };
 
 export default Project;
-
