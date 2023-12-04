@@ -297,7 +297,7 @@ const TaskPage = () => {
         <div>
           <div className="navbar">
             <div className="new-project">
-              <Popover placement="bottom" content={content}>
+              <Popover placement="bottom" content={content} trigger="click">
                 <Button className="newbtn">
                   <PlusOutlined />
                   New

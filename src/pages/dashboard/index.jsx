@@ -229,7 +229,6 @@ const Dashboard = () => {
 //             }
 //             description={task.description}
 //           />
-//           <TaskActions task={task} />
 //         </List.Item>
 //       )}
 //     />
