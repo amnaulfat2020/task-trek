@@ -41,7 +41,6 @@ export const SearchProvider = (props) => {
       completedTasks: 0,
       
     });
-    console.log("UpDate:",setUserData);
   };
   
 

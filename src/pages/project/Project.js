@@ -1,25 +1,17 @@
 import "./project.css";
-// import headerStyles from '../../styles/headerStyles';
 import { act } from 'react-dom/test-utils';
 import React, { useState, useEffect } from "react";
 import { Card, Progress, Button, Input, List, Popover, Typography } from "antd";
 import { PlusOutlined, DeleteOutlined, CheckOutlined } from "@ant-design/icons";
 import EditSvg from "../../assets/images/edit-pencil 1.svg";
-// import redDotSvg from "../../assets/images/Ellipse red.svg";
-// import greenDotSvg from "../../assets/images/Ellipse 12.svg";
-// import yellowDotSvg from "../../assets/images/Ellipse yellow.svg";
-// import Line3 from "../../assets/images/Line 3.png";
 import ContentLoader from '../contentLoader/ContentLoader';
 import {
   createProject,
   fetchProjects,
   updateProject,
   deleteProject,
-  fetchTasksForProject,
 } from "../../services/api";
-import { doc, setDoc } from 'firebase/firestore';
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { db } from '../../utils/constants/Firebase';
 const { Title, Text } = Typography;
 
 const Project = () => {
@@ -45,7 +37,6 @@ const Project = () => {
   const [editingStartDate, setEditingStartDate] = useState(null);
   const [editingMembers, setEditingMembers] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [editingTitle, setEditingTitle] = useState('');
   const [editingValues, setEditingValues] = useState({
     title: '',
     startDate: '',
@@ -166,11 +157,9 @@ const Project = () => {
 
       const updatedProject = {
         ...currentProject,
-        // title: editingTitle !== null ? editingTitle : currentProject.title,
         StartDate: editingStartDate !== null ? editingStartDate : currentProject.StartDate,
         members: editingMembers !== null ? editingMembers : currentProject.members,
-        // status: newProject.status,
-        // progress: newProject.progress,
+  
       };
 
       // Update the project locally
@@ -228,17 +217,9 @@ const Project = () => {
 
   //--------------------------card Render function--------------------------------------
   const cardRender = (project) => {
-    const { title, status, members, progress } = project;
+    const { title, progress } = project;
 
-    // let statusImg = redDotSvg;
-    // let statusColor = "red";
-    // if (status === "Completed") {
-    //   statusImg = greenDotSvg;
-    //   statusColor = "green";
-    // } else if (status === "On Hold" || status === "Review") {
-    //   statusImg = yellowDotSvg;
-    //   statusColor = "yellow";
-    // }
+    
 
     let color = "red";
     if (progress >= 50) {

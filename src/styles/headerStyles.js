@@ -33,7 +33,6 @@ const headerStyles = {
     fontWeight: '600',
     margin: '0  60px',
     color: 'var(--primary-clr)',
-    fontFamily: 'Montserrat, sans-serif'
   },
   searchInput: {
     width: '200px',

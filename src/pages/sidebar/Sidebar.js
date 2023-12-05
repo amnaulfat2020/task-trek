@@ -70,7 +70,7 @@ const Sidebar = () => {
       <Menu
         onClick={onClick}
         style={{
-          width: collapsed ? 80 : 200,
+          width: collapsed ? 80 : "100%",
         }}
         defaultSelectedKeys={['1']}
         defaultOpenKeys={['sub1']}

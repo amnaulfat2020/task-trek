@@ -30,27 +30,6 @@ const sidebarStyles = {
     bottom: '100px',
     left: '50px',
   },
-
-  // '@media (max-width: 768px)': {
-  //   drawer: {
-  //     width: '80%',
-  //   },
-  //   logoContainer: {
-  //     padding: '10px 20px',
-  //   },
-
-  // },
-
-  // '@media (max-width: 576px)': {
-  //   drawer: {
-  //     width: '100%',
-  //   },
-  //   logoContainer: {
-  //     padding: '10px 10px',
-  //   },
-
-  // },
-
 };
 
 

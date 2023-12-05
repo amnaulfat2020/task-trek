@@ -88,42 +88,16 @@ const MenuBar = ({ currentPage }) => {
                     {currentPage}
                 </Title>
             </div>
-            {/* <div style={headerStyles.centerSection}>
-                <Space>
-                    <Input
-                        prefix={<SearchOutlined />}
-                        placeholder="Search..."
-                        style={{ ...headerStyles.searchInput, width: '700px', height: '40px' }}
-                        value={searchQuery}
-                    // onChange={handleSearchChange}
-                    />
-                </Space>
-            </div> */}
+        
             <div style={headerStyles.rightSection}>
-                {/* <Space size="large"> */}
-                {/* <Badge dot>
-                        <BellOutlined style={headerStyles.icon} onClick={showWelcomeNotification} />
-                    </Badge> */}
-                {/* <Dropdown overlay={menu} trigger={['click']}> */}
-                {/* <Avatar icon={<UserOutlined />} style={headerStyles.avatar} onClick={() => setLoggedIn(!loggedIn)} /> */}
-                {/* </Dropdown> */}
-                {/* </Space> */}
+               
                 <img src={UserImg} style={headerStyles.U_img} alt='user-image' onClick={() => setShowProfilePopup(true)} />
 
             </div>
             {showProfilePopup && userData && (
                 <UserProfilePopup userData={userData} onClose={() => setShowProfilePopup(false)} />
             )}
-            {/* {loggedIn && (
-                <Modal
-                    title="Welcome to Task Trek!"
-                    visible={showWelcomeModal}
-                    onOk={() => setShowWelcomeModal(false)}
-                    onCancel={() => setShowWelcomeModal(false)}
-                >
-                    <p>You have successfully logged in. Enjoy your time with Task Trek!</p>
-                </Modal>
-            )} */}
+          
         </div>
     );
 };
