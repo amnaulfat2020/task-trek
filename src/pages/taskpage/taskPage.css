@@ -145,8 +145,8 @@
 .title-container {
   position: absolute;
   top: 0;
-  left: 50%;
-  transform: translateX(-400%);
+  left: 30%;
+  /* transform: translateX(-400%); */
   color: #f8f8fb;
   font-family: "Montserrat", sans-serif;
   margin-left: -200px;
