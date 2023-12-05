@@ -27,13 +27,11 @@ const ChangePassword = () => {
     },
     validationSchema: LoginSchema,
     onSubmit: async (values, actions) => {
-      console.log(values);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       actions.resetForm();
     },
   });
 
-  console.log(formik);
 
 const navigate = useNavigate()
   return (
@@ -52,8 +50,6 @@ const navigate = useNavigate()
           </div>
           <Form
             onSubmit={formik.handleSubmit}
-            // onFinish={onFinish}
-            // onFinishFailed={onFinishFailed}
             autoComplete="off"
             className="form-area"
           >

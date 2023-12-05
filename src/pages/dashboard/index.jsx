@@ -165,8 +165,8 @@ const Dashboard = () => {
             <Card
               title="Tasks Overview"
               style={{
-                height: "400px",
-                width: "750px"
+                height: "450px",
+                width: "100%"
               }}
             >
               <Bar
@@ -189,7 +189,6 @@ const Dashboard = () => {
             </Card>
             <Card
               title="Colors Info"
-              className="fnt"
               style={{
                 height: "280px"
               }}
@@ -227,14 +226,14 @@ const Dashboard = () => {
                     style={{
                       color: "#4743e0"
                     }}
-                    className="fnt"
+                    className="fnt f18"
                   >
                     Add Task
                   </Link>
                 }
               >
                 <div className="project-card-content">
-                  <h3 className="fnt">Tasks Overview:</h3>
+                  <h3 className="fnt f22 fw-400">Tasks Overview:</h3>
                   {project.tasks.length > 0 ? (
                     <div className="task-status-section">
                       {statusColors.map((status) => (
@@ -243,7 +242,7 @@ const Dashboard = () => {
                             status={getStatusColor(status.name)}
                             text={status.name}
                           />
-                          <span className="status-count fnt">
+                          <span className="status-count f18 fnt">
                             {getTaskCountForStatus(project.tasks, status.name)}
                           </span>
                         </div>

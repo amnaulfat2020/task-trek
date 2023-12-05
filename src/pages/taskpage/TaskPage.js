@@ -18,7 +18,7 @@ import Inprogress from "../../assets/images/growth.png"
 import Review from "../../assets/images/rating.png"
 import Testing from "../../assets/images/testing.png"
 import Completed from "../../assets/images/list.png"
-import { Link, useParams, useNavigate } from 'react-router-dom'; 
+import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../../utils/constants/Firebase';
 import dbNames from '../../utils/constants/db';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
@@ -32,13 +32,7 @@ const statusColumns = {
   'Testing': { title: 'Testing', img: Testing },
   'Completed': { title: 'Completed', img: Completed },
 };
-// const statusClr = {
-//   'To-Do': "todo-clr",
-//   'In Progress': "inprogress-clr",
-//   'Review': "review-clr",
-//   'Testing': "testing-clr",
-//   'Completed': "completed-clr",
-// };
+
 const TaskPage = () => {
   const { userId, projectId, projectName } = useParams();
   const navigate = useNavigate();
@@ -50,11 +44,7 @@ const TaskPage = () => {
     status: 'Todo',
   });
 
-  // const [editModalVisible, setEditModalVisible] = useState(false);
-  // const [editedTask, setEditedTask] = useState({});
-  // const [editedTaskIndex, setEditedTaskIndex] = useState(null);
   const [loading, setLoading] = useState(true);
-  // const [data, setData] = useState(null);
 
   const fetchTasks = async () => {
     const tasksList = [];
@@ -77,7 +67,7 @@ const TaskPage = () => {
     }, 2000);
   }, []);
 
-  
+
   useEffect(() => {
     const fetchTasksData = async () => {
       let taskList = await fetchTasks(projectId);
@@ -140,31 +130,6 @@ const TaskPage = () => {
     deleteTask(taskId);
   };
 
-  // const openEditModal = (task, index) => {
-  //   setEditedTask(task);
-  //   setEditedTaskIndex(index);
-  //   setEditModalVisible(true);
-  // };
-
-  // const handleUpdateTask = async () => {
-  //   if (editedTaskIndex !== null) {
-  //     const updatedTasks = [...tasks];
-  //     updatedTasks[editedTaskIndex] = editedTask;
-  //     setTasks(updatedTasks);
-
-  //     try {
-  //       const collectionName = dbNames.getTaskCollection(projectId);
-  //       const taskRef = doc(db, collectionName, editedTask.id);
-  //       await setDoc(taskRef, editedTask);
-  //     } catch (error) {
-  //       console.error('Error updating task:', error);
-  //     }
-
-  //     setEditModalVisible(false);
-  //     setEditedTask({});
-  //     setEditedTaskIndex(null);
-  //   }
-  // };
 
   const content = (
     <div className='pop-content-container'>
@@ -193,11 +158,7 @@ const TaskPage = () => {
     'Completed': "completed-clr",
   };
 
-  // const handleStatusFilterChange = (key) => {
-  //   setMenuFilter(key);
-  // };
 
-  // const { menuFilter, setMenuFilter } = useMenuContext();
 
   const onDragEnd = async (result) => {
     if (!result.destination) {
@@ -294,11 +255,11 @@ const TaskPage = () => {
         <ContentLoader />
       ) : (
         <div>
-<div className="title-container">
-  <Title style={{ color: "#4743e0", fontFamily: 'Montserrat', textTransform: 'capitalize', fontSize: '24px' , marginTop: '25px' }}>
-    {projectName}
-  </Title>
-</div>
+          <div className="title-container">
+            <Title style={{ color: "#4743e0", fontFamily: 'Montserrat', textTransform: 'capitalize', fontSize: '24px', marginTop: '25px' }}>
+              {projectName}
+            </Title>
+          </div>
           <div className="navbar">
             <div className="new-project">
               <Popover placement="bottom" content={content} trigger="click">

@@ -3,9 +3,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* font-family: "Montserrat", sans-serif ; */
-  font-family: "Roboto", sans-serif !important;
-  /* outline: 2px solid black !important; */
+  font-family: "Montserrat", sans-serif ;
+  font-family: "Roboto", sans-serif ;
 }
 :root {
   --primary-clr: #4743e0;
@@ -14,26 +13,35 @@
   --letter-spacing: 0.25px;
   --line-height: 28px;
   --heading-fs: 54px;
-  --secondary-bg-clr: #F9FAFF;
+  --secondary-bg-clr: #f9faff;
 }
-.body{
-  overflow-y: hidden  !important;
+.body {
+  overflow-y: hidden !important;
 }
-.mt-5{
+.mt-5 {
   margin-top: 5px !important;
 }
-.no-bg{
+.no-bg {
   background: transparent !important;
 }
-.br-0{
+.br-0 {
   border-radius: 0 !important;
 }
-.fnt{
+.fnt {
   font-family: "Montserrat", sans-serif !important;
 }
-.red{
+.fw-400{
+  font-weight: 400 !important;
+}
+.red {
   color: red !important;
 }
-.f12{
+.f12 {
   font-size: 12px !important;
+}
+.f18 {
+  font-size: 18px !important;
+}
+.f22 {
+  font-size: 22px !important;
 }

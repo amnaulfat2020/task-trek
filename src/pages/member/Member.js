@@ -90,40 +90,43 @@ const Member = () => {
             className='members-search'
             style={{ width: 400 }}
           />
-          <List
-            itemLayout="vertical"
-            dataSource={sortedUsers}
-            renderItem={(user) => (
-              <List.Item>
-                <Card className='members-card'>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <Avatar
-                      size={50}
-                      style={{
-                        backgroundColor: '#4743e0',
-                        color: 'white',
-                        marginRight: 16,
-                      }}
-                    >
-                      <UserOutlined />
-                    </Avatar>
-                    <div className="user-details">
 
-                      <Typography.Title level={4} className='members-name'>
-                        {user.firstName}
-                      </Typography.Title>
+          <div className='mt-50'>
+            <List
+              itemLayout="vertical"
+              dataSource={sortedUsers}
+              renderItem={(user) => (
+                <List.Item>
+                  <Card className='members-card'>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Avatar
+                        size={50}
+                        style={{
+                          backgroundColor: '#4743e0',
+                          color: 'white',
+                          marginRight: 16,
+                        }}
+                      >
+                        <UserOutlined />
+                      </Avatar>
+                      <div className="user-details">
+
+                        <Typography.Title level={4} className='members-name'>
+                          {user.firstName}
+                        </Typography.Title>
+                      </div>
                     </div>
-                  </div>
-                </Card>
-              </List.Item>
-            )}
-          />
+                  </Card>
+                </List.Item>
+              )}
+            />
+          </div>
           <Pagination
             current={currentPage}
             onChange={handlePageChange}
             total={filteredByRoleUsers.length}
             pageSize={membersPerPage}
-            style={{ marginTop: '20px', textAlign: 'center', color: '#4743e0' }}
+            style={{ marginTop: '20px', textAlign: 'end', color: '#4743e0' }}
             itemRender={(current, type, originalElement) => {
               if (type === 'prev' || type === 'next') {
                 return <a style={{ color: '#4743e0' }}>{originalElement}</a>;
