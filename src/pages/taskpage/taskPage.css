@@ -142,12 +142,20 @@
   font-weight: 500 !important;
   color: #4743e0 !important;
 }
+.task-page.sidebar-collapsed .title-container {
+  left: 70px; /* Adjust the left position as needed */
+}
 .title-container {
   position: absolute;
   top: 0;
-  left: 30%;
+  left: 32%;
   /* transform: translateX(-400%); */
   color: #f8f8fb;
   font-family: "Montserrat", sans-serif;
   margin-left: -200px;
+}
+
+.none
+{
+display: none !important;
 }

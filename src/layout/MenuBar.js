@@ -11,13 +11,12 @@ import {
     UserOutlined,
     LogoutOutlined,
 } from '@ant-design/icons';
-import UserImg from '../assets/images/OIP.jpeg'
+import UserImg from '../assets/images/OIP.jpeg';
 import { useSearch } from '../contexts/SearchContext';
 import headerStyles from '../styles/headerStyles';
 const Title = Typography;
 
-
-const MenuBar = ({ currentPage }) => {
+const MenuBar = ({ currentPage, projectTitle }) => {
     const { searchQuery, setSearch } = useSearch();
     const [showProfilePopup, setShowProfilePopup] = useState(false);
     const [userData, setUserData] = useState(null);
@@ -48,10 +47,8 @@ const MenuBar = ({ currentPage }) => {
             }
         }
 
-
         fetchUserData();
     }, []);
-
 
     const handleClick = () => {
         signOut(auth)
@@ -64,7 +61,6 @@ const MenuBar = ({ currentPage }) => {
             });
     };
 
-
     const menu = (
         <Menu>
             <Menu.Item key="profile" icon={<UserOutlined />} onClick={() => setShowProfilePopup(true)}>
@@ -76,32 +72,26 @@ const MenuBar = ({ currentPage }) => {
         </Menu>
     );
 
-
-
     const showWelcomeNotification = () => {
         setShowWelcomeModal(true);
     };
+
     return (
         <div style={headerStyles.container}>
-            <div style={headerStyles.leftSection} >
+            <div style={headerStyles.leftSection}>
                 <Title style={headerStyles.pageTitle}>
                     {currentPage}
+                    {projectTitle && ` ${projectTitle}`} 
                 </Title>
             </div>
-        
             <div style={headerStyles.rightSection}>
-               
                 <img src={UserImg} style={headerStyles.U_img} alt='user-image' onClick={() => setShowProfilePopup(true)} />
-
             </div>
             {showProfilePopup && userData && (
                 <UserProfilePopup userData={userData} onClose={() => setShowProfilePopup(false)} />
             )}
-          
         </div>
     );
 };
 
-
 export default MenuBar;
-

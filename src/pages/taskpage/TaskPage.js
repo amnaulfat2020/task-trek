@@ -13,6 +13,8 @@ import {
   query,
   addDoc,
 } from 'firebase/firestore';
+import MenuBar from '../../layout/MenuBar';
+
 import Todo from "../../assets/images/check.png"
 import Inprogress from "../../assets/images/growth.png"
 import Review from "../../assets/images/rating.png"
@@ -250,16 +252,15 @@ const TaskPage = () => {
     return cb;
   }
   return (
+
     <div>
+      
       {loading ? (
         <ContentLoader />
       ) : (
-        <div>
-          <div className="title-container">
-            <Title style={{ color: "#4743e0", fontFamily: 'Montserrat', textTransform: 'capitalize', fontSize: '24px', marginTop: '25px' }}>
-              {projectName}
-            </Title>
-          </div>
+         <div>
+            <MenuBar projectTitle={projectName} />
+            
           <div className="navbar">
             <div className="new-project">
               <Popover placement="bottom" content={content} trigger="click">
