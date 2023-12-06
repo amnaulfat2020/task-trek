@@ -19,8 +19,7 @@ const Routers = () => {
     <div>
       <Router>
         <Routes>
-          {/* Updated route to pass projectName as a parameter */}
-          <Route path="/dashboard/project/:userId/:projectId/tasks/:projectName" element={<LayoutSideBar currentPage=""><TaskPage /></LayoutSideBar>} />
+          <Route path="/dashboard/project/:userId/:projectId/tasks/:projectName" element={<LayoutSideBar currentPage="Task"><TaskPage /></LayoutSideBar>} />
           <Route path="/members/:userId" element={<LayoutSideBar currentPage="Member" ><Member /></LayoutSideBar>} />
           <Route path="/dashboard/:userId" element={<LayoutSideBar currentPage="Dashboard"><Dashboard /></LayoutSideBar>} />
           <Route path="/dashboard/project/:userId" element={<LayoutSideBar currentPage="Projects"><Project /></LayoutSideBar>} />

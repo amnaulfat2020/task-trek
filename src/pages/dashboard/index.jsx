@@ -165,7 +165,7 @@ const Dashboard = () => {
             <Card
               title="Tasks Overview"
               style={{
-                height: "400px",
+                height: "420px",
                 width: "100%"
               }}
             >
