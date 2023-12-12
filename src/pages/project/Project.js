@@ -22,8 +22,9 @@ const Project = () => {
   const [projects, setProjects] = useState([]);
   const [newProject, setNewProject] = useState({
     title: "",
+    timestamp: "",
     startDate: "", 
-    estimatedDate: "",
+    estimatedDate: ""
   });
   const [tasks, setTasks] = useState([]);
   const [showInputFields, setShowInputFields] = useState(false);
@@ -95,8 +96,8 @@ const Project = () => {
         ...newProject,
         tasks: taskList,
         userId,
-        status: newProject.status,
-        progress: newProject.progress,
+        // status: newProject.status,
+        // progress: newProject.progress,
       });
 
       // Fetch updated projects
@@ -212,7 +213,7 @@ const Project = () => {
   const cardRender = (project) => {
     const { title, progress, timestamp } = project;
 
-    const creationDate = timestamp ? new Date(timestamp) : null;    
+    const creationDate = timestamp ? new Date(timestamp) : null;
 
     let color = "red";
     if (progress >= 50) {
