@@ -20,6 +20,7 @@ const Project = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [projects, setProjects] = useState([]);
+  const [currentTime, setCurrentTime] = useState(Date.now());
   const [newProject, setNewProject] = useState({
     title: "",
     client: "",
@@ -52,14 +53,23 @@ const Project = () => {
     const fetchProjectData = async () => {
       const projectList = await fetchProjects(userId);
   
-      const sortedProjects = projectList.sort((a, b) => a.title.localeCompare(b.title));
-  
-      setProjects(sortedProjects);
+      const sortedProjects = projectList.sort((a, b) => b.timestamp - a.timestamp);
+      const reversedProjects = sortedProjects.reverse();
+
+      setProjects(reversedProjects);
       setLoading(false);
     };
   
     fetchProjectData();
+  
+    // Set up an interval to update the current time every second
+    const intervalId = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 1000);
+  
+    return () => clearInterval(intervalId);
   }, [userId]);
+
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -102,6 +112,7 @@ const Project = () => {
         userId,
         status: newProject.status,
         progress: newProject.progress,
+        timestamp: Date.now(),
       });
 
       // Fetch updated projects
@@ -217,7 +228,7 @@ const Project = () => {
 
   //--------------------------card Render function--------------------------------------
   const cardRender = (project) => {
-    const { title, progress } = project;
+    const { title, progress, timestamp } = project; 
 
     
 
@@ -228,6 +239,11 @@ const Project = () => {
     if (progress === 100) {
       color = "green";
     }
+
+    const timeElapsedInSeconds = Math.floor((currentTime - project.timestamp) / 1000);
+    const hours = Math.floor(timeElapsedInSeconds / 3600);
+    const minutes = Math.floor((timeElapsedInSeconds % 3600) / 60);
+    const seconds = timeElapsedInSeconds % 60;
 
       return (
         <div className="card-render" key={project.id}>
@@ -332,6 +348,10 @@ const Project = () => {
                 </div>
               )}
             </div> */}
+             {/* <div className="attribute">
+            <p></p>
+            <p className="br-0">{`${hours}:${minutes}:${seconds}`}</p>
+          </div> */}
           </Card>
         </div>
       );

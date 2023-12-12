@@ -57,7 +57,7 @@
     color: #4743e0 !important;
 }
 
-.custom-collapse-btn {
+/* .custom-collapse-btn {
   width: 40px;
   height: 40px;
   background-color: #ffffff;
@@ -68,4 +68,34 @@
   justify-content: center;
   cursor: pointer;
   margin-top: 20px; 
+} */
+
+
+/* .logo-container {
+  border-bottom: 1px solid #f1f1f1;
+  margin-top: 20px; 
+  transition: margin-top 0.3s ease; 
+}
+
+.side-bar.collapsed .logo-container {
+  margin-top: 0; 
+} */
+.custom-collapse-btn {
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+
+  background-color: #ffffff;
+  color: #4743e0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: 20px; 
+  transition: margin-top 0.3s ease;
+}
+
+.side-bar.collapsed .custom-collapse-btn {
+  margin-top: 0px; 
 }

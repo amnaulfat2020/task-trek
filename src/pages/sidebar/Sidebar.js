@@ -6,6 +6,9 @@ import { UserOutlined, FileOutlined, LogoutOutlined, TeamOutlined, MenuUnfoldOut
 import './sidebar.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 import { auth } from '../../utils/constants/Firebase';
 import { CaretRightOutlined, CaretLeftOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
@@ -58,14 +61,19 @@ const Sidebar = () => {
     <div className={`side-bar ${collapsed ? 'collapsed' : ''}`}>
       <div className="logo-container">
         <img src={logo} alt="logo" className="logo" />
-        <Tooltip title={collapsed ? 'Expand' : 'Collapse'} placement="right">
+        {/* <Tooltip title={collapsed ? 'Expand' : 'Collapse'} placement="right">
   <div
     className="custom-collapse-btn"
     onClick={handleCollapse}
   >
     {collapsed ? <CaretRightOutlined /> : <CaretLeftOutlined />}
   </div>
-</Tooltip>
+</Tooltip> */}
+<Tooltip title={collapsed ? 'Expand' : 'Collapse'} placement="right">
+          <div className="custom-collapse-btn" onClick={handleCollapse}>
+            {collapsed ? <ArrowForwardIcon /> : <ArrowBackIcon />}
+          </div>
+        </Tooltip>
       </div>
       <Menu
         onClick={onClick}
