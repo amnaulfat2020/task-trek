@@ -228,7 +228,7 @@ const Project = () => {
 
   //--------------------------card Render function--------------------------------------
   const cardRender = (project) => {
-    const { title, progress, timestamp } = project; 
+    const { title, progress, timestamp, taskCount } = project;
 
     
 
@@ -319,13 +319,17 @@ const Project = () => {
                 <div className="task-input">
                 <Link to={`/dashboard/project/${userId}/${project.id}/tasks/${project.title}`}>
     <Text className="l-task">Tasks</Text>
+    <div className="task-count" style={{ color: '#4743e0', marginLeft: '15px' }}>
+            <p className="br-0">{taskCount}</p>
+          </div>
   </Link>
                  
                 </div>
               </div>
 
             </div>
-
+          
+        
 
             {/* <div className="attribute">
               <p>Progress</p>
