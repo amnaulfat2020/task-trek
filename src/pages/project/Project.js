@@ -230,7 +230,7 @@ const Project = () => {
 
   //--------------------------card Render function--------------------------------------
   const cardRender = (project) => {
-    const { title, progress, timestamp, taskCount } = project;
+    const { title, progress, timestamp, taskCount, taskStatus } = project;
 
 
     let color = "red";
@@ -333,7 +333,7 @@ const Project = () => {
         
 
             <div className="attribute">
-              <p>Progress</p>
+              <p>{taskStatus}</p>
               {/* {editingProjectId === project.id ? (
                 <Input
                   type="number"
