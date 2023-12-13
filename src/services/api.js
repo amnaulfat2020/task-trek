@@ -30,9 +30,14 @@ export const createProject = async (projectData, userId) => {
     // Get the task count and update the project data
     const taskSnapshot = await getDocs(tasksCollectionRef);
     const taskCount = taskSnapshot.size;
+    const completedTasks = taskSnapshot.docs.filter((doc) => doc.data().status === 'Completed');
+    const completedTaskCount = completedTasks.length;
 
     // Update the project with the task count
-    await updateDoc(doc(db, 'projects', projectId), { taskCount });
+    await updateDoc(doc(db, 'projects', projectId), { 
+      taskCount,
+      taskStatus: completedTaskCount === taskCount ? 'Completed' : 'In Progress', 
+    });
 
   } catch (error) {
     console.error('Error adding project: ', error);
@@ -64,8 +69,17 @@ export const fetchProjects = async (userId) => {
       // Fetch task count for each project
       const tasksCollectionRef = collection(db, 'projects', doc.id, 'tasks');
       const taskSnapshot = await getDocs(tasksCollectionRef);
-      projectData.taskCount = taskSnapshot.size;
 
+      // Ensure tasks is an array or set it to an empty array
+      projectData.tasks = taskSnapshot.docs.map(doc => doc.data());
+      
+
+      projectData.taskCount = taskSnapshot.size;
+      projectData.completedTaskCount = taskSnapshot.docs.filter((doc) => doc.data().status === 'Completed').length;
+
+       // Calculate progress based on completed tasks
+       projectData.progress = projectData.taskCount === 0 ? 0 : Math.floor((projectData.completedTaskCount / projectData.taskCount) * 100);
+      
       projectList.push(projectData);
     });
   } catch (error) {

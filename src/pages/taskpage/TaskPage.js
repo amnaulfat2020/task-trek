@@ -255,12 +255,12 @@ const TaskPage = () => {
     }
     return cb;
   }
-                          // Progress Bar
-  useEffect(() => {
-    const completedTasks = tasks.filter(task => task.status === 'Completed');
-    const percentage = Math.floor((completedTasks.length / tasks.length) * 100);
-    setCompletedPercentage(percentage || 0);
-  }, [tasks]);
+  //                         // Progress Bar
+  // useEffect(() => {
+  //   const completedTasks = tasks.filter(task => task.status === 'Completed');
+  //   const percentage = Math.floor((completedTasks.length / tasks.length) * 100);
+  //   setCompletedPercentage(percentage || 0);
+  // }, [tasks]);
   return (
 
     <div>
@@ -283,7 +283,7 @@ const TaskPage = () => {
           </div>
                   {/* // Progress Bar */}
 
-          <Progress percent={completedPercentage} status="active" />
+          {/* <Progress percent={completedPercentage} status="active" /> */}
 
           {/* Kanban Board */}
           <DragDropContext onDragEnd={onDragEnd}>

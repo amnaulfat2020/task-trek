@@ -46,6 +46,7 @@ const Project = () => {
     status: '',
 
   });
+  
 
 
   // for fetching project
@@ -225,12 +226,12 @@ const Project = () => {
     </div>
 
   )
+                        
 
   //--------------------------card Render function--------------------------------------
   const cardRender = (project) => {
     const { title, progress, timestamp, taskCount } = project;
 
-    
 
     let color = "red";
     if (progress >= 50) {
@@ -297,7 +298,7 @@ const Project = () => {
               </div>
               {/* tasks box */}
               <div className="tasks-box">
-                {tasks && tasks.length > 0 && (
+                {/* {tasks && tasks.length > 0 && (
                   <div className="task-list" key={project.id}>
                     <List
                       dataSource={project.tasks}
@@ -315,7 +316,7 @@ const Project = () => {
                       )}
                     />
                   </div>
-                )}
+                )} */}
                 <div className="task-input">
                 <Link to={`/dashboard/project/${userId}/${project.id}/tasks/${project.title}`}>
     <Text className="l-task">Tasks</Text>
@@ -331,9 +332,9 @@ const Project = () => {
           
         
 
-            {/* <div className="attribute">
+            <div className="attribute">
               <p>Progress</p>
-              {editingProjectId === project.id ? (
+              {/* {editingProjectId === project.id ? (
                 <Input
                   type="number"
                   name="progress"
@@ -347,11 +348,12 @@ const Project = () => {
                   }}
                 />
               ) : (
-                <div className="progress-bar">
-                  <Progress percent={progress} strokeColor={color} />
+              )} */}
+                    {/* // Progress Bar */}
+                <div className="progress-bar"> 
+          <Progress percent={progress} status="active" strokeColor={color} />
                 </div>
-              )}
-            </div> */}
+            </div>
              {/* <div className="attribute">
             <p></p>
             <p className="br-0">{`${hours}:${minutes}:${seconds}`}</p>
