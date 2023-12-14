@@ -7,6 +7,7 @@ import './sidebar.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../utils/constants/Firebase';
+import SideImg from '../../assets/images/hamburger.png'
 import { CaretRightOutlined, CaretLeftOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 
@@ -22,7 +23,6 @@ function getItem(label, key, icon, children, type) {
 const Sidebar = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
-  // const [collapsed, setCollapsed] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
 
   const handleCollapse = () => {
@@ -47,6 +47,7 @@ const Sidebar = () => {
       type: 'divider',
     },
     getItem('Members', 'sub4', <TeamOutlined />, null, 'item'),
+     
   ];
 
 
@@ -57,39 +58,40 @@ const Sidebar = () => {
   return (
     <div className={`side-bar ${collapsed ? 'collapsed' : ''}`}>
       <div className="logo-container">
-        <img src={logo} alt="logo" className="logo" />
-        <Tooltip title={collapsed ? 'Expand' : 'Collapse'} placement="right">
-  <div
-    className="custom-collapse-btn"
-    onClick={handleCollapse}
-  >
-    {collapsed ? <CaretRightOutlined /> : <CaretLeftOutlined />}
-  </div>
-</Tooltip>
+        <img src={logo} alt="logo" className={`logo ${collapsed ? 'collapsed-logo' : ''}`} />
+        <div
+          onClick={handleCollapse}
+        >
+          {collapsed ? <img src={SideImg} alt='side-img' className='w-50 colaps-img cursor' />
+            : <img src={SideImg} alt='side-img' className='w-50  mr-10 cursor' />}
+        </div>
+
       </div>
-      <Menu
-        onClick={onClick}
-        style={{
-          width: collapsed ? 80 : "100%",
-        }}
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
-        className='fnt'
-        mode="inline"
-        items={items}
-        onSelect={({ key }) => {
-          if (key === 'sub1') {
-            navigate(`/dashboard/${userId}`);
-          }
-          if (key === 'sub2') {
-            navigate(`/dashboard/project/${userId}`);
-          }
-          if (key === 'sub4') {
-            navigate(`/members/${userId}`);
-          }
-        }}
-        inlineCollapsed={collapsed}
-      />
+      <div className='mt-100 b-top b-bottom'>
+        <Menu
+          onClick={onClick}
+          style={{
+            width: collapsed ? 100 : "100%",
+          }}
+          defaultSelectedKeys={['1']}
+          defaultOpenKeys={['sub1']}
+          mode="inline"
+          items={items}
+          onSelect={({ key }) => {
+            if (key === 'sub1') {
+              navigate(`/dashboard/${userId}`);
+            }
+            if (key === 'sub2') {
+              navigate(`/dashboard/project/${userId}`);
+            }
+            if (key === 'sub4') {
+              navigate(`/members/${userId}`);
+            }
+          }}
+          inlineCollapsed={collapsed}
+        />
+      </div>
+
       {collapsed ? <Button className="sidebar-btn" onClick={handleLogout}>
         <LogoutOutlined />
       </Button> : <Button className="sidebar-btn" onClick={handleLogout}>
