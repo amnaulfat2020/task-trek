@@ -5,7 +5,7 @@ const headerStyles = {
     alignItems: 'center',
     padding: '0 20px',
     backgroundColor: 'white',
-    borderBottom: '1px solid ',
+    borderBottom: '1px solid #f1f1f1',
     height: '64px',
   },
   userLink: {
