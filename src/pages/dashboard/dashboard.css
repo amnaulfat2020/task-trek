@@ -54,14 +54,16 @@
   font-size: 18px !important;
 }
 .p-Cards-dashboard {
-  width: 470px !important;
+  width: 413px !important;
   height: 280px !important;
 }
 .d-proj-container {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
+  
+  
 }
 .temporary-msg {
   color: #b42426 !important;
@@ -157,4 +159,11 @@
 }
 body {
   font-family: "Montserrat", sans-serif;
+}
+
+.p-Cards-dashboard .ant-card-head-title {
+  font-size: 16px !important; 
+}
+.p-Cards-dashboard .project-card-content .fnt.f22 {
+  font-size: 16px !important; 
 }
