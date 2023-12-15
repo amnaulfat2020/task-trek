@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, Input, Button, Modal, Menu, Popover, Alert, FloatButton, Typography } from 'antd';
+import { Card, Input, Button, Modal, Menu, Popover, Alert, FloatButton, Typography, Progress } from 'antd';
 import { ArrowLeftOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import './taskPage.css';
 import ContentLoader from '../contentLoader/ContentLoader';
@@ -38,6 +38,10 @@ const statusColumns = {
 
 const TaskPage = () => {
   const { userId, projectId, projectName } = useParams();
+  // // // // // // // // Progress Bar
+  const [completedPercentage, setCompletedPercentage] = useState(0);
+
+
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const docId = useRef();
@@ -254,6 +258,12 @@ const TaskPage = () => {
     }
     return cb;
   }
+  //                         // Progress Bar
+  // useEffect(() => {
+  //   const completedTasks = tasks.filter(task => task.status === 'Completed');
+  //   const percentage = Math.floor((completedTasks.length / tasks.length) * 100);
+  //   setCompletedPercentage(percentage || 0);
+  // }, [tasks]);
   return (
 
     <div>
@@ -274,6 +284,9 @@ const TaskPage = () => {
               </Popover>
             </div>
           </div>
+                  {/* // Progress Bar */}
+
+          {/* <Progress percent={completedPercentage} status="active" /> */}
 
           {/* Kanban Board */}
           <DragDropContext onDragEnd={onDragEnd}>

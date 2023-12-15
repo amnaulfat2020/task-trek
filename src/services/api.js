@@ -22,25 +22,34 @@ export const createProject = async (projectData, userId) => {
     const docRef = await addDoc(collection(db, 'projects', ), projectWithTimestamp)
     console.log('Project added with ID: ', docRef.id);
     const projectId = docRef.id;
-   
-    // creating subcollect called "tasks"
-    const tasksCollectionRef = collection(db, "projects",docRef.id,"tasks");
-    
-    // adding tasks to subcollection
+
+    // Creating subcollection called "tasks"
+    const tasksCollectionRef = collection(db, 'projects', projectId, 'tasks');
+
+    // Adding tasks to subcollection
     for (const task of projectData.tasks) {
       task['projectId'] = projectId;
       await addDoc(tasksCollectionRef, task);
     }
 
     return projectId; // Return the ID of the newly created project
+    // Get the task count and update the project data
+    const taskSnapshot = await getDocs(tasksCollectionRef);
+    const taskCount = taskSnapshot.size;
+    const completedTasks = taskSnapshot.docs.filter((doc) => doc.data().status === 'Completed');
+    const completedTaskCount = completedTasks.length;
 
-    // return docRef.id; 
+    // Update the project with the task count
+    await updateDoc(doc(db, 'projects', projectId), { 
+      taskCount,
+      taskStatus: completedTaskCount === taskCount ? 'Completed' : 'In Progress', 
+    });
+
   } catch (error) {
     console.error('Error adding project: ', error);
-    throw error; 
+    throw error;
   }
 };
-
 export const fetchTasksForProject = async (projectId) => {
   const tasksCollectionRef = collection(db, "projects", projectId, "tasks");
   const taskSnapshot = await getDocs(tasksCollectionRef);
@@ -60,15 +69,30 @@ export const fetchProjects = async (userId) => {
     const querySnapshot = await getDocs(
       query(collection(db, 'projects'), where('userId', '==', userId))
     );
-    querySnapshot.forEach((doc) => {
-      projectList.push({ id: doc.id, ...doc.data() });
+    querySnapshot.forEach(async (doc) => {
+      const projectData = { id: doc.id, ...doc.data() };
+
+      // Fetch task count for each project
+      const tasksCollectionRef = collection(db, 'projects', doc.id, 'tasks');
+      const taskSnapshot = await getDocs(tasksCollectionRef);
+
+      // Ensure tasks is an array or set it to an empty array
+      projectData.tasks = taskSnapshot.docs.map(doc => doc.data());
+      
+      projectData.taskCount = taskSnapshot.size;
+      projectData.completedTaskCount = taskSnapshot.docs.filter((doc) => doc.data().status === 'Completed').length;
+      projectData.taskStatus = projectData.completedTaskCount === projectData.taskCount ? "Completed" : "In Progress";
+
+       // Calculate progress based on completed tasks
+       projectData.progress = projectData.taskCount === 0 ? 0 : Math.floor((projectData.completedTaskCount / projectData.taskCount) * 100);
+      
+      projectList.push(projectData);
     });
   } catch (error) {
     console.error('Error fetching projects: ', error);
   }
   return projectList;
 };
-
 export const updateProject = async (projectId, newData) => {
   const projectRef = doc(db, 'projects', projectId);
   try {

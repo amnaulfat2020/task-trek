@@ -20,6 +20,7 @@ const Project = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [projects, setProjects] = useState([]);
+  const [currentTime, setCurrentTime] = useState(Date.now());
   const [newProject, setNewProject] = useState({
     title: "",
     timestamp: "",
@@ -41,6 +42,7 @@ const Project = () => {
     startDate: '',
     estimatedDate: '',
   });
+  
 
 
   // for fetching project
@@ -48,14 +50,23 @@ const Project = () => {
     const fetchProjectData = async () => {
       const projectList = await fetchProjects(userId);
   
-      const sortedProjects = projectList.sort((a, b) => a.title.localeCompare(b.title));
-  
-      setProjects(sortedProjects);
+      const sortedProjects = projectList.sort((a, b) => b.timestamp - a.timestamp);
+      const reversedProjects = sortedProjects.reverse();
+
+      setProjects(reversedProjects);
       setLoading(false);
     };
   
     fetchProjectData();
+  
+    // Set up an interval to update the current time every second
+    const intervalId = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 1000);
+  
+    return () => clearInterval(intervalId);
   }, [userId]);
+
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -96,8 +107,9 @@ const Project = () => {
         ...newProject,
         tasks: taskList,
         userId,
-        // status: newProject.status,
-        // progress: newProject.progress,
+        status: newProject.status,
+        progress: newProject.progress,
+        timestamp: Date.now(),
       });
 
       // Fetch updated projects
@@ -208,12 +220,11 @@ const Project = () => {
     </div>
 
   )
+                        
 
   //--------------------------card Render function--------------------------------------
   const cardRender = (project) => {
-    const { title, progress, timestamp } = project;
-
-    const creationDate = timestamp ? new Date(timestamp) : null;
+    const { title, progress, timestamp, taskCount, taskStatus } = project;
 
     let color = "red";
     if (progress >= 50) {
@@ -222,6 +233,11 @@ const Project = () => {
     if (progress === 100) {
       color = "green";
     }
+
+    const timeElapsedInSeconds = Math.floor((currentTime - project.timestamp) / 1000);
+    const hours = Math.floor(timeElapsedInSeconds / 3600);
+    const minutes = Math.floor((timeElapsedInSeconds % 3600) / 60);
+    const seconds = timeElapsedInSeconds % 60;
 
       return (
         <div className="card-render" key={project.id}>
@@ -290,7 +306,7 @@ const Project = () => {
               </div>
               {/* tasks box */}
               <div className="tasks-box">
-                {tasks && tasks.length > 0 && (
+                {/* {tasks && tasks.length > 0 && (
                   <div className="task-list" key={project.id}>
                     <List
                       dataSource={project.tasks}
@@ -308,21 +324,25 @@ const Project = () => {
                       )}
                     />
                   </div>
-                )}
+                )} */}
                 <div className="task-input">
                 <Link to={`/dashboard/project/${userId}/${project.id}/tasks/${project.title}`}>
     <Text className="l-task">Tasks</Text>
+    <div className="task-count" style={{ color: '#4743e0', marginLeft: '15px' }}>
+            <p className="br-0">{taskCount}</p>
+          </div>
   </Link>
                  
                 </div>
               </div>
 
             </div>
+          
+        
 
-
-            {/* <div className="attribute">
-              <p>Progress</p>
-              {editingProjectId === project.id ? (
+            <div className="attribute">
+              <p>{taskStatus}</p>
+              {/* {editingProjectId === project.id ? (
                 <Input
                   type="number"
                   name="progress"
@@ -336,11 +356,16 @@ const Project = () => {
                   }}
                 />
               ) : (
-                <div className="progress-bar">
-                  <Progress percent={progress} strokeColor={color} />
+              )} */}
+                    {/* // Progress Bar */}
+                <div className="progress-bar"> 
+          <Progress percent={progress} status="active" strokeColor={color} />
                 </div>
-              )}
-            </div> */}
+            </div>
+             {/* <div className="attribute">
+            <p></p>
+            <p className="br-0">{`${hours}:${minutes}:${seconds}`}</p>
+          </div> */}
           </Card>
         </div>
       );

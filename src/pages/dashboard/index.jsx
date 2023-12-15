@@ -48,23 +48,22 @@ const Dashboard = () => {
   useEffect(() => {
     async function fetchData() {
       const projectList = await fetchProjects(userId);
-
+  
       for (const project of projectList) {
         const tasks = await fetchTasksForProject(project.id);
         project.tasks = tasks;
       }
+  
+      const sortedProjects = projectList.sort((a, b) => b.timestamp - a.timestamp);
+      const reversedProjects = sortedProjects.reverse();
 
-      const sortedProjects = projectList.sort((a, b) =>
-        a.title.localeCompare(b.title)
-      );
-
-      setProjects(sortedProjects);
+      setProjects(reversedProjects);
       setLoading(false);
-
+  
       const statusData = countTaskStatuses(sortedProjects);
       setTaskStatusData(statusData);
     }
-
+  
     fetchData();
   }, [userId]);
 
