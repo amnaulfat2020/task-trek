@@ -17,7 +17,7 @@ const getStatusColor = (status) => {
   switch (status) {
     case "To-Do":
       return "default";
-    case "In Progress":
+    case "InProgress":
       return "processing";
     case "Completed":
       return "success";
@@ -48,22 +48,23 @@ const Dashboard = () => {
   useEffect(() => {
     async function fetchData() {
       const projectList = await fetchProjects(userId);
-  
+
       for (const project of projectList) {
         const tasks = await fetchTasksForProject(project.id);
         project.tasks = tasks;
       }
-  
-      const sortedProjects = projectList.sort((a, b) => b.timestamp - a.timestamp);
-      const reversedProjects = sortedProjects.reverse();
 
-      setProjects(reversedProjects);
+      const sortedProjects = projectList.sort((a, b) =>
+        a.title.localeCompare(b.title)
+      );
+
+      setProjects(sortedProjects);
       setLoading(false);
-  
+
       const statusData = countTaskStatuses(sortedProjects);
       setTaskStatusData(statusData);
     }
-  
+
     fetchData();
   }, [userId]);
 
@@ -72,26 +73,29 @@ const Dashboard = () => {
   const getTaskCountForStatus = (tasks, status) => {
     return tasks.filter((task) => task.status === status).length;
   };
-  const countTaskStatuses = (projects) => {
-    const statusCount = {
-      "To-Do": 0,
-      "In Progress": 0,
-      Completed: 0,
-      Review: 0,
-      Cancelled: 0,
-      Testing: 0
-    };
-
-    projects.forEach((project) => {
-      project.tasks.forEach((task) => {
-        if (task.status in statusCount) {
-          statusCount[task.status]++;
-        }
+    const countTaskStatuses = (projects) => {
+      const statusCount = {
+        "Todo": 0,
+        "InProgress": 0,
+        "Completed": 0,
+        "Review": 0,
+        "Cancelled": 0,
+        "Testing": 0
+      };
+    
+      projects.forEach((project) => {
+        project.tasks.forEach((task) => {
+          if (task.status in statusCount) {
+            statusCount[task.status]++;
+          } else {
+            console.log(`Unknown status: ${task.status}`);
+          }
+        });
       });
-    });
-
-    return Object.values(statusCount);
-  };
+    
+      return Object.values(statusCount);
+    };
+    
 
   const chartData = {
     labels: projects.map((project) => project.title),
@@ -118,7 +122,7 @@ const Dashboard = () => {
   const pieChartData = {
     labels: [
       "To-Do",
-      "In Progress",
+      "InProgress",
       "Completed",
       "Review",
       "Cancelled",
@@ -269,7 +273,7 @@ const Dashboard = () => {
 
 const statusColors = [
   { name: "Todo", color: "#FF6384" },
-  { name: "In Progress", color: "#36A2EB" },
+  { name: "InProgress", color: "#36A2EB" },
   { name: "Completed", color: "#FFCE56" },
   { name: "Review", color: "#90EE90" },
   { name: "Testing", color: "#f06e3f" }
