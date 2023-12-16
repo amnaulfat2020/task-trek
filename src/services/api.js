@@ -75,7 +75,7 @@ export const fetchProjects = async (userId) => {
       
       projectData.taskCount = taskSnapshot.size;
       projectData.completedTaskCount = taskSnapshot.docs.filter((doc) => doc.data().status === 'Completed').length;
-      projectData.taskStatus = projectData.completedTaskCount === projectData.taskCount ? "Completed" : "In Progress";
+      projectData.taskStatus = projectData.completedTaskCount === projectData.taskCount ? "Completed" : "In progress";
 
        // Calculate progress based on completed tasks
        projectData.progress = projectData.taskCount === 0 ? 0 : Math.floor((projectData.completedTaskCount / projectData.taskCount) * 100);

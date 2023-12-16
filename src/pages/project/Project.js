@@ -27,7 +27,7 @@ const Project = () => {
     status: "In Progress",
     members: "",
     progress: 0,
-    startDate: "", 
+    startDate: "",
   });
   const [tasks, setTasks] = useState([]);
   const [showInputFields, setShowInputFields] = useState(false);
@@ -46,28 +46,28 @@ const Project = () => {
     status: '',
 
   });
-  
+
 
 
   // for fetching project
   useEffect(() => {
     const fetchProjectData = async () => {
       const projectList = await fetchProjects(userId);
-  
+
       const sortedProjects = projectList.sort((a, b) => b.timestamp - a.timestamp);
       const reversedProjects = sortedProjects.reverse();
 
       setProjects(reversedProjects);
       setLoading(false);
     };
-  
+
     fetchProjectData();
-  
+
     // Set up an interval to update the current time every second
     const intervalId = setInterval(() => {
       setCurrentTime(Date.now());
     }, 1000);
-  
+
     return () => clearInterval(intervalId);
   }, [userId]);
 
@@ -171,7 +171,7 @@ const Project = () => {
         ...currentProject,
         StartDate: editingStartDate !== null ? editingStartDate : currentProject.StartDate,
         members: editingMembers !== null ? editingMembers : currentProject.members,
-  
+
       };
 
       // Update the project locally
@@ -226,7 +226,7 @@ const Project = () => {
     </div>
 
   )
-                        
+
 
   //--------------------------card Render function--------------------------------------
   const cardRender = (project) => {
@@ -241,64 +241,64 @@ const Project = () => {
       color = "green";
     }
 
-    const timeElapsedInSeconds = Math.floor((currentTime - project.timestamp) / 1000);
-    const hours = Math.floor(timeElapsedInSeconds / 3600);
-    const minutes = Math.floor((timeElapsedInSeconds % 3600) / 60);
-    const seconds = timeElapsedInSeconds % 60;
+    // const timeElapsedInSeconds = Math.floor((currentTime - project.timestamp) / 1000);
+    // const hours = Math.floor(timeElapsedInSeconds / 3600);
+    // const minutes = Math.floor((timeElapsedInSeconds % 3600) / 60);
+    // const seconds = timeElapsedInSeconds % 60;
 
-      return (
-        <div className="card-render" key={project.id}>
-          <Card className='br-0 cdProject'>
-            <div className="card-header">
-               <Title className="card-title">{title}</Title>
-              <div className="icon">
-                {editingProjectId === project.id ? (
-                  <Button onClick={handleUpdate} className="updatebtn br-0" >
-                    <CheckOutlined />
+    return (
+      <div className="card-render" key={project.id}>
+        <Card className='br-0 cdProject'>
+          <div className="card-header">
+            <Title className="card-title">{title}</Title>
+            <div className="icon">
+              {editingProjectId === project.id ? (
+                <Button onClick={handleUpdate} className="updatebtn br-0" >
+                  <CheckOutlined />
+                </Button>
+              ) : (
+                <div className="fn-btn-container">
+                  <Button
+                    className="fn-btn no-bg br-0"
+                    type="text"
+                    onClick={() => handleEdit(project.id)}
+                  >
+                    <img src={EditSvg} alt="edit icon" />
+
                   </Button>
-                ) : (
-                  <div className="fn-btn-container">
-                    <Button
-                      className="fn-btn no-bg br-0"
-                      type="text"
-                      onClick={() => handleEdit(project.id)}
-                    >
-                        <img src={EditSvg} alt="edit icon" />
-
-                    </Button>
-                    <Button
-                      className="fn-btn no-bg br-0"
-                      type="text"
-                      onClick={() => handleDelete(project.id)}
-                    >
-                        <DeleteOutlined />
-                    </Button>
-                  </div>
-                )}
-              </div>
+                  <Button
+                    className="fn-btn no-bg br-0"
+                    type="text"
+                    onClick={() => handleDelete(project.id)}
+                  >
+                    <DeleteOutlined />
+                  </Button>
+                </div>
+              )}
             </div>
-            <hr></hr>
-            <div className="Task-area">
-              {/* start date */}
-              <div className="startDate">
-                <p>Start Date</p>
-                {editingProjectId === project.id ? (
-                  <Input
-                    type="date"
-                    name="StartDate br-0"
-                    value={editingStartDate !== null ? editingStartDate : ""}
-                    onChange={(e) => setEditingStartDate(e.target.value)}
-                  />
-                ) : (
-                  <p className="br-0">
-                    {localStorage.getItem(`startDate_${project.id}`) ||
-                      project.StartDate}
-                  </p>
-                )}
-              </div>
-              {/* tasks box */}
-              <div className="tasks-box">
-                {/* {tasks && tasks.length > 0 && (
+          </div>
+          <hr></hr>
+          <div className="Task-area">
+            {/* start date */}
+            <div className="startDate">
+              <p>Start Date</p>
+              {editingProjectId === project.id ? (
+                <Input
+                  type="date"
+                  name="StartDate br-0"
+                  value={editingStartDate !== null ? editingStartDate : ""}
+                  onChange={(e) => setEditingStartDate(e.target.value)}
+                />
+              ) : (
+                <p className="br-0">
+                  {localStorage.getItem(`startDate_${project.id}`) ||
+                    project.StartDate}
+                </p>
+              )}
+            </div>
+            {/* tasks box */}
+            <div className="tasks-box">
+              {/* {tasks && tasks.length > 0 && (
                   <div className="task-list" key={project.id}>
                     <List
                       dataSource={project.tasks}
@@ -317,50 +317,37 @@ const Project = () => {
                     />
                   </div>
                 )} */}
-                <div className="task-input">
+              <div className="task-input">
                 <Link to={`/dashboard/project/${userId}/${project.id}/tasks/${project.title}`}>
-    <Text className="l-task">Tasks</Text>
-    <div className="task-count" style={{ color: '#4743e0', marginLeft: '15px' }}>
-            <p className="br-0">{taskCount}</p>
-          </div>
-  </Link>
-                 
-                </div>
+                  <Text className="l-task">Tasks</Text>
+                  <div className="task-count" style={{ color: '#4743e0', marginLeft: '15px' }}>
+                    <p className="br-0">{taskCount}</p>
+                  </div>
+                </Link>
+
               </div>
-
             </div>
-          
-        
 
-            <div className="attribute">
-              <p>{taskStatus}</p>
-              {/* {editingProjectId === project.id ? (
-                <Input
-                  type="number"
-                  name="progress"
-                  value={newProject.progress}
-                  className="br-0"
-                  onChange={(e) => {
-                    setNewProject({
-                      ...newProject,
-                      progress: parseInt(e.target.value),
-                    });
-                  }}
-                />
-              ) : (
-              )} */}
-                    {/* // Progress Bar */}
-                <div className="progress-bar"> 
-          <Progress percent={progress} status="active" strokeColor={color} />
-                </div>
+          </div>
+
+
+
+          <div className="attribute">
+            {/* <p>{taskStatus}</p> */}
+            {/* <p className="pr-clr">Development</p> */}
+            <p className="pr-clr">Progress</p>
+
+            <div className="progress-bar">
+              <Progress percent={progress} status="active" strokeColor={color} />
             </div>
-             {/* <div className="attribute">
+          </div>
+          {/* <div className="attribute">
             <p></p>
             <p className="br-0">{`${hours}:${minutes}:${seconds}`}</p>
           </div> */}
-          </Card>
-        </div>
-      );
+        </Card>
+      </div>
+    );
   };
 
   return (
