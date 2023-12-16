@@ -23,11 +23,9 @@ const Project = () => {
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [newProject, setNewProject] = useState({
     title: "",
-    client: "",
-    status: "In Progress",
-    members: "",
-    progress: 0,
+    timestamp: "",
     startDate: "", 
+    estimatedDate: ""
   });
   const [tasks, setTasks] = useState([]);
   const [showInputFields, setShowInputFields] = useState(false);
@@ -36,15 +34,13 @@ const Project = () => {
   const [taskText, setTaskText] = useState("");
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editingStartDate, setEditingStartDate] = useState(null);
+  const [editingEstimatedDate, setEditingEstimatedDate] = useState(null);
   const [editingMembers, setEditingMembers] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingValues, setEditingValues] = useState({
     title: '',
     startDate: '',
-    members: '',
-    progress: '',
-    status: '',
-
+    estimatedDate: '',
   });
   
 
@@ -126,9 +122,7 @@ const Project = () => {
       setNewProject({
         title: "",
         startDate: "",
-        status: "In Progress",
-        members: "",
-        progress: 0,
+        estimatedDate: "",
       });
       setTaskList([]);
 
@@ -157,7 +151,7 @@ const Project = () => {
     setEditingValues({
       // title: currentProject.title,
       startDate: currentProject.startDate,
-      members: currentProject.members,
+      estimatedDate: currentProject.estimatedDate,
     });
     setEditingProjectId(projectId);
   };
@@ -170,7 +164,7 @@ const Project = () => {
       const updatedProject = {
         ...currentProject,
         StartDate: editingStartDate !== null ? editingStartDate : currentProject.StartDate,
-        members: editingMembers !== null ? editingMembers : currentProject.members,
+        estimatedDate: editingEstimatedDate !== null ? editingEstimatedDate : currentProject.estimatedDate,
   
       };
 
@@ -232,7 +226,6 @@ const Project = () => {
   const cardRender = (project) => {
     const { title, progress, timestamp, taskCount, taskStatus } = project;
 
-
     let color = "red";
     if (progress >= 50) {
       color = "yellow";
@@ -281,7 +274,9 @@ const Project = () => {
             <div className="Task-area">
               {/* start date */}
               <div className="startDate">
-                <p>Start Date</p>
+              <p className="br-0">
+              Creation Date: {creationDate ? creationDate.toLocaleDateString() : "N/A"}
+          </p>
                 {editingProjectId === project.id ? (
                   <Input
                     type="date"
@@ -291,8 +286,21 @@ const Project = () => {
                   />
                 ) : (
                   <p className="br-0">
-                    {localStorage.getItem(`startDate_${project.id}`) ||
+                    Start Date: {localStorage.getItem(`startDate_${project.id}`) ||
                       project.StartDate}
+                  </p>
+                )}
+                {editingProjectId === project.id ? (
+                  <Input
+                    type="date"
+                    name="EstimatedDate br-0"
+                    value={editingEstimatedDate !== null ? editingEstimatedDate : ""}
+                    onChange={(e) => setEditingEstimatedDate(e.target.value)}
+                  />
+                ) : (
+                  <p className="br-0">
+                    Estimated Date: {localStorage.getItem(`startDate_${project.id}`) ||
+                      project.estimatedDate}
                   </p>
                 )}
               </div>

@@ -14,7 +14,12 @@ import { db } from '../utils/constants/Firebase';
 
 export const createProject = async (projectData, userId) => {
   try {
-    const docRef = await addDoc(collection(db, 'projects'), projectData);
+    // Set the timestamp property to the current timestamp
+    const timestamp = new Date().getTime();
+    const projectWithTimestamp = { ...projectData, timestamp };
+
+    // Add the project to your Firestore collection
+    const docRef = await addDoc(collection(db, 'projects', ), projectWithTimestamp)
     console.log('Project added with ID: ', docRef.id);
     const projectId = docRef.id;
 
@@ -27,6 +32,7 @@ export const createProject = async (projectData, userId) => {
       await addDoc(tasksCollectionRef, task);
     }
 
+    return projectId; // Return the ID of the newly created project
     // Get the task count and update the project data
     const taskSnapshot = await getDocs(tasksCollectionRef);
     const taskCount = taskSnapshot.size;
