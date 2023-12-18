@@ -245,7 +245,14 @@ const Project = () => {
     const hours = Math.floor(timeElapsedInSeconds / 3600);
     const minutes = Math.floor((timeElapsedInSeconds % 3600) / 60);
     const seconds = timeElapsedInSeconds % 60;
-
+    let progressLabel = "In Progress";
+    if (progress === 100) {
+      progressLabel = "Completed";
+    } else if (progress > 0) {
+      progressLabel = "In Progress";
+    } else {
+      progressLabel = "Not Started";
+    }
       return (
         <div className="card-render" key={project.id}>
           <Card className='br-0 cdProject'>
@@ -332,8 +339,10 @@ const Project = () => {
           
         
 
-            <div className="attribute">
-              <p>{taskStatus}</p>
+            {/* <div className="attribute">
+              <p>{taskStatus}</p> */}
+               <div className="attribute">
+          <p>{progressLabel}</p> 
               {/* {editingProjectId === project.id ? (
                 <Input
                   type="number"
