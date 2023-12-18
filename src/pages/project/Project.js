@@ -24,7 +24,7 @@ const Project = () => {
   const [newProject, setNewProject] = useState({
     title: "",
     timestamp: "",
-    startDate: "", 
+    startDate: "",
     estimatedDate: ""
   });
   const [tasks, setTasks] = useState([]);
@@ -165,7 +165,7 @@ const Project = () => {
         ...currentProject,
         StartDate: editingStartDate !== null ? editingStartDate : currentProject.StartDate,
         estimatedDate: editingEstimatedDate !== null ? editingEstimatedDate : currentProject.estimatedDate,
-  
+
       };
 
       // Update the project locally
@@ -258,55 +258,55 @@ const Project = () => {
                   >
                     <img src={EditSvg} alt="edit icon" />
 
-                    </Button>
-                    <Button
-                      className="fn-btn no-bg br-0"
-                      type="text"
-                      onClick={() => handleDelete(project.id)}
-                    >
-                        <DeleteOutlined />
-                    </Button>
-                  </div>
-                )}
-              </div>
+                  </Button>
+                  <Button
+                    className="fn-btn no-bg br-0"
+                    type="text"
+                    onClick={() => handleDelete(project.id)}
+                  >
+                    <DeleteOutlined />
+                  </Button>
+                </div>
+              )}
             </div>
-            <hr></hr>
-            <div className="Task-area">
-              {/* start date */}
-              <div className="startDate">
+          </div>
+          <hr></hr>
+          <div className="Task-area">
+            {/* start date */}
+            <div className="startDate">
               <p className="br-0">
-              {/* Creation Date: {creationDate ? creationDate.toLocaleDateString() : "N/A"} */}
-          </p>
-                {editingProjectId === project.id ? (
-                  <Input
-                    type="date"
-                    name="StartDate br-0"
-                    value={editingStartDate !== null ? editingStartDate : ""}
-                    onChange={(e) => setEditingStartDate(e.target.value)}
-                  />
-                ) : (
-                  <p className="br-0">
-                    Start Date: {localStorage.getItem(`startDate_${project.id}`) ||
-                      project.StartDate}
-                  </p>
-                )}
-                {editingProjectId === project.id ? (
-                  <Input
-                    type="date"
-                    name="EstimatedDate br-0"
-                    value={editingEstimatedDate !== null ? editingEstimatedDate : ""}
-                    onChange={(e) => setEditingEstimatedDate(e.target.value)}
-                  />
-                ) : (
-                  <p className="br-0">
-                    Estimated Date: {localStorage.getItem(`startDate_${project.id}`) ||
-                      project.estimatedDate}
-                  </p>
-                )}
-              </div>
-              {/* tasks box */}
-              <div className="tasks-box">
-             
+                {/* Creation Date: {creationDate ? creationDate.toLocaleDateString() : "N/A"} */}
+              </p>
+              {editingProjectId === project.id ? (
+                <Input
+                  type="date"
+                  name="StartDate br-0"
+                  value={editingStartDate !== null ? editingStartDate : ""}
+                  onChange={(e) => setEditingStartDate(e.target.value)}
+                />
+              ) : (
+                <p className="br-0">
+                  Start Date: {localStorage.getItem(`startDate_${project.id}`) ||
+                    project.StartDate}
+                </p>
+              )}
+              {editingProjectId === project.id ? (
+                <Input
+                  type="date"
+                  name="EstimatedDate br-0"
+                  value={editingEstimatedDate !== null ? editingEstimatedDate : ""}
+                  onChange={(e) => setEditingEstimatedDate(e.target.value)}
+                />
+              ) : (
+                <p className="br-0">
+                  Estimated Date: {localStorage.getItem(`startDate_${project.id}`) ||
+                    project.estimatedDate}
+                </p>
+              )}
+            </div>
+            {/* tasks box */}
+            <div className="tasks-box">
+
               <div className="task-input">
                 <Link to={`/dashboard/project/${userId}/${project.id}/tasks/${project.title}`}>
                   <Text className="l-task">Tasks</Text>

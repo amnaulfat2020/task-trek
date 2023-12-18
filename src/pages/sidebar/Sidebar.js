@@ -7,7 +7,8 @@ import './sidebar.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../utils/constants/Firebase';
-import SideImg from '../../assets/images/hamburger.png'
+import LftImg from '../../assets/images/hamburger.png'
+import RgtImg from '../../assets/images/hamburger1.png'
 import { CaretRightOutlined, CaretLeftOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 
@@ -62,8 +63,8 @@ const Sidebar = () => {
         <div
           onClick={handleCollapse}
         >
-          {collapsed ? <img src={SideImg} alt='side-img' className='w-50 colaps-img cursor' />
-            : <img src={SideImg} alt='side-img' className='w-50  mr-10 cursor' />}
+          {collapsed ? <img src={LftImg} alt='side-img' className='w-50 colaps-img cursor' />
+            : <img src={RgtImg} alt='side-img' className='w-50  mr-10 cursor' />}
         </div>
 
       </div>
