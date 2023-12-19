@@ -9,7 +9,7 @@ import './sidebar.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../utils/constants/Firebase';
-import SideImg from '../../assets/images/Hamburger.png'
+import SideImg from '../../assets/images/hamburger.png'
 import LeftImg from '../../assets/images/leftimage.png'
 
 import { CaretRightOutlined, CaretLeftOutlined } from '@ant-design/icons';
