@@ -1,4 +1,3 @@
-// import logo from '../../assets/images/loogo.png';
 import logo from '../../assets/images/side-logo.png';
 
 import React, { useState } from 'react';
@@ -10,9 +9,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../utils/constants/Firebase';
 import SideImg from '../../assets/images/hamburger.png'
-import LeftImg from '../../assets/images/leftimage.png'
 
-import { CaretRightOutlined, CaretLeftOutlined } from '@ant-design/icons';
+import LeftImg from '../../assets/images/hamburger1.png'
+
 import { Tooltip } from 'antd';
 
 function getItem(label, key, icon, children, type) {

@@ -73,29 +73,28 @@ const Dashboard = () => {
   const getTaskCountForStatus = (tasks, status) => {
     return tasks.filter((task) => task.status === status).length;
   };
-    const countTaskStatuses = (projects) => {
-      const statusCount = {
-        "Todo": 0,
-        "InProgress": 0,
-        "Completed": 0,
-        "Review": 0,
-        "Cancelled": 0,
-        "Testing": 0
-      };
-    
-      projects.forEach((project) => {
-        project.tasks.forEach((task) => {
-          if (task.status in statusCount) {
-            statusCount[task.status]++;
-          } else {
-            console.log(`Unknown status: ${task.status}`);
-          }
-        });
-      });
-    
-      return Object.values(statusCount);
+  const countTaskStatuses = (projects) => {
+    const statusCount = {
+      Todo: 0,
+      InProgress: 0,
+      Completed: 0,
+      Review: 0,
+      Cancelled: 0,
+      Testing: 0
     };
-    
+
+    projects.forEach((project) => {
+      project.tasks.forEach((task) => {
+        if (task.status in statusCount) {
+          statusCount[task.status]++;
+        } else {
+          console.log(`Unknown status: ${task.status}`);
+        }
+      });
+    });
+
+    return Object.values(statusCount);
+  };
 
   const chartData = {
     labels: projects.map((project) => project.title),
@@ -258,13 +257,17 @@ const Dashboard = () => {
               </Card>
             ))}
           </div>
-          <Pagination
-            current={currentPage}
-            pageSize={pageSize}
-            className="project_pagination"
-            total={totalprojects}
-            onChange={handlePageChange}
-          />
+          {loading ? (
+            <ContentLoader />
+          ) : (
+            <Pagination
+              current={currentPage}
+              pageSize={pageSize}
+              className="project_pagination"
+              total={totalprojects}
+              onChange={handlePageChange}
+            />
+          )}
         </>
       )}
     </div>
