@@ -23,9 +23,11 @@ const Project = () => {
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [newProject, setNewProject] = useState({
     title: "",
-    timestamp: "",
+    client: "",
+    status: "In Progress",
+    members: "",
+    progress: 0,
     startDate: "",
-    estimatedDate: ""
   });
   const [tasks, setTasks] = useState([]);
   const [showInputFields, setShowInputFields] = useState(false);
@@ -34,13 +36,15 @@ const Project = () => {
   const [taskText, setTaskText] = useState("");
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editingStartDate, setEditingStartDate] = useState(null);
-  const [editingEstimatedDate, setEditingEstimatedDate] = useState(null);
   const [editingMembers, setEditingMembers] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingValues, setEditingValues] = useState({
     title: '',
     startDate: '',
-    estimatedDate: '',
+    members: '',
+    progress: '',
+    status: '',
+
   });
 
 
@@ -122,7 +126,9 @@ const Project = () => {
       setNewProject({
         title: "",
         startDate: "",
-        estimatedDate: "",
+        status: "In Progress",
+        members: "",
+        progress: 0,
       });
       setTaskList([]);
 
@@ -151,7 +157,7 @@ const Project = () => {
     setEditingValues({
       // title: currentProject.title,
       startDate: currentProject.startDate,
-      estimatedDate: currentProject.estimatedDate,
+      members: currentProject.members,
     });
     setEditingProjectId(projectId);
   };
@@ -164,7 +170,7 @@ const Project = () => {
       const updatedProject = {
         ...currentProject,
         StartDate: editingStartDate !== null ? editingStartDate : currentProject.StartDate,
-        estimatedDate: editingEstimatedDate !== null ? editingEstimatedDate : currentProject.estimatedDate,
+        members: editingMembers !== null ? editingMembers : currentProject.members,
 
       };
 
@@ -226,6 +232,7 @@ const Project = () => {
   const cardRender = (project) => {
     const { title, progress, timestamp, taskCount, taskStatus } = project;
 
+
     let color = "red";
     if (progress >= 50) {
       color = "yellow";
@@ -234,11 +241,18 @@ const Project = () => {
       color = "green";
     }
 
-    // const timeElapsedInSeconds = Math.floor((currentTime - project.timestamp) / 1000);
-    // const hours = Math.floor(timeElapsedInSeconds / 3600);
-    // const minutes = Math.floor((timeElapsedInSeconds % 3600) / 60);
-    // const seconds = timeElapsedInSeconds % 60;
-
+    const timeElapsedInSeconds = Math.floor((currentTime - project.timestamp) / 1000);
+    const hours = Math.floor(timeElapsedInSeconds / 3600);
+    const minutes = Math.floor((timeElapsedInSeconds % 3600) / 60);
+    const seconds = timeElapsedInSeconds % 60;
+    let progressLabel = "In Progress";
+    if (progress === 100) {
+      progressLabel = "Completed";
+    } else if (progress > 0) {
+      progressLabel = "In Progress";
+    } else {
+      progressLabel = "Not Started";
+    }
     return (
       <div className="card-render" key={project.id}>
         <Card className='br-0 cdProject'>
@@ -274,9 +288,7 @@ const Project = () => {
           <div className="Task-area">
             {/* start date */}
             <div className="startDate">
-              <p className="br-0">
-                {/* Creation Date: {creationDate ? creationDate.toLocaleDateString() : "N/A"} */}
-              </p>
+              <p>Start Date</p>
               {editingProjectId === project.id ? (
                 <Input
                   type="date"
@@ -286,27 +298,32 @@ const Project = () => {
                 />
               ) : (
                 <p className="br-0">
-                  Start Date: {localStorage.getItem(`startDate_${project.id}`) ||
+                  {localStorage.getItem(`startDate_${project.id}`) ||
                     project.StartDate}
-                </p>
-              )}
-              {editingProjectId === project.id ? (
-                <Input
-                  type="date"
-                  name="EstimatedDate br-0"
-                  value={editingEstimatedDate !== null ? editingEstimatedDate : ""}
-                  onChange={(e) => setEditingEstimatedDate(e.target.value)}
-                />
-              ) : (
-                <p className="br-0">
-                  Estimated Date: {localStorage.getItem(`startDate_${project.id}`) ||
-                    project.estimatedDate}
                 </p>
               )}
             </div>
             {/* tasks box */}
             <div className="tasks-box">
-
+              {/* {tasks && tasks.length > 0 && (
+                  <div className="task-list" key={project.id}>
+                    <List
+                      dataSource={project.tasks}
+                      renderItem={(task, index) => (
+                        <List.Item key={index}>
+                          {task}
+                          <Button
+                            type="text"
+                            className="bro-0"
+                            onClick={() => handleTaskDelete(index)}
+                          >
+                            Delete
+                          </Button>
+                        </List.Item>
+                      )}
+                    />
+                  </div>
+                )} */}
               <div className="task-input">
                 <Link to={`/dashboard/project/${userId}/${project.id}/tasks/${project.title}`}>
                   <Text className="l-task">Tasks</Text>
@@ -322,11 +339,26 @@ const Project = () => {
 
 
 
+          {/* <div className="attribute">
+              <p>{taskStatus}</p> */}
           <div className="attribute">
-            {/* <p>{taskStatus}</p> */}
-            {/* <p className="pr-clr">Development</p> */}
-            <p className="pr-clr">Progress</p>
-
+            <p>{progressLabel}</p>
+            {/* {editingProjectId === project.id ? (
+                <Input
+                  type="number"
+                  name="progress"
+                  value={newProject.progress}
+                  className="br-0"
+                  onChange={(e) => {
+                    setNewProject({
+                      ...newProject,
+                      progress: parseInt(e.target.value),
+                    });
+                  }}
+                />
+              ) : (
+              )} */}
+            {/* // Progress Bar */}
             <div className="progress-bar">
               <Progress percent={progress} status="active" strokeColor={color} />
             </div>

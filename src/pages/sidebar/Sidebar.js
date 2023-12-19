@@ -1,4 +1,6 @@
+// import logo from '../../assets/images/loogo.png';
 import logo from '../../assets/images/side-logo.png';
+
 import React, { useState } from 'react';
 import './sidebar.css';
 import { Layout, Menu, Button, theme } from 'antd';
@@ -7,9 +9,10 @@ import './sidebar.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../utils/constants/Firebase';
-import LftImg from '../../assets/images/hamburger.png'
-import RgtImg from '../../assets/images/hamburger1.png'
-import { CaretRightOutlined, CaretLeftOutlined } from '@ant-design/icons';
+import SideImg from '../../assets/images/hamburger.png'
+import LeftImg from '../../assets/images/hamburger1.png'
+
+// import { CaretRightOutlined, CaretLeftOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 
 function getItem(label, key, icon, children, type) {
@@ -63,8 +66,8 @@ const Sidebar = () => {
         <div
           onClick={handleCollapse}
         >
-          {collapsed ? <img src={LftImg} alt='side-img' className='w-50 colaps-img cursor' />
-            : <img src={RgtImg} alt='side-img' className='w-50  mr-10 cursor' />}
+          {collapsed ? <img src={SideImg} alt='side-img' className='w-50 colaps-img cursor' />
+            : <img src={LeftImg} alt='LeftImg' className='w-50  mr-10 cursor' />}
         </div>
 
       </div>

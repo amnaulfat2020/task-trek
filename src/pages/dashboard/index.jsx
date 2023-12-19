@@ -154,7 +154,7 @@ const Dashboard = () => {
     setTimeout(() => {
       setData();
       setLoading(false);
-    }, 2000);
+    }, 10000);
   }, []);
 
   return (
