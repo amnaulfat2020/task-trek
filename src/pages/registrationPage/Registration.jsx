@@ -14,7 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./registration.css";
 import { Checkbox } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
-import Divider from "../../assets/images/Line 4.png";
+import Divider from "../../assets/images/Line 7.png";
 
 const initialValues = {
   firstName: "",
@@ -111,7 +111,6 @@ const Registration = () => {
           );
           return;
         }
-
         if (!agreeTerms) {
           setErrMsg("Please agree to the terms and conditions.");
           return;
@@ -170,7 +169,7 @@ const Registration = () => {
               <h1 className="main-heading">Input your information</h1>
               <p className="reg-info reg-typography">
                 We need you to help us with some basic information for your
-                account creation. Here are our 
+                account creation. Here are our{" "}
                 <span
                   className="reg-link"
                   onClick={() => {
@@ -240,7 +239,7 @@ const Registration = () => {
                     checked={agreeTerms}
                     onChange={handleCheckboxChange}
                   />
-                  I agree with
+                  I agree with{" "}
                   <span
                     className="reg-link"
                     onClick={() => {

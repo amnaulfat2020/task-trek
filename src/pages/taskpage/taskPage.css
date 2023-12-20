@@ -71,7 +71,7 @@
 .k-card-title {
   font-size: 18px !important;
   font-weight: 500 !important;
-  text-transform: initial !important;
+  text-transform: capitalize !important;
   font-family: "Montserrat", sans-serif !important;
 }
 .task-del-btn {
