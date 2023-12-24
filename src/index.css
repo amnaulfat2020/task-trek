@@ -33,6 +33,9 @@
 .br-0 {
   border-radius: 0 !important;
 }
+.mb-10 {
+  margin-bottom: 10px !important;
+}
 .fnt {
   font-family: "Montserrat", sans-serif !important;
 }
@@ -60,7 +63,9 @@
 .b-top {
   border-top: 1px solid #f1f1f1 !important;
 }
-.b-bottom{
+.b-bottom {
   border-bottom: 1px solid #f1f1f1 !important;
 }
-
+.pr-clr {
+  color: #4743e0 !important;
+}

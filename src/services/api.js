@@ -14,12 +14,7 @@ import { db } from '../utils/constants/Firebase';
 
 export const createProject = async (projectData, userId) => {
   try {
-    // Set the timestamp property to the current timestamp
-    const timestamp = new Date().getTime();
-    const projectWithTimestamp = { ...projectData, timestamp };
-
-    // Add the project to your Firestore collection
-    const docRef = await addDoc(collection(db, 'projects', ), projectWithTimestamp)
+    const docRef = await addDoc(collection(db, 'projects'), projectData);
     console.log('Project added with ID: ', docRef.id);
     const projectId = docRef.id;
 
@@ -32,7 +27,6 @@ export const createProject = async (projectData, userId) => {
       await addDoc(tasksCollectionRef, task);
     }
 
-    return projectId; // Return the ID of the newly created project
     // Get the task count and update the project data
     const taskSnapshot = await getDocs(tasksCollectionRef);
     const taskCount = taskSnapshot.size;
@@ -50,6 +44,7 @@ export const createProject = async (projectData, userId) => {
     throw error;
   }
 };
+
 export const fetchTasksForProject = async (projectId) => {
   const tasksCollectionRef = collection(db, "projects", projectId, "tasks");
   const taskSnapshot = await getDocs(tasksCollectionRef);
@@ -69,7 +64,7 @@ export const fetchProjects = async (userId) => {
     const querySnapshot = await getDocs(
       query(collection(db, 'projects'), where('userId', '==', userId))
     );
-    querySnapshot.forEach(async (doc) => {
+    for (const doc of querySnapshot.docs) {
       const projectData = { id: doc.id, ...doc.data() };
 
       // Fetch task count for each project
@@ -77,22 +72,34 @@ export const fetchProjects = async (userId) => {
       const taskSnapshot = await getDocs(tasksCollectionRef);
 
       // Ensure tasks is an array or set it to an empty array
-      projectData.tasks = taskSnapshot.docs.map(doc => doc.data());
-      
-      projectData.taskCount = taskSnapshot.size;
-      projectData.completedTaskCount = taskSnapshot.docs.filter((doc) => doc.data().status === 'Completed').length;
-      projectData.taskStatus = projectData.completedTaskCount === projectData.taskCount ? "Completed" : "In Progress";
+      projectData.tasks = taskSnapshot.docs.map((doc) => doc.data());
 
-       // Calculate progress based on completed tasks
-       projectData.progress = projectData.taskCount === 0 ? 0 : Math.floor((projectData.completedTaskCount / projectData.taskCount) * 100);
-      
+      projectData.taskCount = taskSnapshot.size;
+      projectData.completedTaskCount = taskSnapshot.docs.filter(
+        (doc) => doc.data().status === 'Completed'
+      ).length;
+      projectData.taskStatus =
+        projectData.completedTaskCount === projectData.taskCount
+          ? 'Completed'
+          : 'In Progress';
+
+      // Calculate progress based on completed tasks
+      projectData.progress =
+        projectData.taskCount === 0
+          ? 0
+          : Math.floor(
+              (projectData.completedTaskCount / projectData.taskCount) * 100
+            );
+
       projectList.push(projectData);
-    });
+    }
   } catch (error) {
+   
     console.error('Error fetching projects: ', error);
   }
   return projectList;
 };
+
 export const updateProject = async (projectId, newData) => {
   const projectRef = doc(db, 'projects', projectId);
   try {

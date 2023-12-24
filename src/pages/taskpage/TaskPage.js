@@ -38,10 +38,6 @@ const statusColumns = {
 
 const TaskPage = () => {
   const { userId, projectId, projectName } = useParams();
-  // // // // // // // // Progress Bar
-  const [completedPercentage, setCompletedPercentage] = useState(0);
-
-
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const docId = useRef();
@@ -87,10 +83,6 @@ const TaskPage = () => {
 
     fetchTasksData();
   }, [projectId]);
-
-
-  const q = collection(db, dbNames.projectCollection);
-  const [docs, error] = useCollectionData(q);
 
   async function handleAddTask() {
     if (newTask.title.trim() !== '') {
@@ -167,6 +159,13 @@ const TaskPage = () => {
     'Completed': "completed-clr",
   };
 
+  const statusTitleclr = {
+    'Todo': "todo-ttl-clr",
+    'InProgress': "inprogress-ttl-clr",
+    'Review': "review-ttl-clr",
+    'Testing': "testing-ttl-clr",
+    'Completed': "completed-ttl-clr",
+  };
 
 
   const onDragEnd = async (result) => {
@@ -258,22 +257,16 @@ const TaskPage = () => {
     }
     return cb;
   }
-  //                         // Progress Bar
-  // useEffect(() => {
-  //   const completedTasks = tasks.filter(task => task.status === 'Completed');
-  //   const percentage = Math.floor((completedTasks.length / tasks.length) * 100);
-  //   setCompletedPercentage(percentage || 0);
-  // }, [tasks]);
   return (
 
     <div>
-      
+
       {loading ? (
         <ContentLoader />
       ) : (
-         <div>
-            <MenuBar projectTitle={projectName} />
-            
+        <div>
+          <MenuBar projectTitle={projectName} />
+
           <div className="navbar">
             <div className="new-project">
               <Popover placement="bottom" content={content} trigger="click">
@@ -284,9 +277,7 @@ const TaskPage = () => {
               </Popover>
             </div>
           </div>
-                  {/* // Progress Bar */}
-
-          {/* <Progress percent={completedPercentage} status="active" /> */}
+          {/* // Progress Bar */}
 
           {/* Kanban Board */}
           <DragDropContext onDragEnd={onDragEnd}>
@@ -301,7 +292,7 @@ const TaskPage = () => {
                       ref={provided.innerRef}
                     >
                       <div className='k-card-flex'>
-                        <Title className='card-status'>{status}</Title>
+                        <Title className='card-status pr-clr'>{status}</Title>
                         <img className='k-status-icon' src={statusColumns[status].img} alt='title-pic' />
                       </div>
                       {tasks
@@ -319,19 +310,18 @@ const TaskPage = () => {
                                 {...provided.dragHandleProps}
                                 className={`task-card ${status.toLowerCase()}`}
                               >
-                                <Title className='k-card-title'>{task.title}</Title>
-                                <div className='t-card-body'>
-                                  <div>
-                                  <p>Creation Date:
+                                <Title className={`k-card-title  ${statusTitleclr[task.status]}`}>{task.title}</Title>
+                                <p className='fnt mb-10'>Creation Date:
                                   {task.timestamp instanceof Date
-                                  ? task.timestamp.toLocaleDateString()
-                                  : task.timestamp && task.timestamp.toDate instanceof Function
-                                  ? task.timestamp.toDate().toLocaleDateString()
-                                  : task.timestamp && task.timestamp.seconds
-                                  ? new Date(task.timestamp.seconds * 1000).toLocaleDateString()
-                                  : 'N/A'}</p>
+                                    ? task.timestamp.toLocaleDateString()
+                                    : task.timestamp && task.timestamp.toDate instanceof Function
+                                      ? task.timestamp.toDate().toLocaleDateString()
+                                      : task.timestamp && task.timestamp.seconds
+                                        ? new Date(task.timestamp.seconds * 1000).toLocaleDateString()
+                                        : 'N/A'}</p>
+                                <div className='t-card-body'>
 
-                                  </div>
+
                                   <div className={`task-status-container ${statusClr[task.status]}`}>
                                     <Text className='task-status'>{task.status}</Text>
                                   </div>
@@ -352,7 +342,7 @@ const TaskPage = () => {
           </DragDropContext>
 
           {loading && <Alert className="alert-message" message=" Loading..." type="success" />}
-        </div>
+        </div >
       )}
       <FloatButton
         shape="circle"
@@ -366,7 +356,7 @@ const TaskPage = () => {
         }}
       />
 
-    </div>
+    </div >
   );
 };
 

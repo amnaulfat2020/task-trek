@@ -56,7 +56,7 @@
   display: flex;
   gap: 10px;
   align-items: center;
-  margin-bottom: 7px ;
+  margin-bottom: 7px;
 }
 .task-status {
   font-size: 14px;
@@ -72,7 +72,6 @@
   font-size: 18px !important;
   font-weight: 500 !important;
   text-transform: initial !important;
-  color: var(--primary-clr) !important;
   font-family: "Montserrat", sans-serif !important;
 }
 .task-del-btn {
@@ -114,7 +113,22 @@
 .completed-clr {
   background-color: #ffce56;
 }
-
+.todo-ttl-clr {
+  color: #ff6384 !important;
+}
+.inprogress-ttl-clr {
+  color: #36a2eb !important;
+}
+.review-ttl-clr {
+  color: #90ee90 !important;
+}
+.testing-ttl-clr {
+  color: #f06e3f !important;
+}
+.completed-ttl-clr {
+  color: #ffce56 !important;
+}
+/*  */
 .pop-content-container {
   display: flex;
   flex-wrap: wrap;
@@ -155,7 +169,6 @@
   margin-left: -200px;
 }
 
-.none
-{
-display: none !important;
+.none {
+  display: none !important;
 }

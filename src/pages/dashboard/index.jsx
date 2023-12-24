@@ -17,7 +17,7 @@ const getStatusColor = (status) => {
   switch (status) {
     case "To-Do":
       return "default";
-    case "In Progress":
+    case "InProgress":
       return "processing";
     case "Completed":
       return "success";
@@ -48,22 +48,23 @@ const Dashboard = () => {
   useEffect(() => {
     async function fetchData() {
       const projectList = await fetchProjects(userId);
-  
+
       for (const project of projectList) {
         const tasks = await fetchTasksForProject(project.id);
         project.tasks = tasks;
       }
-  
-      const sortedProjects = projectList.sort((a, b) => b.timestamp - a.timestamp);
-      const reversedProjects = sortedProjects.reverse();
 
-      setProjects(reversedProjects);
+      const sortedProjects = projectList.sort((a, b) =>
+        a.title.localeCompare(b.title)
+      );
+
+      setProjects(sortedProjects);
       setLoading(false);
-  
+
       const statusData = countTaskStatuses(sortedProjects);
       setTaskStatusData(statusData);
     }
-  
+
     fetchData();
   }, [userId]);
 
@@ -74,8 +75,8 @@ const Dashboard = () => {
   };
   const countTaskStatuses = (projects) => {
     const statusCount = {
-      "To-Do": 0,
-      "In Progress": 0,
+      Todo: 0,
+      InProgress: 0,
       Completed: 0,
       Review: 0,
       Cancelled: 0,
@@ -86,6 +87,8 @@ const Dashboard = () => {
       project.tasks.forEach((task) => {
         if (task.status in statusCount) {
           statusCount[task.status]++;
+        } else {
+          console.log(`Unknown status: ${task.status}`);
         }
       });
     });
@@ -118,7 +121,7 @@ const Dashboard = () => {
   const pieChartData = {
     labels: [
       "To-Do",
-      "In Progress",
+      "InProgress",
       "Completed",
       "Review",
       "Cancelled",
@@ -151,7 +154,7 @@ const Dashboard = () => {
     setTimeout(() => {
       setData();
       setLoading(false);
-    }, 2000);
+    }, 10000);
   }, []);
 
   return (
@@ -254,13 +257,17 @@ const Dashboard = () => {
               </Card>
             ))}
           </div>
-          <Pagination
-            current={currentPage}
-            pageSize={pageSize}
-            className="project_pagination"
-            total={totalprojects}
-            onChange={handlePageChange}
-          />
+          {loading ? (
+            <ContentLoader />
+          ) : (
+            <Pagination
+              current={currentPage}
+              pageSize={pageSize}
+              className="project_pagination"
+              total={totalprojects}
+              onChange={handlePageChange}
+            />
+          )}
         </>
       )}
     </div>
@@ -269,7 +276,7 @@ const Dashboard = () => {
 
 const statusColors = [
   { name: "Todo", color: "#FF6384" },
-  { name: "In Progress", color: "#36A2EB" },
+  { name: "InProgress", color: "#36A2EB" },
   { name: "Completed", color: "#FFCE56" },
   { name: "Review", color: "#90EE90" },
   { name: "Testing", color: "#f06e3f" }

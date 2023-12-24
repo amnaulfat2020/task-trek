@@ -23,9 +23,11 @@ const Project = () => {
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [newProject, setNewProject] = useState({
     title: "",
-    timestamp: "",
-    startDate: "", 
-    estimatedDate: ""
+    client: "",
+    status: "In Progress",
+    members: "",
+    progress: 0,
+    startDate: "",
   });
   const [tasks, setTasks] = useState([]);
   const [showInputFields, setShowInputFields] = useState(false);
@@ -34,36 +36,38 @@ const Project = () => {
   const [taskText, setTaskText] = useState("");
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editingStartDate, setEditingStartDate] = useState(null);
-  const [editingEstimatedDate, setEditingEstimatedDate] = useState(null);
   const [editingMembers, setEditingMembers] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingValues, setEditingValues] = useState({
     title: '',
     startDate: '',
-    estimatedDate: '',
+    members: '',
+    progress: '',
+    status: '',
+
   });
-  
+
 
 
   // for fetching project
   useEffect(() => {
     const fetchProjectData = async () => {
       const projectList = await fetchProjects(userId);
-  
+
       const sortedProjects = projectList.sort((a, b) => b.timestamp - a.timestamp);
       const reversedProjects = sortedProjects.reverse();
 
       setProjects(reversedProjects);
       setLoading(false);
     };
-  
+
     fetchProjectData();
-  
+
     // Set up an interval to update the current time every second
     const intervalId = setInterval(() => {
       setCurrentTime(Date.now());
     }, 1000);
-  
+
     return () => clearInterval(intervalId);
   }, [userId]);
 
@@ -122,7 +126,9 @@ const Project = () => {
       setNewProject({
         title: "",
         startDate: "",
-        estimatedDate: "",
+        status: "In Progress",
+        members: "",
+        progress: 0,
       });
       setTaskList([]);
 
@@ -151,7 +157,7 @@ const Project = () => {
     setEditingValues({
       // title: currentProject.title,
       startDate: currentProject.startDate,
-      estimatedDate: currentProject.estimatedDate,
+      members: currentProject.members,
     });
     setEditingProjectId(projectId);
   };
@@ -164,8 +170,8 @@ const Project = () => {
       const updatedProject = {
         ...currentProject,
         StartDate: editingStartDate !== null ? editingStartDate : currentProject.StartDate,
-        estimatedDate: editingEstimatedDate !== null ? editingEstimatedDate : currentProject.estimatedDate,
-  
+        members: editingMembers !== null ? editingMembers : currentProject.members,
+
       };
 
       // Update the project locally
@@ -220,12 +226,12 @@ const Project = () => {
     </div>
 
   )
-                        
+
 
   //--------------------------card Render function--------------------------------------
   const cardRender = (project) => {
     const { title, progress, timestamp, taskCount, taskStatus } = project;
-
+    
     const creationDate = timestamp ? new Date(timestamp) : null;
 
     let color = "red";
@@ -240,75 +246,67 @@ const Project = () => {
     const hours = Math.floor(timeElapsedInSeconds / 3600);
     const minutes = Math.floor((timeElapsedInSeconds % 3600) / 60);
     const seconds = timeElapsedInSeconds % 60;
+    let progressLabel = "In Progress";
+    if (progress === 100) {
+      progressLabel = "Completed";
+    } else if (progress > 0) {
+      progressLabel = "In Progress";
+    } else {
+      progressLabel = "Not Started";
+    }
+    return (
+      <div className="card-render" key={project.id}>
+        <Card className='br-0 cdProject'>
+          <div className="card-header">
+            <Title className="card-title">{title}</Title>
+            <div className="icon">
+              {editingProjectId === project.id ? (
+                <Button onClick={handleUpdate} className="updatebtn br-0" >
+                  <CheckOutlined />
+                </Button>
+              ) : (
+                <div className="fn-btn-container">
+                  <Button
+                    className="fn-btn no-bg br-0"
+                    type="text"
+                    onClick={() => handleEdit(project.id)}
+                  >
+                    <img src={EditSvg} alt="edit icon" />
 
-      return (
-        <div className="card-render" key={project.id}>
-          <Card className='br-0 cdProject'>
-            <div className="card-header">
-               <Title className="card-title">{title}</Title>
-              <div className="icon">
-                {editingProjectId === project.id ? (
-                  <Button onClick={handleUpdate} className="updatebtn br-0" >
-                    <CheckOutlined />
                   </Button>
-                ) : (
-                  <div className="fn-btn-container">
-                    <Button
-                      className="fn-btn no-bg br-0"
-                      type="text"
-                      onClick={() => handleEdit(project.id)}
-                    >
-                        <img src={EditSvg} alt="edit icon" />
-
-                    </Button>
-                    <Button
-                      className="fn-btn no-bg br-0"
-                      type="text"
-                      onClick={() => handleDelete(project.id)}
-                    >
-                        <DeleteOutlined />
-                    </Button>
-                  </div>
-                )}
-              </div>
+                  <Button
+                    className="fn-btn no-bg br-0"
+                    type="text"
+                    onClick={() => handleDelete(project.id)}
+                  >
+                    <DeleteOutlined />
+                  </Button>
+                </div>
+              )}
             </div>
-            <hr></hr>
-            <div className="Task-area">
-              {/* start date */}
-              <div className="startDate">
-              <p className="br-0">
-              Creation Date: {creationDate ? creationDate.toLocaleDateString() : "N/A"}
-          </p>
-                {editingProjectId === project.id ? (
-                  <Input
-                    type="date"
-                    name="StartDate br-0"
-                    value={editingStartDate !== null ? editingStartDate : ""}
-                    onChange={(e) => setEditingStartDate(e.target.value)}
-                  />
-                ) : (
-                  <p className="br-0">
-                    Start Date: {localStorage.getItem(`startDate_${project.id}`) ||
-                      project.StartDate}
-                  </p>
-                )}
-                {editingProjectId === project.id ? (
-                  <Input
-                    type="date"
-                    name="EstimatedDate br-0"
-                    value={editingEstimatedDate !== null ? editingEstimatedDate : ""}
-                    onChange={(e) => setEditingEstimatedDate(e.target.value)}
-                  />
-                ) : (
-                  <p className="br-0">
-                    Estimated Date: {localStorage.getItem(`startDate_${project.id}`) ||
-                      project.estimatedDate}
-                  </p>
-                )}
-              </div>
-              {/* tasks box */}
-              <div className="tasks-box">
-                {/* {tasks && tasks.length > 0 && (
+          </div>
+          <hr></hr>
+          <div className="Task-area">
+            {/* start date */}
+            <div className="startDate">
+              <p>Start Date</p>
+              {editingProjectId === project.id ? (
+                <Input
+                  type="date"
+                  name="StartDate br-0"
+                  value={editingStartDate !== null ? editingStartDate : ""}
+                  onChange={(e) => setEditingStartDate(e.target.value)}
+                />
+              ) : (
+                <p className="br-0">
+                  {localStorage.getItem(`startDate_${project.id}`) ||
+                    project.StartDate}
+                </p>
+              )}
+            </div>
+            {/* tasks box */}
+            <div className="tasks-box">
+              {/* {tasks && tasks.length > 0 && (
                   <div className="task-list" key={project.id}>
                     <List
                       dataSource={project.tasks}
@@ -327,24 +325,26 @@ const Project = () => {
                     />
                   </div>
                 )} */}
-                <div className="task-input">
+              <div className="task-input">
                 <Link to={`/dashboard/project/${userId}/${project.id}/tasks/${project.title}`}>
-    <Text className="l-task">Tasks</Text>
-    <div className="task-count" style={{ color: '#4743e0', marginLeft: '15px' }}>
-            <p className="br-0">{taskCount}</p>
-          </div>
-  </Link>
-                 
-                </div>
+                  <Text className="l-task">Tasks</Text>
+                  <div className="task-count" style={{ color: '#4743e0', marginLeft: '15px' }}>
+                    <p className="br-0">{taskCount}</p>
+                  </div>
+                </Link>
+
               </div>
-
             </div>
-          
-        
 
-            <div className="attribute">
-              <p>{taskStatus}</p>
-              {/* {editingProjectId === project.id ? (
+          </div>
+
+
+
+          {/* <div className="attribute">
+              <p>{taskStatus}</p> */}
+          <div className="attribute">
+            <p>{progressLabel}</p>
+            {/* {editingProjectId === project.id ? (
                 <Input
                   type="number"
                   name="progress"
@@ -359,18 +359,18 @@ const Project = () => {
                 />
               ) : (
               )} */}
-                    {/* // Progress Bar */}
-                <div className="progress-bar"> 
-          <Progress percent={progress} status="active" strokeColor={color} />
-                </div>
+            {/* // Progress Bar */}
+            <div className="progress-bar">
+              <Progress percent={progress} status="active" strokeColor={color} />
             </div>
-             {/* <div className="attribute">
+          </div>
+          {/* <div className="attribute">
             <p></p>
             <p className="br-0">{`${hours}:${minutes}:${seconds}`}</p>
           </div> */}
-          </Card>
-        </div>
-      );
+        </Card>
+      </div>
+    );
   };
 
   return (
