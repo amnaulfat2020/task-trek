@@ -7,7 +7,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../utils/constants/Firebase';
 import SideImg from '../../assets/images/hamburger.png'
-
 import LeftImg from '../../assets/images/hamburger1.png'
 
 function getItem(label, key, icon, children, type) {
