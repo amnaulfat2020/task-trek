@@ -1,18 +1,13 @@
 import logo from '../../assets/images/side-logo.png';
-
 import React, { useState } from 'react';
-import './sidebar.css';
-import { Layout, Menu, Button, theme } from 'antd';
+import { Menu, Button } from 'antd';
 import { UserOutlined, FileOutlined, LogoutOutlined, TeamOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import './sidebar.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../utils/constants/Firebase';
 import SideImg from '../../assets/images/hamburger.png'
-
 import LeftImg from '../../assets/images/hamburger1.png'
-
-import { Tooltip } from 'antd';
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -50,7 +45,7 @@ const Sidebar = () => {
       type: 'divider',
     },
     getItem('Members', 'sub4', <TeamOutlined />, null, 'item'),
-     
+
   ];
 
 
