@@ -231,7 +231,8 @@ const Project = () => {
   //--------------------------card Render function--------------------------------------
   const cardRender = (project) => {
     const { title, progress, timestamp, taskCount, taskStatus } = project;
-
+    
+    const creationDate = timestamp ? new Date(timestamp) : null;
 
     let color = "red";
     if (progress >= 50) {
