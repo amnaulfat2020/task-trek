@@ -23,11 +23,8 @@ const Project = () => {
   const [currentTime, setCurrentTime] = useState(Date.now());
   const [newProject, setNewProject] = useState({
     title: "",
-    client: "",
-    status: "In Progress",
-    members: "",
-    progress: 0,
     startDate: "",
+    estimatedDate: "",
   });
   const [tasks, setTasks] = useState([]);
   const [showInputFields, setShowInputFields] = useState(false);
@@ -42,9 +39,7 @@ const Project = () => {
   const [editingValues, setEditingValues] = useState({
     title: '',
     startDate: '',
-    members: '',
-    progress: '',
-    status: '',
+    estimatedDate: '',
 
   });
 
@@ -112,8 +107,8 @@ const Project = () => {
         ...newProject,
         tasks: taskList,
         userId,
-        status: newProject.status,
-        progress: newProject.progress,
+        // status: newProject.status,
+        // progress: newProject.progress,
         timestamp: Date.now(),
       });
 
@@ -127,9 +122,7 @@ const Project = () => {
       setNewProject({
         title: "",
         startDate: "",
-        status: "In Progress",
-        members: "",
-        progress: 0,
+        estimatedDate: "",
       });
       setTaskList([]);
 
@@ -158,7 +151,7 @@ const Project = () => {
     setEditingValues({
       // title: currentProject.title,
       startDate: currentProject.startDate,
-      members: currentProject.members,
+      estimatedDate: currentProject.estimatedDate,
     });
     setEditingProjectId(projectId);
   };
@@ -171,8 +164,7 @@ const Project = () => {
       const updatedProject = {
         ...currentProject,
         StartDate: editingStartDate !== null ? editingStartDate : currentProject.StartDate,
-        members: editingMembers !== null ? editingMembers : currentProject.members,
-
+        estimatedDate: editingEstimatedDate !== null ? editingEstimatedDate : currentProject.estimatedDate,
       };
 
       // Update the project locally
