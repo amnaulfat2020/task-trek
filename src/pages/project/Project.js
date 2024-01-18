@@ -1,7 +1,7 @@
 import "./project.css";
 import { act } from 'react-dom/test-utils';
 import React, { useState, useEffect } from "react";
-import { Card, Progress, Button, Input, List, Popover, Typography } from "antd";
+import { Card, Progress, Button, Input, List, Popover, Typography, Modal} from "antd";
 import { PlusOutlined, DeleteOutlined, CheckOutlined } from "@ant-design/icons";
 import EditSvg from "../../assets/images/edit-pencil 1.svg";
 import ContentLoader from '../contentLoader/ContentLoader';
@@ -36,15 +36,15 @@ const Project = () => {
   const [editingEstimatedDate, setEditingEstimatedDate] = useState(null);
   const [editingMembers, setEditingMembers] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+   
   const [editingValues, setEditingValues] = useState({
     title: '',
     startDate: '',
     estimatedDate: '',
 
   });
-
-
-
+  const [deleteConfirmationVisible, setDeleteConfirmationVisible] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState(null);
   // for fetching project
   useEffect(() => {
     const fetchProjectData = async () => {
@@ -112,6 +112,7 @@ const Project = () => {
         timestamp: Date.now(),
       });
 
+
       // Fetch updated projects
       const updatedProjectList = await fetchProjects(userId);
 
@@ -132,20 +133,33 @@ const Project = () => {
       console.error('Error creating project: ', error);
     }
   };
-  const handleDelete = async (projectId) => {
-    try {
-      const updatedProjects = projects.filter((project) => project.id !== projectId);
-      setProjects(updatedProjects);
+  
 
-      await deleteProject(projectId);
-    } catch (error) {
-      const projectList = await fetchProjects(userId);
-      setProjects(projectList);
-
-      console.error('Error deleting project: ', error);
-    }
+  const handleDelete = (projectId) => {
+    setProjectToDelete(projectId);
+    setDeleteConfirmationVisible(true);
   };
 
+  // Add a function to handle delete confirmation
+  const handleDeleteConfirmation = async (shouldDelete) => {
+    const projectIdToDelete = projectToDelete;
+
+    if (shouldDelete && projectIdToDelete) {
+      try {
+        const updatedProjects = projects.filter((project) => project.id !== projectIdToDelete);
+        setProjects(updatedProjects);
+
+        await deleteProject(projectIdToDelete);
+      } catch (error) {
+        const projectList = await fetchProjects(userId);
+        setProjects(projectList);
+        console.error('Error deleting project: ', error);
+      }
+    }
+
+    setDeleteConfirmationVisible(false);
+    setProjectToDelete(null);
+  };
   const handleEdit = (projectId) => {
     const currentProject = projects.find((project) => project.id === projectId);
     setEditingValues({
@@ -287,12 +301,19 @@ const Project = () => {
           </p>
           
               {editingProjectId === project.id ? (
+                 <div>
+                <label style={{ color: '#717986' }}>Start Date:</label>
                 <Input
                   type="date"
                   name="StartDate br-0"
                   value={editingStartDate !== null ? editingStartDate : ""}
                   onChange={(e) => setEditingStartDate(e.target.value)}
-                />
+                  className="br-0"
+      style={{ color: '#717986' }}
+    />
+                  
+               
+                </div>
               ) : (
                 <p className="br-0">
                   Start Date: {localStorage.getItem(`startDate_${project.id}`) ||
@@ -300,12 +321,17 @@ const Project = () => {
                 </p>
               )}
                 {editingProjectId === project.id ? (
+                   <div>
+                    <label style={{ color: '#717986' }}>Estimated Date:</label>
                   <Input
                     type="date"
                     name="EstimatedDate br-0"
                     value={editingEstimatedDate !== null ? editingEstimatedDate : ""}
                     onChange={(e) => setEditingEstimatedDate(e.target.value)}
+                    className="br-0"
+                    style={{ color: '#717986' }}
                   />
+                  </div>
                 ) : (
                   <p className="br-0">
                     Estimated Date: {localStorage.getItem(`startDate_${project.id}`) ||
@@ -315,25 +341,7 @@ const Project = () => {
             </div>
             {/* tasks box */}
             <div className="tasks-box">
-              {/* {tasks && tasks.length > 0 && (
-                  <div className="task-list" key={project.id}>
-                    <List
-                      dataSource={project.tasks}
-                      renderItem={(task, index) => (
-                        <List.Item key={index}>
-                          {task}
-                          <Button
-                            type="text"
-                            className="bro-0"
-                            onClick={() => handleTaskDelete(index)}
-                          >
-                            Delete
-                          </Button>
-                        </List.Item>
-                      )}
-                    />
-                  </div>
-                )} */}
+           
               <div className="task-input">
                 <Link to={`/dashboard/project/${userId}/${project.id}/tasks/${project.title}`}>
                   <Text className="l-task">Tasks</Text>
@@ -349,42 +357,45 @@ const Project = () => {
 
 
 
-          {/* <div className="attribute">
-              <p>{taskStatus}</p> */}
+          
           <div className="attribute">
             <p>{progressLabel}</p>
-            {/* {editingProjectId === project.id ? (
-                <Input
-                  type="number"
-                  name="progress"
-                  value={newProject.progress}
-                  className="br-0"
-                  onChange={(e) => {
-                    setNewProject({
-                      ...newProject,
-                      progress: parseInt(e.target.value),
-                    });
-                  }}
-                />
-              ) : (
-              )} */}
-            {/* // Progress Bar */}
+            
             <div className="progress-bar">
               <Progress percent={progress} status="active" strokeColor={color} />
             </div>
           </div>
-          {/* <div className="attribute">
-            <p></p>
-            <p className="br-0">{`${hours}:${minutes}:${seconds}`}</p>
-          </div> */}
+         
         </Card>
       </div>
     );
   };
 
+
+
   return (
     <div>
-      {loading ? (
+  {deleteConfirmationVisible && (
+        <Modal
+          title="Delete Project"
+          visible={deleteConfirmationVisible}
+          onCancel={() => handleDeleteConfirmation(false)}
+          footer={[
+            <Button key="cancel" onClick={() => handleDeleteConfirmation(false)}
+         >
+              Cancel
+            </Button>,
+            <Button key="delete" type="primary"  onClick={() => handleDeleteConfirmation(true)}
+            style={{ backgroundColor: '#4743e0', borderColor: '#4743e0' }}
+          >
+              Delete
+            </Button>,
+          ]}
+        >
+          <p>Are you sure you want to delete this project?</p>
+        </Modal>
+      )}
+            {loading ? (
         <ContentLoader />
       ) : (
         <div>
@@ -411,7 +422,6 @@ const Project = () => {
             ))}
 
           </div>
-
         </div>
       )}
     </div>
