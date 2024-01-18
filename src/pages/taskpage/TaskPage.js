@@ -53,7 +53,8 @@ const TaskPage = () => {
     status: 'Todo',
     timestamp: '',
   });
-
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const fetchTasks = async () => {
@@ -135,9 +136,9 @@ const TaskPage = () => {
     }
   };
 
-  const handleDeleteTask = (taskId) => {
-    deleteTask(taskId);
-  };
+  // const handleDeleteTask = (taskId) => {
+  //   deleteTask(taskId);
+  // };
   const handleEditTask = (taskId) => {
     const taskToEdit = tasks.find((task) => task.id === taskId);
     setEditingTask(taskToEdit);
@@ -294,6 +295,23 @@ const TaskPage = () => {
       }
     }
   };
+  const handleDeleteTask = (taskId) => {
+    // Set the task to delete and show the delete confirmation popup
+    setTaskToDelete(taskId);
+    setDeleteModalVisible(true);
+  };
+
+  const handleConfirmDelete = () => {
+    // Perform the deletion and close the delete confirmation popup
+    deleteTask(taskToDelete);
+    setDeleteModalVisible(false);
+  };
+
+  const handleCancelDelete = () => {
+    // Cancel the deletion and close the delete confirmation popup
+    setTaskToDelete(null);
+    setDeleteModalVisible(false);
+  };
 
   return (
 
@@ -406,6 +424,22 @@ const TaskPage = () => {
               ))}
             </div>
           </DragDropContext>
+          <Modal
+        title="Delete Task"
+        visible={deleteModalVisible}
+        onCancel={handleCancelDelete}
+        footer={[
+          <Button key="cancel" onClick={handleCancelDelete}>
+            Cancel
+          </Button>,
+          <Button key="confirm" type="primary" onClick={handleConfirmDelete}      style={{ backgroundColor: '#4743e0', borderColor: '#4743e0' }}
+          >
+            Delete
+          </Button>,
+        ]}
+      >
+        <p>Are you sure you want to delete this task?</p>
+      </Modal>
 
           {loading && <Alert className="alert-message" message=" Loading..." type="success" />}
         </div >
