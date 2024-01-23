@@ -39,17 +39,15 @@ const SessionTimeout = ({ timeoutSeconds = 600 }) => {
 
   const buttonStyle = {
     borderRadius: 0,
-    fontFamily: 'Montserrat, sans-serif', 
+    fontFamily: 'Montserrat, sans-serif',
     backgroundColor: '#4743e0',
   };
-
 
   return (
     <Modal
       title="Session Expired"
-      open={visible}
-      onOk={handleLoginAgain}
-      onCancel={() => setVisible(false)}
+      visible={visible}  
+      onCancel={null}    
       footer={[
         <Button key="login" type="primary" onClick={handleLoginAgain} style={buttonStyle}>
           Login Again

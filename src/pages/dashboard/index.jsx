@@ -54,11 +54,10 @@ const Dashboard = () => {
         project.tasks = tasks;
       }
 
-      const sortedProjects = projectList.sort((a, b) =>
-        a.title.localeCompare(b.title)
-      );
+      const sortedProjects = projectList.sort((a, b) => b.timestamp - a.timestamp);
+      const reversedProjects = sortedProjects.reverse();
 
-      setProjects(sortedProjects);
+      setProjects(reversedProjects);
       setLoading(false);
 
       const statusData = countTaskStatuses(sortedProjects);
@@ -154,9 +153,10 @@ const Dashboard = () => {
     setTimeout(() => {
       setData();
       setLoading(false);
-    }, 10000);
+    }, 8500);
   }, []);
 
+  
   return (
     <div className="d_section">
       {loading ? (
