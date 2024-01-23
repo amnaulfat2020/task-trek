@@ -101,39 +101,43 @@ const Project = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); 
+  
     try {
       // Create the new project
       const newProjectId = await createProject({
         ...newProject,
         tasks: taskList,
         userId,
-        // status: newProject.status,
-        // progress: newProject.progress,
         timestamp: Date.now(),
       });
-
-
-      // Fetch updated projects
-      const updatedProjectList = await fetchProjects(userId);
-
-      const sortedProjects = updatedProjectList.sort((a, b) => a.timestamp - b.timestamp);
-
-      setProjects(sortedProjects);
-
+  
+      // Update the local state with the newly created project
+      const newProjectData = {
+        id: newProjectId,
+        ...newProject,
+        tasks: taskList,
+        userId,
+        timestamp: Date.now(),
+      };
+  
+      setProjects([newProjectData, ...projects]);
+  
       setNewProject({
         title: "",
         startDate: "",
         estimatedDate: "",
       });
       setTaskList([]);
-
+  
       setShowInputFields(false);
       setTaskModalVisible(false);
     } catch (error) {
       console.error('Error creating project: ', error);
+    } finally {
+      setLoading(false); 
     }
   };
-  
 
   const handleDelete = (projectId) => {
     setProjectToDelete(projectId);
